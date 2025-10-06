@@ -1,4 +1,5 @@
-// FILE: server.js (MODIFIKASI UNTUK STATIC FILES)
+// FILE: server.js (FINAL FIX UNTUK MELAYANI tester.html)
+
 import express from 'express';
 // Tambahkan path untuk mengelola lokasi file
 import path from 'path'; 
@@ -13,14 +14,16 @@ import rucoyRoutes from './src/routes/rucoy.routes.js';
 const app = express();
 const PORT = process.env.PORT || 3000; 
 
-// 1. MIDDLEWARE UNTUK MELAYANI FILE STATIS (termasuk tester.html)
-// Ini harus diletakkan di bagian paling atas
-app.use(express.static(path.join(__dirname, '')));
-
-// 2. MIDDLEWARE LAINNYA
+// MIDDLEWARE
 app.use(express.json());
 
-// ROUTING: Semua endpoint Rucoy
+// 1. TAMBAH ROUTE UNTUK MELAYANI TESTER.HTML
+app.get('/', (req, res) => {
+    // Kirim file tester.html dari root folder saat user mengakses URL dasar /
+    res.sendFile(path.join(__dirname, 'tester.html'));
+});
+
+// 2. ENDPOINT Rucoy API
 app.use('/api/rucoy', rucoyRoutes);
 
 // Jalankan server
