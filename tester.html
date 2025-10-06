@@ -111,10 +111,12 @@
             color: var(--code-text);
             flex-grow: 1;
             word-break: break-all;
+            /* Tambahkan overflow-x: hidden agar tidak mengganggu tata letak wrapper */
+            overflow-x: hidden; 
         }
 
         .copy-button {
-            background-color: #2D3748; /* Darker background for button */
+            background-color: #2D3748; 
             color: var(--accent-color);
             padding: 10px 15px;
             border-top-right-radius: 6px;
@@ -145,6 +147,33 @@
             padding: 8px 15px; 
             border-radius: 6px; 
             font-size: 14px; 
+        }
+
+        /* PERBAIKAN OVERFLOW JSON RESPONSE */
+        #responseTextarea { 
+            width: 100%; 
+            height: 300px; 
+            padding: 15px; 
+            border: 1px solid var(--border-color); 
+            border-radius: 8px; 
+            font-family: Consolas, monospace; 
+            font-size: 12px;
+            background-color: #080D17; 
+            color: var(--code-text); 
+            resize: vertical; 
+            /* KUNCI PERBAIKAN OVERFLOW HORIZONTAL */
+            white-space: pre; 
+            overflow-x: auto;
+            word-break: normal;
+        }
+
+        .status-bar { 
+            padding: 10px; 
+            border-radius: 6px; 
+            font-weight: 600; 
+            color: white;
+            text-align: center;
+            font-size: 13px;
         }
     </style>
 </head>
@@ -271,7 +300,8 @@
     </div>
 
     <script>
-        const BASE_URL = 'https://https://api.eberardos.my.id'; // Base API URL
+        // PERBAIKAN TYPO: Hapus salah satu 'https://'
+        const BASE_URL = 'https://api.eberardos.my.id';
         const RUCOY_ENDPOINT = `${BASE_URL}/api/rucoy`;
 
         const responseTextarea = document.getElementById('responseTextarea');
@@ -304,7 +334,7 @@
             }
         });
 
-        // --- COPY URL FUNCTION (PERMINTAAN BARU) ---
+        // --- COPY URL FUNCTION ---
         async function copyEndpointUrl(endpointKey, param = '') {
             let urlToCopy = '';
 
@@ -312,7 +342,7 @@
                 const charName = param || 'NamaKarakterContoh';
                 urlToCopy = `${RUCOY_ENDPOINT}/stalk?name=${encodeURIComponent(charName)}`;
             } else if (endpointKey === 'leaderboard') {
-                const category = param; // category sudah diisi di tombol (experience, melee, dll)
+                const category = param; 
                 urlToCopy = `${RUCOY_ENDPOINT}/leaderboard?category=${category}&limit=100`;
             }
             
@@ -332,10 +362,10 @@
             responseTextarea.value = 'Loading...';
 
             try {
-                // Hapus BASE_URL lama dan ganti ke endpoint baru (RUCOY_ENDPOINT)
                 const response = await fetch(url);
                 const data = await response.json();
                 
+                // Menggunakan JSON.stringify dengan indentasi 4 spasi
                 const formattedJson = JSON.stringify(data, null, 4); 
                 responseTextarea.value = formattedJson;
 
@@ -350,8 +380,9 @@
             } catch (error) {
                 console.error('Fetch Error:', error);
                 statusBar.className = 'status-bar status-error';
-                statusBar.textContent = `Status: Kesalahan Jaringan. Pastikan server aktif. (${error.message})`;
-                responseTextarea.value = `ERROR: Gagal menghubungi API. ${error.message}`;
+                // Jika error, kemungkinan besar karena Base URL salah atau jaringan
+                statusBar.textContent = `Status: Kesalahan Jaringan/Parsing. (${error.message})`;
+                responseTextarea.value = `ERROR: Gagal menghubungi atau memproses response API. Pastikan Base URL benar dan server aktif. Detail: ${error.message}`;
             }
         }
 
@@ -365,13 +396,11 @@
             }
             
             const encodedName = encodeURIComponent(charName);
-            // PENTING: Gunakan RUCOY_ENDPOINT untuk memanggil API
             const url = `${RUCOY_ENDPOINT}/stalk?name=${encodedName}`; 
             fetchData(url);
         }
 
         function executeLeaderboard(category) {
-            // PENTING: Gunakan RUCOY_ENDPOINT untuk memanggil API
             const url = `${RUCOY_ENDPOINT}/leaderboard?category=${category}&limit=100`; 
             fetchData(url);
         }
