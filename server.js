@@ -20,16 +20,6 @@ app.use(express.static(path.join(__dirname, '')));
 // 2. MIDDLEWARE LAINNYA
 app.use(express.json());
 
-// Endpoint Root (Hapus atau biarkan. Jika file statis ditemukan, ini terabaikan)
-// Jika tester.html ada, ia akan menjadi halaman '/' default.
-app.get('/', (req, res) => {
-    // Jika tidak ada tester.html atau file statis lain di root, ini akan dieksekusi
-    res.status(200).json({
-        status: "Rucoy API is Running",
-        // ... (data lainnya)
-    });
-});
-
 // ROUTING: Semua endpoint Rucoy
 app.use('/api/rucoy', rucoyRoutes);
 
