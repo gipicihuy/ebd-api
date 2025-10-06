@@ -3,344 +3,226 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Eberardos API Hub</title>
+    <title>Eberardos API Hub | Crimson Matrix</title>
     <link rel="icon" type="image/x-icon" href="https://raw.githubusercontent.com/upload-file-lab/fileupload6/main/uploads/1759330984218.jpeg?format=png&name=900x900">
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        /* SCROLLBAR STYLES */
-        ::-webkit-scrollbar {
-            width: 8px;
-        }
-        ::-webkit-scrollbar-track {
-            background: var(--scrollbar-track);
-        }
-        ::-webkit-scrollbar-thumb {
-            background: var(--scrollbar-thumb);
-            border-radius: 10px;
-        }
-        ::-webkit-scrollbar-thumb:hover {
-            background: var(--scrollbar-thumb-hover);
-        }
-
-        /* CUSTOM UTILITIES */
-        .gray-glow {
-            box-shadow: 0 0 10px rgba(100, 100, 100, 0.3);
-            transition: all 0.3s ease;
-        }
-        .gray-glow:hover {
-            box-shadow: 0 0 15px rgba(100, 100, 100, 0.5);
-        }
-        .gray-gradient-text {
-            background: linear-gradient(-45deg, var(--gradient-colors));
-            background-clip: text;
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-        .glass-morph {
-            background: var(--glass-bg);
-            border: 1px solid var(--border-color);
-            backdrop-filter: blur(10px);
-            transition: all 0.3s ease;
-        }
-
-        /* THEME VARIABLES (Default: Dark Mode) */
+        /* THEME & UTILITIES */
+        /* DARK CRIMSON THEME VARIABLES */
         :root {
             --text-color: #f0f0f0;
-            --bg-gradient-from: #000;
-            --bg-gradient-via: #222;
-            --bg-gradient-to: #000;
-            --border-color: rgba(255, 255, 255, 0.2);
-            --glass-bg: rgba(0, 0, 0, 0.3);
-            --gradient-colors: #fff, #ccc, #999, #666; /* For Gray Gradient Text */
-            --scrollbar-track: linear-gradient(180deg, #1a1a1a, #0a0a0a);
-            --scrollbar-thumb: linear-gradient(180deg, #666, #555);
-            --scrollbar-thumb-hover: linear-gradient(180deg, #777, #666);
-            --button-bg: #9ca3af; /* Default button color for copy/execute */
-            --project-card-bg: rgba(30, 30, 30, 0.7);
-            --project-card-border: rgba(100, 100, 100, 0.3);
-            --project-card-hover: rgba(40, 40, 40, 0.8);
-
-            /* CUSTOM COLORS FOR STATUS & EXECUTION */
-            --execute-button-bg: #a52a2a; /* Crimson/Dark Red for Action */
+            --bg-gradient-from: #111111;
+            --bg-gradient-via: #222222;
+            --bg-gradient-to: #111111;
+            --border-color: rgba(255, 255, 255, 0.1);
+            --glass-bg: rgba(25, 25, 25, 0.7);
+            --scrollbar-track: #1a1a1a;
+            --scrollbar-thumb: #a52a2a; /* Crimson Scrollbar */
+            --scrollbar-thumb-hover: #8b1a1a;
+            --card-bg: rgba(30, 30, 30, 0.9);
+            --card-border: #444;
+            --card-hover: rgba(40, 40, 40, 1);
+            --input-bg: #333;
+            --input-border: #555;
+            --execute-button-bg: #a52a2a; /* Crimson */
             --execute-button-hover: #8b1a1a;
             --status-ok-bg: #4CAF50;
             --status-error-bg: #f44336;
             --status-info-bg: #2196F3;
+            --code-text-color: #4CAF50;
         }
 
-        /* LIGHT THEME VARIABLES (wb-theme) */
-        body.wb-theme {
-            --text-color: #333;
-            --bg-gradient-from: #fff;
-            --bg-gradient-via: #eee;
-            --bg-gradient-to: #fff;
-            --border-color: rgba(0, 0, 0, 0.2);
-            --glass-bg: rgba(255, 255, 255, 0.5);
-            --gradient-colors: #333, #555, #777, #999;
-            --scrollbar-track: linear-gradient(180deg, #e0e0e0, #d0d0d0);
-            --scrollbar-thumb: linear-gradient(180deg, #888, #666);
-            --scrollbar-thumb-hover: linear-gradient(180deg, #666, #555);
-            --button-bg: #999;
-            --project-card-bg: rgba(240, 240, 240, 0.7);
-            --project-card-border: rgba(200, 200, 200, 0.5);
-            --project-card-hover: rgba(220, 220, 220, 0.8);
+        /* CUSTOM GRADIENT TEXT (CRIMSON ACCENT) */
+        .crimson-gradient-text {
+            background: linear-gradient(-45deg, #f0f0f0, #a52a2a, #f0f0f0); 
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
 
-        /* BODY STYLING */
+        /* GENERAL STYLES */
         body {
             background: linear-gradient(to bottom right, var(--bg-gradient-from), var(--bg-gradient-via), var(--bg-gradient-to));
             color: var(--text-color);
-            transition: all 0.5s ease;
             min-height: 100vh;
         }
-
-        /* CARD STYLING */
+        .glass-morph {
+            background: var(--glass-bg);
+            border: 1px solid var(--border-color);
+            backdrop-filter: blur(5px);
+        }
         .api-card {
-            background: var(--project-card-bg);
-            border: 1px solid var(--project-card-border);
-            backdrop-filter: blur(10px);
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
             transition: all 0.3s ease;
         }
         .api-card:hover {
-            background: var(--project-card-hover);
-            transform: translateY(-5px);
+            background: var(--card-hover);
+        }
+        .api-endpoint {
+            font-family: monospace;
+            background: #222;
+            padding: 8px 12px;
+            border-radius: 6px;
+            border: 1px solid var(--border-color);
+            word-break: break-all;
+            font-size: 14px;
+            color: #ccc;
         }
         
-        /* THEME TOGGLE */
-        .theme-toggle { /* Keep original toggle position and style */
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            z-index: 100;
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            background: rgba(0, 0, 0, 0.7);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-        }
-
-        /* INPUTS & SELECTS */
-        .api-card input[type="text"], .api-card input[type="number"], .api-card select { 
+        /* INPUT & BUTTONS */
+        input[type="text"], .api-card select { 
             width: 100%; 
-            padding: 12px; 
+            padding: 10px; 
             margin-top: 5px; 
             margin-bottom: 10px;
-            border: 1px solid #444; 
+            border: 1px solid var(--input-border); 
             border-radius: 6px; 
-            box-sizing: border-box; 
-            background-color: #3c3c3c; /* Dark Input BG */
+            background-color: var(--input-bg); 
             color: var(--text-color);
-            transition: border-color 0.3s;
         }
-        body.wb-theme .api-card input, body.wb-theme .api-card select {
-            background-color: #fff;
-            color: #333;
-            border-color: #ccc;
-        }
-        .api-card input:focus, .api-card select:focus {
-            border-color: #a52a2a; /* Crimson focus */
-            outline: none;
-        }
-
-        /* TEXTAREA STYLING (Response Box) */
-        #responseTextarea { 
-            width: 100%; 
-            height: 400px; 
-            padding: 20px; 
-            border: 1px solid #444; 
-            border-radius: 8px; 
-            font-family: Consolas, monospace; 
-            font-size: 14px; 
-            background-color: #111; /* Very Dark Code Area */
-            color: #4CAF50; /* Green text for code contrast */
-            resize: vertical; 
-        }
-        body.wb-theme #responseTextarea {
-            background-color: #f0f0f0;
-            color: #333;
-        }
-        
-        /* STATUS BAR */
-        .status-bar { padding: 12px; margin-bottom: 15px; border-radius: 6px; font-weight: bold; color: white;}
-        .status-ok { background-color: var(--status-ok-bg); }
-        .status-error { background-color: var(--status-error-bg); }
-        .status-info { background-color: var(--status-info-bg); }
-        
-        /* EXECUTE BUTTON */
+        input:focus { border-color: var(--execute-button-bg); outline: none; }
         .execute-button { 
-            background-color: var(--execute-button-bg); /* Crimson */
+            background-color: var(--execute-button-bg);
             color: white; 
-            padding: 12px 20px; 
+            padding: 10px 20px; 
             border: none; 
             border-radius: 6px; 
             cursor: pointer; 
-            font-size: 16px; 
+            font-size: 15px; 
             font-weight: bold;
-            transition: background-color 0.3s ease, transform 0.1s; 
+            transition: background-color 0.3s ease; 
         }
-        .execute-button:hover { 
-            background-color: var(--execute-button-hover); /* Darker Crimson */
-            transform: translateY(-1px);
+        .execute-button:hover { background-color: var(--execute-button-hover); }
+
+        /* RESPONSE AREA */
+        #responseTextarea { 
+            width: 100%; 
+            height: 350px; 
+            padding: 15px; 
+            border: 1px solid var(--card-border); 
+            border-radius: 8px; 
+            font-family: Consolas, monospace; 
+            font-size: 13px; 
+            background-color: #0d0d0d; 
+            color: var(--code-text-color); 
+            resize: vertical; 
         }
-        
-        /* COPY BUTTON */
-        #copyButton { 
-            background-color: #4CAF50; /* Green */
-            margin-top: 15px; 
+        .status-bar { 
+            padding: 10px; 
+            margin-bottom: 10px; 
+            border-radius: 6px; 
+            font-weight: bold; 
+            color: white;
+            text-align: center;
         }
-        #copyButton:hover { 
-            background-color: #388e3c; 
-        }
+        .status-ok { background-color: var(--status-ok-bg); }
+        .status-error { background-color: var(--status-error-bg); }
+        .status-info { background-color: var(--status-info-bg); }
+        #copyButton { background-color: #555; margin-top: 10px; }
+        #copyButton:hover { background-color: #666; }
     </style>
 </head>
 <body class="font-sans">
 
-    <div class="theme-toggle" id="themeToggle">
-        <span id="themeIcon" class="text-xl">🌙</span>
-    </div>
-
     <header class="glass-morph shadow-lg py-4 px-6 sticky top-0 z-50">
-        <nav class="container mx-auto flex justify-between items-center">
-            <a href="#" class="text-2xl sm:text-3xl font-extrabold gray-gradient-text">
+        <nav class="container mx-auto max-w-5xl">
+            <a href="#" class="text-2xl sm:text-3xl font-extrabold crimson-gradient-text">
                 EBERARDOS API HUB
             </a>
         </nav>
     </header>
 
-    <main class="container mx-auto px-4 py-8">
+    <main class="container mx-auto px-4 py-8 max-w-5xl">
         
-        <section id="header-section" class="glass-morph shadow-xl rounded-3xl p-8 mb-8 text-center">
-            <h1 class="text-4xl md:text-6xl font-black gray-gradient-text mb-4 leading-tight tracking-wider">EBERARDOS API HUB</h1>
-            <p class="text-lg text-gray-300 font-light tracking-wide">API endpoint utama untuk Rucoy Online (dan tools lain di masa depan).</p>
-            <div class="mt-6 h-1 w-32 mx-auto bg-gradient-to-r from-gray-500 via-gray-400 to-gray-500 rounded-full"></div>
+        <section class="glass-morph shadow-xl rounded-3xl p-8 mb-8 text-center">
+            <h1 class="text-4xl md:text-6xl font-black crimson-gradient-text mb-4 leading-tight tracking-wider">CRIMSON MATRIX</h1>
+            <p class="text-lg text-gray-400 tracking-wide">API endpoint unik dan fokus untuk Rucoy Online.</p>
+            <div class="mt-6 h-1 w-32 mx-auto bg-gradient-to-r from-gray-500 via-red-700/50 to-gray-500 rounded-full"></div>
         </section>
         
         <section id="rucoy-tools" class="glass-morph shadow-xl rounded-3xl p-8 mb-8">
-            <h2 class="text-3xl font-black gray-gradient-text border-b-4 border-gray-700/50 pb-4 mb-8 flex items-center justify-center sm:justify-start gap-4">
-                <span class="text-3xl">⚔️</span> RUCOY ONLINE TOOLS
+            <h2 class="text-3xl font-black crimson-gradient-text border-b-4 border-gray-700/50 pb-4 mb-8 flex items-center justify-center sm:justify-start gap-4">
+                <span class="text-3xl">⚔️</span> RUCOY ONLINE ENDPOINTS
             </h2>
-            <p class="text-lg text-gray-300 mb-6 font-light">Base URL: <code>https://api.eberardos.my.id/api/rucoy</code></p>
-            
-            <div class="api-card rounded-2xl p-6 shadow-md mb-6">
-                <label for="endpoint" class="text-lg font-bold mb-3 block">Pilih Endpoint:</label>
-                <select id="endpoint" onchange="toggleInputs()" class="w-full">
-                    <option value="stalk">1. Stalk Karakter</option>
-                    <option value="leaderboard">2. Leaderboard</option>
-                </select>
-            </div>
 
-            <div id="stalk-inputs" class="api-card rounded-2xl p-6 shadow-md">
-                <p class="text-lg font-bold mb-3 text-gray-200">ENDPOINT: /stalk?name=...</p>
-                <label for="charName">Nama Karakter (Wajib):</label>
-                <input type="text" id="charName" placeholder="Contoh: Velica Corrupt">
-                <button onclick="executeStalk()" class="execute-button w-full lg:w-auto">⚡️ Execute Stalk</button>
-            </div>
+            <div class="space-y-6">
 
-            <div id="leaderboard-inputs" class="api-card rounded-2xl p-6 shadow-md" style="display: none;">
-                <p class="text-lg font-bold mb-3 text-gray-200">ENDPOINT: /leaderboard?category=&limit=...</p>
-                <label for="category">Kategori (Default: Experience):</label>
-                <select id="category">
-                    <option value="experience">Experience</option>
-                    <option value="melee">Melee</option>
-                    <option value="distance">Distance</option>
-                    <option value="magic">Magic</option>
-                    <option value="defense">Defense</option>
-                </select>
-                <label for="limit">Limit (Max 500, Default 100):</label>
-                <input type="number" id="limit" value="100" min="1" max="500">
-                <button onclick="executeLeaderboard()" class="execute-button w-full lg:w-auto">⚡️ Execute Leaderboard</button>
-            </div>
-
-        </section>
-
-        <section class="glass-morph shadow-xl rounded-3xl p-8 mb-8">
-            <h2 class="text-3xl font-black gray-gradient-text border-b-4 border-gray-700/50 pb-4 mb-6 flex items-center justify-center sm:justify-start gap-4">
-                <span class="text-3xl">💻</span> JSON Response Output
-            </h2>
-            <div class="response-section">
-                <div id="statusBar" class="status-bar status-info">Status: Siap diuji.</div>
-                <textarea id="responseTextarea" readonly placeholder="Hasil JSON akan muncul di sini..."></textarea>
-                <button id="copyButton" onclick="copyResponse()" class="w-full lg:w-auto">📋 Salin Response</button>
-            </div>
-        </section>
-
-        <section id="sosmed" class="glass-morph shadow-xl rounded-3xl p-8 mb-8">
-            <h2 class="text-3xl font-black gray-gradient-text border-b-4 border-gray-700/50 pb-4 mb-6 flex items-center justify-center sm:justify-start gap-4">
-                <span class="text-3xl">🌐</span> SOCIAL MEDIA
-            </h2>
-            <p class="text-lg text-gray-300 mb-6 font-light">Connect with me (Afiq):</p>
-            <ul class="flex flex-wrap justify-center gap-6">
-                <li>
-                    <a href="https://t.me/AfiqAjah" target="_blank" rel="noopener noreferrer" class="transition-all duration-300 hover:scale-105 block transform gray-glow">
-                        <img src="https://img.shields.io/badge/Telegram-0088CC?style=for-the-badge&logo=telegram&logoColor=white" alt="Telegram" class="rounded-xl shadow-lg">
-                    </a>
-                </li>
-                <li>
-                    <a href="https://github.com/iyayn-ajah" target="_blank" rel="noopener noreferrer" class="transition-all duration-300 hover:scale-105 block transform gray-glow">
-                        <img src="https://img.shields.io/badge/GITHUB-181717?style=for-the-badge&logo=github&logoColor=white" alt="GitHub" class="rounded-xl shadow-lg">
-                    </a>
-                </li>
-            </ul>
-        </section>
-        
-        <section class="flex justify-center">
-            <div class="glass-morph rounded-3xl p-8 shadow-xl w-full max-w-lg">
-                <div class="text-center mb-6">
-                    <div class="flex items-center justify-center gap-4 mb-4">
-                        <span class="text-3xl">🎵</span>
-                        <span class="text-2xl font-black gray-gradient-text">Now Playing</span>
-                        <span class="text-3xl">🎶</span>
+                <div class="api-card rounded-xl p-6 shadow-md" data-endpoint-type="stalk">
+                    <p class="text-xl font-bold mb-3 text-gray-200">1. STALK CHARACTER</p>
+                    <div class="api-endpoint mb-4">
+                        /api/rucoy/stalk?name=<span class="text-red-400">NamaKarakter</span>
                     </div>
-                    <audio autoplay controls loop class="w-full rounded-full shadow-lg">
-                        <source src="https://files.catbox.moe/ar2c1c.mp3" type="audio/mpeg">
-                        Your browser does not support the audio element.
-                    </audio>
+                    <label for="charName" class="text-gray-300 block mb-1">Nama Karakter (Wajib):</label>
+                    <input type="text" id="charName" placeholder="Contoh: Velica Corrupt" data-endpoint-id="stalk">
+                    <button onclick="executeStalk()" class="execute-button w-full">⚡️ Execute Stalk</button>
+                </div>
+                
+                <h3 class="text-xl font-bold text-gray-300 mt-10 mb-5 border-b border-gray-700/50 pb-2">LEADERBOARD CATEGORIES (Top 100)</h3>
+
+                <div class="api-card rounded-xl p-6 shadow-md">
+                    <p class="text-xl font-bold mb-3 text-gray-200">2. EXPERIENCE LEADERBOARD</p>
+                    <div class="api-endpoint mb-4">
+                        /api/rucoy/leaderboard?category=<span class="text-red-400">experience</span>
+                    </div>
+                    <button onclick="executeLeaderboard('experience')" class="execute-button w-full">⚡️ Execute Experience LB</button>
+                </div>
+
+                <div class="api-card rounded-xl p-6 shadow-md">
+                    <p class="text-xl font-bold mb-3 text-gray-200">3. MELEE LEADERBOARD</p>
+                    <div class="api-endpoint mb-4">
+                        /api/rucoy/leaderboard?category=<span class="text-red-400">melee</span>
+                    </div>
+                    <button onclick="executeLeaderboard('melee')" class="execute-button w-full">⚡️ Execute Melee LB</button>
+                </div>
+
+                <div class="api-card rounded-xl p-6 shadow-md">
+                    <p class="text-xl font-bold mb-3 text-gray-200">4. DISTANCE LEADERBOARD</p>
+                    <div class="api-endpoint mb-4">
+                        /api/rucoy/leaderboard?category=<span class="text-red-400">distance</span>
+                    </div>
+                    <button onclick="executeLeaderboard('distance')" class="execute-button w-full">⚡️ Execute Distance LB</button>
+                </div>
+                
+                <div class="api-card rounded-xl p-6 shadow-md">
+                    <p class="text-xl font-bold mb-3 text-gray-200">5. MAGIC LEADERBOARD</p>
+                    <div class="api-endpoint mb-4">
+                        /api/rucoy/leaderboard?category=<span class="text-red-400">magic</span>
+                    </div>
+                    <button onclick="executeLeaderboard('magic')" class="execute-button w-full">⚡️ Execute Magic LB</button>
+                </div>
+
+                <div class="api-card rounded-xl p-6 shadow-md">
+                    <p class="text-xl font-bold mb-3 text-gray-200">6. DEFENSE LEADERBOARD</p>
+                    <div class="api-endpoint mb-4">
+                        /api/rucoy/leaderboard?category=<span class="text-red-400">defense</span>
+                    </div>
+                    <button onclick="executeLeaderboard('defense')" class="execute-button w-full">⚡️ Execute Defense LB</button>
                 </div>
             </div>
         </section>
-    </main>
 
-    <footer class="glass-morph text-center p-8 mt-12">
-        <p class="text-lg font-medium">&copy; 2025 <span class="font-bold gray-gradient-text">EBERARDOS API</span></p>
-    </footer>
+        <section class="glass-morph shadow-xl rounded-3xl p-8 mb-8">
+            <h2 class="text-3xl font-black crimson-gradient-text border-b-4 border-gray-700/50 pb-4 mb-6 flex items-center justify-center sm:justify-start gap-4">
+                <span class="text-3xl">💻</span> JSON Response
+            </h2>
+            <div id="statusBar" class="status-bar status-info">Status: Siap diuji.</div>
+            <textarea id="responseTextarea" readonly placeholder="Hasil JSON akan muncul di sini..."></textarea>
+            <button id="copyButton" onclick="copyResponse()" class="w-full lg:w-auto">📋 Salin Response</button>
+        </section>
+
+        <section class="text-center p-4">
+            <p class="text-lg font-medium text-gray-500">&copy; 2025 <span class="font-bold crimson-gradient-text">EBERARDOS API</span></p>
+        </section>
+        
+    </main>
 
     <script>
         const BASE_URL = 'https://api.eberardos.my.id/api/rucoy';
         const responseTextarea = document.getElementById('responseTextarea');
         const statusBar = document.getElementById('statusBar');
-        
-        const themeToggle = document.getElementById('themeToggle');
-        const themeIcon = document.getElementById('themeIcon');
-        const body = document.body;
-        
-        // --- Initialization ---
-        window.onload = function() {
-            toggleInputs();
-            
-            // Theme Setup
-            const savedTheme = localStorage.getItem('theme') || 'bw-theme';
-            if (savedTheme === 'wb-theme') {
-                body.classList.add('wb-theme');
-                themeIcon.textContent = '☀️';
-            }
-        }; 
 
-        // --- Core Functions ---
-        function toggleInputs() {
-            const endpoint = document.getElementById('endpoint').value;
-            document.getElementById('stalk-inputs').style.display = endpoint === 'stalk' ? 'block' : 'none';
-            document.getElementById('leaderboard-inputs').style.display = endpoint === 'leaderboard' ? 'block' : 'none';
-            
-            responseTextarea.value = '';
-            statusBar.className = 'status-bar status-info';
-            statusBar.textContent = 'Status: Pilih endpoint yang ingin diuji.';
-        }
-
+        // --- Core API Tester Functions ---
         async function fetchData(url) {
             statusBar.className = 'status-bar status-info';
             statusBar.textContent = `Status: Mengirim permintaan ke ${url}...`;
@@ -353,7 +235,6 @@
                 const formattedJson = JSON.stringify(data, null, 4); 
                 responseTextarea.value = formattedJson;
 
-                // Update Status Bar berdasarkan respons HTTP
                 if (response.ok) {
                     statusBar.className = 'status-bar status-ok';
                     statusBar.textContent = `Status: Sukses (${response.status} OK)`;
@@ -365,7 +246,7 @@
             } catch (error) {
                 console.error('Fetch Error:', error);
                 statusBar.className = 'status-bar status-error';
-                statusBar.textContent = `Status: Kesalahan Jaringan. Pastikan server aktif.`;
+                statusBar.textContent = `Status: Kesalahan Jaringan. Pastikan server aktif. (${error.message})`;
                 responseTextarea.value = `ERROR: Gagal menghubungi API. ${error.message}`;
             }
         }
@@ -373,7 +254,7 @@
         function executeStalk() {
             const charName = document.getElementById('charName').value.trim();
             if (!charName) {
-                showNotification('Harap masukkan Nama Karakter!', 'error');
+                alert('Harap masukkan Nama Karakter!');
                 return;
             }
             
@@ -382,72 +263,20 @@
             fetchData(url);
         }
 
-        function executeLeaderboard() {
-            const category = document.getElementById('category').value;
-            const limit = document.getElementById('limit').value;
-
-            if (limit < 1 || limit > 500) {
-                showNotification('Limit harus antara 1 sampai 500!', 'error');
-                return;
-            }
-            
-            const url = `${BASE_URL}/leaderboard?category=${category}&limit=${limit}`;
+        // Fungsi Leaderboard sekarang hanya menerima kategori (limit default di backend)
+        function executeLeaderboard(category) {
+            // Kita asumsikan limit default 100 ada di backend
+            const url = `${BASE_URL}/leaderboard?category=${category}&limit=100`; 
             fetchData(url);
         }
 
         function copyResponse() {
             responseTextarea.select();
-            
-            // Use Clipboard API for modern approach
             navigator.clipboard.writeText(responseTextarea.value).then(function() {
-                showNotification("Response JSON berhasil disalin! ✨", "success");
+                alert('Response JSON berhasil disalin!');
             }).catch(function(error) {
-                // Fallback for older browsers
-                try {
-                    document.execCommand('copy');
-                    showNotification("Response JSON berhasil disalin! ✨", "success");
-                } catch(e) {
-                    showNotification("Gagal menyalin. Silakan salin manual.", "error");
-                }
+                alert('Gagal menyalin. Silakan salin manual.');
             });
-        }
-        
-        // --- UI & Theme Functions ---
-        themeToggle.addEventListener('click', () => {
-            if (body.classList.contains('wb-theme')) {
-                body.classList.remove('wb-theme');
-                themeIcon.textContent = '🌙';
-                localStorage.setItem('theme', 'bw-theme');
-            } else {
-                body.classList.add('wb-theme');
-                themeIcon.textContent = '☀️';
-                localStorage.setItem('theme', 'wb-theme');
-            }
-        });
-
-        function showNotification(message, type) {
-            const notification = document.createElement('div');
-            notification.className = `fixed top-4 right-4 z-50 p-4 rounded-xl shadow-2xl transition-all duration-500 transform translate-x-full ${
-                type === 'success'  
-                    ? 'bg-gradient-to-r from-green-600 to-green-700 text-white'  
-                    : 'bg-gradient-to-r from-red-600 to-red-700 text-white'
-            }`;
-            notification.textContent = message;
-            
-            document.body.appendChild(notification);
-            
-            // Animate in
-            setTimeout(() => {
-                notification.style.transform = 'translateX(0)';
-            }, 100);
-            
-            // Animate out
-            setTimeout(() => {
-                notification.style.transform = 'translateX(120%)'; // Use percentage to ensure it hides fully
-                setTimeout(() => {
-                    document.body.removeChild(notification);
-                }, 500);
-            }, 3000);
         }
     </script>
 </body>
