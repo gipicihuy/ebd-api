@@ -10,15 +10,15 @@
     <style>
         /* THEME & UTILITIES (Minimalist Deep Dark) */
         :root {
-            --text-color: #E5E7EB; /* Gray 200 */
-            --bg-color: #0F172A; /* Slate 900 */
-            --sidebar-bg: #1E293B; /* Slate 800 */
+            --text-color: #E5E7EB; 
+            --bg-color: #0F172A; 
+            --sidebar-bg: #1E293B; 
             --content-bg: #0F172A;
-            --border-color: #334155; /* Slate 700 */
-            --accent-color: #22D3EE; /* Cyan 400 (Teal/Blue Modern) */
+            --border-color: #334155; 
+            --accent-color: #22D3EE; 
             --accent-hover: #06B6D4;
             --input-bg: #1F2937;
-            --code-text: #A5F3FC; /* Light Cyan */
+            --code-text: #A5F3FC; 
             --status-ok-bg: #10B981;
             --status-error-bg: #EF4444;
             --status-info-bg: #3B82F6;
@@ -32,11 +32,17 @@
             min-height: 100vh;
         }
         
-        /* LAYOUT & SCROLL */
+        /* LAYOUT & SCROLL (PERBAIKAN RESPONSIVENESS) */
         .grid-container {
             display: grid;
-            grid-template-columns: 280px 1fr; /* Fixed sidebar width */
-            min-height: calc(100vh - 64px); /* Full height minus header */
+            grid-template-columns: 1fr; /* Default: Single column (Mobile) */
+            min-height: calc(100vh - 64px); 
+        }
+
+        @media (min-width: 768px) {
+            .grid-container {
+                grid-template-columns: 280px 1fr; /* Desktop: Split screen */
+            }
         }
         
         /* HEADER */
@@ -46,9 +52,18 @@
         #sidebar {
             background-color: var(--sidebar-bg);
             border-right: 1px solid var(--border-color);
-            overflow-y: auto;
             padding-top: 20px;
+            /* Di mobile, sidebar disembunyikan atau diubah */
+            display: none;
         }
+
+        @media (min-width: 768px) {
+            #sidebar {
+                display: block; /* Tampilkan sidebar di desktop */
+                overflow-y: auto;
+            }
+        }
+
         .nav-item {
             display: block;
             padding: 8px 16px;
@@ -71,8 +86,12 @@
 
         /* MAIN CONTENT */
         #main-content {
-            padding: 30px;
-            overflow-y: auto;
+            padding: 20px 15px; /* Padding lebih kecil di mobile */
+        }
+        @media (min-width: 768px) {
+             #main-content {
+                padding: 30px; /* Padding normal di desktop */
+            }
         }
         
         /* ENDPOINT CARD (STATIC) */
@@ -81,7 +100,8 @@
             border: 1px solid var(--border-color);
             border-radius: 8px;
             padding: 20px;
-            margin-bottom: 20px; /* Jarak antar endpoint */
+            margin-bottom: 20px;
+            scroll-margin-top: 80px; /* Penting untuk smooth scroll */
         }
 
         /* INPUT & CODE STYLES */
@@ -154,6 +174,7 @@
         <aside id="sidebar">
             <div class="px-4 mb-4">
                 <h3 class="text-xs font-semibold uppercase tracking-wider text-gray-500 mb-3">API SERVICES</h3>
+                
                 <div class="space-y-3">
                     <div class="text-sm font-medium text-gray-300">RUCOY ONLINE</div>
                     <a href="#stalk" class="nav-item">
@@ -189,7 +210,7 @@
             </div>
 
             <div id="leaderboards">
-                <h3 class="text-xl font-semibold mb-3 border-b border-gray-600 pb-2">LEADERBOARD CATEGORIES (TOP 100)</h3>
+                <h3 class="text-xl font-semibold mt-8 mb-3 border-b border-gray-600 pb-2">LEADERBOARD CATEGORIES (TOP 100)</h3>
             </div>
             
             <div class="endpoint-card">
@@ -246,20 +267,19 @@
         const responseTextarea = document.getElementById('responseTextarea');
         const statusBar = document.getElementById('statusBar');
         const navItems = document.querySelectorAll('.nav-item');
-        const mainContent = document.getElementById('main-content');
 
-        // --- NAVIGATION & DISPLAY LOGIC (Anchor Scroll) ---
+        // --- NAVIGATION & DISPLAY LOGIC (Anchor Scroll PERBAIKAN) ---
         navItems.forEach(item => {
             item.addEventListener('click', function(e) {
                 e.preventDefault();
-                const targetId = this.getAttribute('href');
+                const targetId = this.getAttribute('href'); // e.g., #stalk
                 const targetElement = document.querySelector(targetId);
 
                 if (targetElement) {
-                    // Gulir (scroll) kolom kanan ke elemen target
-                    mainContent.scrollTo({
-                        top: targetElement.offsetTop - 20, // Offset sedikit dari atas
-                        behavior: 'smooth'
+                    // Gunakan window.scrollTo() untuk smooth scroll di seluruh halaman
+                    targetElement.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
                     });
                     
                     // Update active class
@@ -271,7 +291,10 @@
 
         // Set 'Stalk Character' active on load
         document.addEventListener('DOMContentLoaded', () => {
-            document.querySelector('.nav-item').classList.add('active');
+            const firstNavItem = document.querySelector('.nav-item');
+            if (firstNavItem) {
+                firstNavItem.classList.add('active');
+            }
         });
 
         // --- CORE API EXECUTION FUNCTIONS (Unchanged) ---
