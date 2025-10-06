@@ -1,25 +1,36 @@
-// FILE: server.js
+// FILE: server.js (MODIFIKASI UNTUK STATIC FILES)
 import express from 'express';
-import rucoyRoutes from './src/routes/rucoy.routes.js'; // Import Rucoy Routes
+// Tambahkan path untuk mengelola lokasi file
+import path from 'path'; 
+import { fileURLToPath } from 'url';
+
+// Helper untuk mendapatkan __dirname di mode ESM
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+import rucoyRoutes from './src/routes/rucoy.routes.js'; 
 
 const app = express();
-const PORT = process.env.PORT || 3000; // Menggunakan port dinamis untuk deploy
+const PORT = process.env.PORT || 3000; 
 
-// Middleware
+// 1. MIDDLEWARE UNTUK MELAYANI FILE STATIS (termasuk tester.html)
+// Ini harus diletakkan di bagian paling atas
+app.use(express.static(path.join(__dirname, '')));
+
+// 2. MIDDLEWARE LAINNYA
 app.use(express.json());
 
-// Endpoint Root
+// Endpoint Root (Hapus atau biarkan. Jika file statis ditemukan, ini terabaikan)
+// Jika tester.html ada, ia akan menjadi halaman '/' default.
 app.get('/', (req, res) => {
+    // Jika tidak ada tester.html atau file statis lain di root, ini akan dieksekusi
     res.status(200).json({
         status: "Rucoy API is Running",
-        version: "1.0",
-        endpoints: {
-            info: "Akses /api/rucoy/stalk?name=..., /api/rucoy/leaderboard?..."
-        }
+        // ... (data lainnya)
     });
 });
 
-// ROUTING: Semua endpoint Rucoy dimulai dengan /api/rucoy
+// ROUTING: Semua endpoint Rucoy
 app.use('/api/rucoy', rucoyRoutes);
 
 // Jalankan server
