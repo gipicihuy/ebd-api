@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rucoy API Tester | Eberardos</title>
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin: 20px; background-color: #f4f7f6; color: #333; }
+        .container { max-width: 800px; margin: auto; background: #fff; padding: 25px; border-radius: 12px; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); }
+        h1 { color: #007bff; text-align: center; margin-bottom: 20px; }
+        .input-group { margin-bottom: 20px; padding: 15px; border: 1px solid #ddd; border-radius: 8px; background-color: #f9f9f9; }
+        label { display: block; margin-bottom: 8px; font-weight: bold; color: #555; }
+        input[type="text"], select { width: 100%; padding: 10px; margin-top: 5px; border: 1px solid #ccc; border-radius: 5px; box-sizing: border-box; }
+        button { background-color: #28a745; color: white; padding: 12px 20px; border: none; border-radius: 5px; cursor: pointer; font-size: 16px; transition: background-color 0.3s ease; }
+        button:hover { background-color: #218838; }
+        textarea { width: 100%; height: 300px; padding: 15px; border: 1px solid #ccc; border-radius: 8px; font-family: Consolas, monospace; font-size: 14px; background-color: #e9ecef; resize: vertical; }
+        .response-section { margin-top: 30px; }
+        .status-bar { padding: 10px; margin-bottom: 15px; border-radius: 5px; font-weight: bold; }
+        .status-ok { background-color: #d4edda; color: #155724; }
+        .status-error { background-color: #f8d7da; color: #721c24; }
+        .status-info { background-color: #cce5ff; color: #004085; }
+        #copyButton { background-color: #007bff; margin-top: 10px; }
+        #copyButton:hover { background-color: #0056b3; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>🔬 Rucoy API Tester (Eberardos)</h1>
+    <p>Base URL: <code>https://api.eberardos.my.id/api/rucoy</code></p>
+    <hr>
+
+    <div class="input-group">
+        <label for="endpoint">Pilih Endpoint:</label>
+        <select id="endpoint" onchange="toggleInputs()">
+            <option value="stalk">Stalk Karakter</option>
+            <option value="leaderboard">Leaderboard</option>
+        </select>
+    </div>
+
+    <div id="stalk-inputs" class="input-group">
+        <label for="charName">Nama Karakter:</label>
+        <input type="text" id="charName" placeholder="Contoh: Velica Corrupt">
+        <button onclick="executeStalk()">Execute Stalk</button>
+    </div>
+
+    <div id="leaderboard-inputs" class="input-group" style="display: none;">
+        <label for="category">Kategori:</label>
+        <select id="category">
+            <option value="experience">Experience (Default)</option>
+            <option value="melee">Melee</option>
+            <option value="distance">Distance</option>
+            <option value="magic">Magic</option>
+            <option value="defense">Defense</option>
+        </select>
+        <label for="limit">Limit (Jumlah Data):</label>
+        <input type="number" id="limit" value="100" min="1" max="500">
+        <button onclick="executeLeaderboard()">Execute Leaderboard</button>
+    </div>
+
+    <div class="response-section">
+        <h2>Output JSON Response:</h2>
+        <div id="statusBar" class="status-bar status-info">Status: Siap</div>
+        <textarea id="responseTextarea" readonly placeholder="Hasil JSON akan muncul di sini..."></textarea>
+        <button id="copyButton" onclick="copyResponse()">Salin Response</button>
+    </div>
+</div>
+
+<script>
+    const BASE_URL = 'https://api.eberardos.my.id/api/rucoy';
+    const responseTextarea = document.getElementById('responseTextarea');
+    const statusBar = document.getElementById('statusBar');
+
+    function toggleInputs() {
+        const endpoint = document.getElementById('endpoint').value;
+        document.getElementById('stalk-inputs').style.display = endpoint === 'stalk' ? 'block' : 'none';
+        document.getElementById('leaderboard-inputs').style.display = endpoint === 'leaderboard' ? 'block' : 'none';
+        
+        responseTextarea.value = '';
+        statusBar.className = 'status-bar status-info';
+        statusBar.textContent = 'Status: Pilih endpoint yang ingin diuji.';
+    }
+
+    async function fetchData(url) {
+        statusBar.className = 'status-bar status-info';
+        statusBar.textContent = 'Status: Mengirim permintaan...';
+        responseTextarea.value = 'Loading...';
+
+        try {
+            const response = await fetch(url);
+            const data = await response.json();
+            
+            // Format JSON agar mudah dibaca
+            const formattedJson = JSON.stringify(data, null, 4); 
+            responseTextarea.value = formattedJson;
+
+            // Update Status Bar
+            if (response.ok) {
+                statusBar.className = 'status-bar status-ok';
+                statusBar.textContent = `Status: Berhasil (${response.status} OK)`;
+            } else {
+                statusBar.className = 'status-bar status-error';
+                statusBar.textContent = `Status: Gagal (${response.status} ${data.error || 'Server Error'})`;
+            }
+
+        } catch (error) {
+            console.error('Fetch Error:', error);
+            statusBar.className = 'status-bar status-error';
+            statusBar.textContent = `Status: Kesalahan Jaringan/CORS. Cek konsol.`;
+            responseTextarea.value = `ERROR: Gagal menghubungi API. ${error.message}`;
+        }
+    }
+
+    function executeStalk() {
+        const charName = document.getElementById('charName').value.trim();
+        if (!charName) {
+            alert('Harap masukkan Nama Karakter!');
+            return;
+        }
+        
+        // Mengganti spasi menjadi %20 untuk URL encoding
+        const encodedName = encodeURIComponent(charName);
+        const url = `${BASE_URL}/stalk?name=${encodedName}`;
+        fetchData(url);
+    }
+
+    function executeLeaderboard() {
+        const category = document.getElementById('category').value;
+        const limit = document.getElementById('limit').value;
+
+        // Validasi dasar
+        if (limit < 1 || limit > 500) {
+            alert('Limit harus antara 1 sampai 500!');
+            return;
+        }
+        
+        const url = `${BASE_URL}/leaderboard?category=${category}&limit=${limit}`;
+        fetchData(url);
+    }
+
+    function copyResponse() {
+        responseTextarea.select();
+        document.execCommand('copy');
+        alert('Response JSON berhasil disalin!');
+    }
+</script>
+
+</body>
+</html>
