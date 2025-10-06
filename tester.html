@@ -3,12 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Eberardos API Hub | Crimson Matrix</title>
+    <title>Eberardos API</title>
     <link rel="icon" type="image/x-icon" href="https://raw.githubusercontent.com/upload-file-lab/fileupload6/main/uploads/1759330984218.jpeg?format=png&name=900x900">
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         /* THEME & UTILITIES */
-        /* DARK CRIMSON THEME VARIABLES */
         :root {
             --text-color: #f0f0f0;
             --bg-gradient-from: #111111;
@@ -16,9 +15,6 @@
             --bg-gradient-to: #111111;
             --border-color: rgba(255, 255, 255, 0.1);
             --glass-bg: rgba(25, 25, 25, 0.7);
-            --scrollbar-track: #1a1a1a;
-            --scrollbar-thumb: #a52a2a; /* Crimson Scrollbar */
-            --scrollbar-thumb-hover: #8b1a1a;
             --card-bg: rgba(30, 30, 30, 0.9);
             --card-border: #444;
             --card-hover: rgba(40, 40, 40, 1);
@@ -121,6 +117,16 @@
         .status-info { background-color: var(--status-info-bg); }
         #copyButton { background-color: #555; margin-top: 10px; }
         #copyButton:hover { background-color: #666; }
+    
+        /* TOGGLE HEADER STYLE */
+        .toggle-header {
+            cursor: pointer;
+            user-select: none;
+            transition: all 0.2s ease;
+        }
+        .toggle-header:hover {
+            opacity: 0.85;
+        }
     </style>
 </head>
 <body class="font-sans">
@@ -141,12 +147,13 @@
             <div class="mt-6 h-1 w-32 mx-auto bg-gradient-to-r from-gray-500 via-red-700/50 to-gray-500 rounded-full"></div>
         </section>
         
-        <section id="rucoy-tools" class="glass-morph shadow-xl rounded-3xl p-8 mb-8">
-            <h2 class="text-3xl font-black crimson-gradient-text border-b-4 border-gray-700/50 pb-4 mb-8 flex items-center justify-center sm:justify-start gap-4">
-                <span class="text-3xl">⚔️</span> RUCOY ONLINE ENDPOINTS
+        <section id="rucoy-section" class="glass-morph shadow-xl rounded-3xl p-8 mb-8">
+            
+            <h2 id="rucoy-toggle" class="text-3xl font-black crimson-gradient-text border-b-4 border-gray-700/50 pb-4 mb-8 flex items-center justify-center sm:justify-start gap-4 toggle-header">
+                <span id="toggle-icon" class="text-3xl">▶️</span> RUCOY TOOLS
             </h2>
 
-            <div class="space-y-6">
+            <div id="rucoy-endpoints" class="hidden space-y-6">
 
                 <div class="api-card rounded-xl p-6 shadow-md" data-endpoint-type="stalk">
                     <p class="text-xl font-bold mb-3 text-gray-200">1. STALK CHARACTER</p>
@@ -200,7 +207,7 @@
                     <button onclick="executeLeaderboard('defense')" class="execute-button w-full">⚡️ Execute Defense LB</button>
                 </div>
             </div>
-        </section>
+            </section>
 
         <section class="glass-morph shadow-xl rounded-3xl p-8 mb-8">
             <h2 class="text-3xl font-black crimson-gradient-text border-b-4 border-gray-700/50 pb-4 mb-6 flex items-center justify-center sm:justify-start gap-4">
@@ -221,6 +228,23 @@
         const BASE_URL = 'https://api.eberardos.my.id/api/rucoy';
         const responseTextarea = document.getElementById('responseTextarea');
         const statusBar = document.getElementById('statusBar');
+
+        // --- TOGGLE FUNCTION ---
+        const rucoyToggle = document.getElementById('rucoy-toggle');
+        const rucoyEndpoints = document.getElementById('rucoy-endpoints');
+        const toggleIcon = document.getElementById('toggle-icon');
+
+        rucoyToggle.addEventListener('click', () => {
+            // Toggle visibility using Tailwind's 'hidden' class
+            rucoyEndpoints.classList.toggle('hidden');
+
+            // Change icon
+            if (rucoyEndpoints.classList.contains('hidden')) {
+                toggleIcon.textContent = '▶️'; // Right arrow (closed)
+            } else {
+                toggleIcon.textContent = '🔽'; // Down arrow (open)
+            }
+        });
 
         // --- Core API Tester Functions ---
         async function fetchData(url) {
@@ -263,9 +287,8 @@
             fetchData(url);
         }
 
-        // Fungsi Leaderboard sekarang hanya menerima kategori (limit default di backend)
         function executeLeaderboard(category) {
-            // Kita asumsikan limit default 100 ada di backend
+            // Menggunakan limit default 100
             const url = `${BASE_URL}/leaderboard?category=${category}&limit=100`; 
             fetchData(url);
         }
