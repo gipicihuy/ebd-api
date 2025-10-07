@@ -24,7 +24,7 @@
             --status-info-bg: #3B82F6;
         }
 
-        /* GENERAL STYLES (Dipertahankan) */
+        /* GENERAL STYLES */
         body {
             background-color: var(--bg-color);
             color: var(--text-color);
@@ -32,25 +32,21 @@
             min-height: 100vh;
         }
         
-        /* HEADER (Dipertahankan) */
         header { 
             background-color: var(--card-bg); 
             border-bottom: 1px solid var(--border-color); 
         }
         
-        /* CONTAINER (Dipertahankan) */
         #container {
             max-width: 900px; 
             margin: 0 auto;
             padding: 20px;
         }
         
-        /* ACCORDION ITEM (Dipertahankan) */
         .accordion-item {
             margin-top: 10px; 
         }
 
-        /* ACCORDION SUMMARY (Dipertahankan) */
         .accordion-summary {
             background-color: var(--card-bg);
             padding: 18px 20px;
@@ -67,7 +63,6 @@
             background-color: #2D3748;
         }
         
-        /* Ketika SUMMARY AKTIF (Dipertahankan) */
         .accordion-summary.active {
             border-bottom-left-radius: 0;
             border-bottom-right-radius: 0;
@@ -89,7 +84,6 @@
             transform: rotate(90deg);
         }
 
-        /* ACCORDION CONTENT (Dipertahankan) */
         .accordion-content {
             background-color: var(--bg-color);
             border: 1px solid var(--accent-color); 
@@ -102,7 +96,6 @@
             transition: max-height 0.4s ease-out, padding 0.4s ease-out;
         }
         
-        /* INPUT & CODE STYLES (Dipertahankan) */
         .api-endpoint-wrapper {
             background: #111827;
             border-radius: 6px;
@@ -133,7 +126,6 @@
             height: 100%;
         }
 
-        /* BUTTONS & RESPONSE AREA (Dipertahankan) */
         input[type="text"] { 
             width: 100%; 
             padding: 12px 15px;
@@ -192,7 +184,6 @@
             word-break: normal;
         }
         
-        /* TAMBAHAN: Class untuk status bar (Dipertahankan) */
         .status-info {
             background-color: var(--status-info-bg);
         }
@@ -213,8 +204,7 @@
             <div class="flex items-center space-x-3">
                 <img src="https://eberardos.my.id/eberardos.jpg" alt="Logo" class="w-8 h-8 rounded-full"> 
                 <span class="text-2xl font-bold text-white">Eberardos API</span> 
-                <span class="text-sm text-red-300 font-medium">v1.0.0</span> 
-            </div>
+                <span class="text-sm text-red-300 font-medium">v1.0.5</span> </div>
         </div>
     </header>
 
@@ -255,30 +245,30 @@
                     </div>
                 </div>
             </div>
-            <div class="accordion-item" data-id="pinterest">
+            <div class="accordion-item" data-id="spotify">
                 <div class="accordion-summary" onclick="toggleAccordion(this)">
-                    <span class="summary-title">Pinterest Downloader (Video/Image)</span>
+                    <span class="summary-title">Spotify Downloader (Spotisaver)</span>
                     <i class="fas fa-chevron-right summary-icon"></i>
                 </div>
                 <div class="accordion-content">
-                    <p class="text-xs text-gray-400 mb-3">Retrieve video atau image link langsung dari URL Pin Pinterest (pinterestdownloader.io).</p>
+                    <p class="text-xs text-gray-400 mb-3">Retrieve track or playlist metadata and download link (via spotisaver.net).</p>
 
                     <div class="api-endpoint-wrapper">
                         <div class="api-endpoint">
-                            /api/downloader/pinterest?url=<span class="text-red-300">PinterestURL</span>
+                            /api/downloader/spotify?url=<span class="text-red-300">SpotifyURL</span>
                         </div>
-                        <button onclick="copyEndpointUrl('pinterest', document.getElementById('url_pinterest').value.trim())" class="copy-button" title="Copy Full URL"><i class="fas fa-copy"></i></button>
+                        <button onclick="copyEndpointUrl('spotify', document.getElementById('url_spotify').value.trim())" class="copy-button" title="Copy Full URL"><i class="fas fa-copy"></i></button>
                     </div>
 
-                    <input type="text" id="url_pinterest" 
-                           placeholder="Pinterest URL (Required). E.g: https://pin.it/abcde" 
-                           value="https://pin.it/abcde"> 
+                    <input type="text" id="url_spotify" 
+                           placeholder="Spotify Track or Playlist URL (Required). E.g: https://open.spotify.com/track/..." 
+                           value="https://open.spotify.com/track/1y7693tM077w2M6YV2xJ1w"> 
                            
-                    <button onclick="executeApi('downloader_pinterest')" class="execute-button">Execute</button>
+                    <button onclick="executeApi('downloader_spotify')" class="execute-button">Execute</button>
                     
                     <div class="response-container">
-                        <div id="statusBar_pinterest" class="status-bar status-info">Ready to Execute.</div>
-                        <textarea id="responseTextarea_pinterest" class="response-textarea" readonly placeholder="The JSON result will appear here..."></textarea>
+                        <div id="statusBar_spotify" class="status-bar status-info">Ready to Execute.</div>
+                        <textarea id="responseTextarea_spotify" class="response-textarea" readonly placeholder="The JSON result will appear here..."></textarea>
                     </div>
                 </div>
             </div>
@@ -370,133 +360,11 @@
                 </div>
             </div>
 
-            <div class="accordion-item" data-id="experience">
-                <div class="accordion-summary" onclick="toggleAccordion(this)">
-                    <span class="summary-title">Leaderboard Experience (Top 100)</span>
-                    <i class="fas fa-chevron-right summary-icon"></i>
-                </div>
-                <div class="accordion-content">
-                    <p class="text-xs text-gray-400 mb-3">Retrieve the Experience Leaderboard data (Top 100).</p>
-
-                    <div class="api-endpoint-wrapper">
-                        <div class="api-endpoint">
-                            /api/rucoy/leaderboard?category=<span class="text-red-300">experience</span>
-                        </div>
-                        <button onclick="copyEndpointUrl('leaderboard', 'experience')" class="copy-button" title="Copy Full URL"><i class="fas fa-copy"></i></button>
-                    </div>
-
-                    <button onclick="executeApi('leaderboard_experience')" class="execute-button">Execute</button>
-                    
-                    <div class="response-container">
-                        <div id="statusBar_experience" class="status-bar status-info">Ready to Execute.</div>
-                        <textarea id="responseTextarea_experience" class="response-textarea" readonly placeholder="The JSON result will appear here..."></textarea>
-                    </div>
-                </div>
             </div>
-
-            <div class="accordion-item" data-id="melee">
-                <div class="accordion-summary" onclick="toggleAccordion(this)">
-                    <span class="summary-title">Leaderboard Melee (Top 100)</span>
-                    <i class="fas fa-chevron-right summary-icon"></i>
-                </div>
-                <div class="accordion-content">
-                    <p class="text-xs text-gray-400 mb-3">Retrieve the Melee Leaderboard data (Top 100).</p>
-
-                    <div class="api-endpoint-wrapper">
-                        <div class="api-endpoint">
-                            /api/rucoy/leaderboard?category=<span class="text-red-300">melee</span>
-                        </div>
-                        <button onclick="copyEndpointUrl('leaderboard', 'melee')" class="copy-button" title="Copy Full URL"><i class="fas fa-copy"></i></button>
-                    </div>
-
-                    <button onclick="executeApi('leaderboard_melee')" class="execute-button">Execute</button>
-                    
-                    <div class="response-container">
-                        <div id="statusBar_melee" class="status-bar status-info">Ready to Execute.</div>
-                        <textarea id="responseTextarea_melee" class="response-textarea" readonly placeholder="The JSON result will appear here..."></textarea>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="accordion-item" data-id="distance">
-                <div class="accordion-summary" onclick="toggleAccordion(this)">
-                    <span class="summary-title">Leaderboard Distance (Top 100)</span>
-                    <i class="fas fa-chevron-right summary-icon"></i>
-                </div>
-                <div class="accordion-content">
-                    <p class="text-xs text-gray-400 mb-3">Retrieve the Distance Leaderboard data (Top 100).</p>
-
-                    <div class="api-endpoint-wrapper">
-                        <div class="api-endpoint">
-                            /api/rucoy/leaderboard?category=<span class="text-red-300">distance</span>
-                        </div>
-                        <button onclick="copyEndpointUrl('leaderboard', 'distance')" class="copy-button" title="Copy Full URL"><i class="fas fa-copy"></i></button>
-                    </div>
-
-                    <button onclick="executeApi('leaderboard_distance')" class="execute-button">Execute</button>
-                    
-                    <div class="response-container">
-                        <div id="statusBar_distance" class="status-bar status-info">Ready to Execute.</div>
-                        <textarea id="responseTextarea_distance" class="response-textarea" readonly placeholder="The JSON result will appear here..."></textarea>
-                    </div>
-                </div>
-            </div>
-
-            <div class="accordion-item" data-id="magic">
-                <div class="accordion-summary" onclick="toggleAccordion(this)">
-                    <span class="summary-title">Leaderboard Magic (Top 100)</span>
-                    <i class="fas fa-chevron-right summary-icon"></i>
-                </div>
-                <div class="accordion-content">
-                    <p class="text-xs text-gray-400 mb-3">Retrieve the Magic Leaderboard data (Top 100).</p>
-
-                    <div class="api-endpoint-wrapper">
-                        <div class="api-endpoint">
-                            /api/rucoy/leaderboard?category=<span class="text-red-300">magic</span>
-                        </div>
-                        <button onclick="copyEndpointUrl('leaderboard', 'magic')" class="copy-button" title="Copy Full URL"><i class="fas fa-copy"></i></button>
-                    </div>
-
-                    <button onclick="executeApi('leaderboard_magic')" class="execute-button">Execute</button>
-                    
-                    <div class="response-container">
-                        <div id="statusBar_magic" class="status-bar status-info">Ready to Execute.</div>
-                        <textarea id="responseTextarea_magic" class="response-textarea" readonly placeholder="The JSON result will appear here..."></textarea>
-                    </div>
-                </div>
-            </div>
-
-            <div class="accordion-item" data-id="defense">
-                <div class="accordion-summary" onclick="toggleAccordion(this)">
-                    <span class="summary-title">Leaderboard Defense (Top 100)</span>
-                    <i class="fas fa-chevron-right summary-icon"></i>
-                </div>
-                <div class="accordion-content">
-                    <p class="text-xs text-gray-400 mb-3">Retrieve the Defense Leaderboard data (Top 100).</p>
-
-                    <div class="api-endpoint-wrapper">
-                        <div class="api-endpoint">
-                            /api/rucoy/leaderboard?category=<span class="text-red-300">defense</span>
-                        </div>
-                        <button onclick="copyEndpointUrl('leaderboard', 'defense')" class="copy-button" title="Copy Full URL"><i class="fas fa-copy"></i></button>
-                    </div>
-
-                    <button onclick="executeApi('leaderboard_defense')" class="execute-button">Execute</button>
-                    
-                    <div class="response-container">
-                        <div id="statusBar_defense" class="status-bar status-info">Ready to Execute.</div>
-                        <textarea id="responseTextarea_defense" class="response-textarea" readonly placeholder="The JSON result will appear here..."></textarea>
-                    </div>
-                </div>
-            </div>
-
-        </div>
     </div>
     
     <script>
-        // *** BASE_URL MENGGUNAKAN LIVE DOMAIN ANDA: https://api.eberardos.my.id ***
         const BASE_URL = 'https://api.eberardos.my.id'; 
-        
         const RUCOY_ENDPOINT = `${BASE_URL}/api/rucoy`;
 
         // --- ACCORDION TOGGLE LOGIC (UNCHANGED) ---
@@ -545,9 +413,9 @@
                 const text = param1 || 'What is the capital of Indonesia?';
                 const apikey = param2 || 'YOUR_API_KEY_HERE';
                 urlToCopy = `${BASE_URL}/api/ai/gemini?text=${encodeURIComponent(text)}&apikey=${apikey}`;
-            } else if (endpointKey === 'pinterest') { // <-- BARU
-                const url = param1 || 'https://pin.it/abcde';
-                urlToCopy = `${BASE_URL}/api/downloader/pinterest?url=${encodeURIComponent(url)}`;
+            } else if (endpointKey === 'spotify') { // <-- BARU
+                const url = param1 || 'https://open.spotify.com/track/...';
+                urlToCopy = `${BASE_URL}/api/downloader/spotify?url=${encodeURIComponent(url)}`;
             } else if (endpointKey === 'videy') {
                 const url = param1 || 'https://videy.co/v/abcde';
                 urlToCopy = `${BASE_URL}/api/downloader/videy?url=${encodeURIComponent(url)}`;
@@ -558,10 +426,10 @@
             
             try {
                 await navigator.clipboard.writeText(urlToCopy);
-                alert(`Full URL successfully copied: \n${urlToCopy}`);
+                alert(`Full URL berhasil dicopy: \n${urlToCopy}`);
             } catch (err) {
-                console.error('Failed to copy text: ', err);
-                alert('Failed to copy URL. Please copy it manually.');
+                console.error('Gagal menyalin teks: ', err);
+                alert('Gagal menyalin URL. Harap salin secara manual.');
             }
         }
 
@@ -583,7 +451,7 @@
 
                 if (response.ok) {
                     statusBar.className = 'status-bar status-ok';
-                    statusBar.textContent = `${summary} Success (200)`; 
+                    statusBar.textContent = `${summary} Sukses (200)`; 
                 } else {
                     statusBar.className = 'status-bar status-error';
                     statusBar.textContent = `${summary} Error (${response.status}): ${data.error || 'Unknown Server Error'}`;
@@ -592,8 +460,8 @@
             } catch (error) {
                 console.error('Fetch Error:', error);
                 statusBar.className = 'status-bar status-error';
-                statusBar.textContent = `Network Error: Connection Failed.`; 
-                responseTextarea.value = `ERROR: Failed to contact or process API response. Details: ${error.message}`;
+                statusBar.textContent = `Error Jaringan: Koneksi Gagal.`; 
+                responseTextarea.value = `ERROR: Gagal menghubungi atau memproses response API. Detail: ${error.message}`;
             }
         }
 
@@ -614,13 +482,13 @@
                 }
                 
                 if (!charName) {
-                    alert('Please enter a Character Name!');
+                    alert('Harap masukkan Nama Karakter!');
                     return;
                 }
 
                 const encodedName = encodeURIComponent(charName);
                 url = `${RUCOY_ENDPOINT}/stalk?name=${encodedName}`; 
-                summary = `Searching for Character Data: ${charName}`;
+                summary = `Mencari Data Karakter ${charName}`;
             
             } else if (endpointType.startsWith('leaderboard_')) {
                 const category = endpointType.split('_')[1]; 
@@ -638,25 +506,25 @@
                 let apikey = apikeyInput ? apikeyInput.value.trim() : '';
                 
                 if (!text || !apikey) {
-                    alert('Please enter both the Question Text and the API Key!');
+                    alert('Harap masukkan Teks Pertanyaan dan Kunci API!');
                     return;
                 }
                 
                 url = `${BASE_URL}/api/ai/gemini?text=${encodeURIComponent(text)}&apikey=${apikey}`; 
                 summary = `Querying Gemini AI`;
                 
-            } else if (endpointType === 'downloader_pinterest') { // <-- BARU
-                itemId = 'pinterest';
-                const urlInput = document.getElementById('url_pinterest');
+            } else if (endpointType === 'downloader_spotify') { // <-- BARU
+                itemId = 'spotify';
+                const urlInput = document.getElementById('url_spotify');
                 let inputUrl = urlInput ? urlInput.value.trim() : '';
                 
                 if (!inputUrl) {
-                    alert('Please enter the Pinterest URL!');
+                    alert('Harap masukkan URL Spotify!');
                     return;
                 }
                 
-                url = `${BASE_URL}/api/downloader/pinterest?url=${encodeURIComponent(inputUrl)}`; 
-                summary = `Fetching Pinterest Pin`;
+                url = `${BASE_URL}/api/downloader/spotify?url=${encodeURIComponent(inputUrl)}`; 
+                summary = `Mencari Metadata Spotify`;
                 
             } else if (endpointType === 'downloader_videy') {
                 itemId = 'videy';
@@ -664,7 +532,7 @@
                 let inputUrl = urlInput ? urlInput.value.trim() : '';
                 
                 if (!inputUrl) {
-                    alert('Please enter the Videy URL!');
+                    alert('Harap masukkan URL Videy!');
                     return;
                 }
                 
@@ -677,7 +545,7 @@
                 let inputUrl = urlInput ? urlInput.value.trim() : '';
                 
                 if (!inputUrl) {
-                    alert('Please enter the Pixeldrain URL!');
+                    alert('Harap masukkan URL Pixeldrain!');
                     return;
                 }
                 
