@@ -1,6 +1,7 @@
-// FILE: server.js (UPDATED with Downloader Routes V1.0.5)
+// FILE: server.js (V1.0.5 Beta - Hanya Rucoy & AI)
 
 import express from 'express';
+// Tambahkan path untuk mengelola lokasi file
 import path from 'path'; 
 import { fileURLToPath } from 'url';
 
@@ -9,8 +10,7 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 import rucoyRoutes from './src/routes/rucoy.routes.js'; 
-// 1. Import Downloader Routes BARU
-import downloaderRoutes from './src/routes/downloader.routes.js'; 
+// import downloaderRoutes from './src/routes/downloader.routes.js'; <--- DIHAPUS
 
 const app = express();
 const PORT = process.env.PORT || 3000; 
@@ -20,14 +20,15 @@ app.use(express.json());
 
 // 1. ROUTE UTAMA untuk melayani file HTML
 app.get('/', (req, res) => {
+    // Kirim file tester.html dari root folder saat user mengakses URL dasar /
     res.sendFile(path.join(__dirname, 'tester.html'));
 });
 
 // 2. MOUNT ENDPOINT Rucoy API
 app.use('/api/rucoy', rucoyRoutes);
 
-// 3. MOUNT ENDPOINT Downloader API (Spotify, Videy, Pixeldrain)
-app.use('/api/downloader', downloaderRoutes); 
+// 3. MOUNT ENDPOINT Downloader API <--- DIHAPUS
+// app.use('/api/downloader', downloaderRoutes); 
 
 // Jalankan server
 app.listen(PORT, () => {
