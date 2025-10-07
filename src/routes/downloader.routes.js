@@ -1,8 +1,9 @@
-// FILE: src/routes/downloader.routes.js
+// FILE: src/routes/downloader.routes.js (BARU: PINTEREST & PLACEHOLDERS)
+
 import express from 'express';
-// Impor fungsi logika dari service
+// Impor fungsi logika baru (pinDown)
 import { 
-    getSpotifyInfo, 
+    pinDown, 
     getVideyInfo, 
     getPixeldrainInfo 
 } from '../services/downloader.service.js'; 
@@ -10,27 +11,33 @@ import {
 const router = express.Router();
 
 // -------------------------------------------------------------------
-// ROUTE: /spotify (Akses melalui /api/downloader/spotify?url=...)
+// ROUTE: /pinterest (Akses melalui /api/downloader/pinterest?url=...)
 // -------------------------------------------------------------------
-router.get('/spotify', async (req, res) => {
+router.get('/pinterest', async (req, res) => {
     const url = req.query.url; 
 
     if (!url) {
         return res.status(400).json({ 
             status: "error",
-            error: "Parameter 'url' Spotify wajib diisi."
+            error: "Parameter 'url' Pinterest wajib diisi."
         });
     }
 
     try {
-        const data = await getSpotifyInfo(url);
+        const data = await pinDown(url);
         
-        if (data.error) return res.status(503).json({ status: "error", error: data.error });
+        // Hapus response mentah untuk menjaga kebersihan output
+        const cleanData = { 
+            status: "success", 
+            source_url: data.source_url,
+            metadata: data.metadata,
+            download_link: data.download_link 
+        };
 
-        res.status(200).json({ status: "success", ...data });
+        res.status(200).json(cleanData);
         
     } catch (e) {
-        const status = e.message.includes("Invalid Spotify URL") ? 400 : 500;
+        const status = e.message.includes("wajib diisi") ? 400 : 500;
         res.status(status).json({ status: "error", error: e.message });
     }
 });
