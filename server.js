@@ -1,7 +1,6 @@
-// FILE: server.js (UPDATED with Downloader Routes)
+// FILE: server.js (UPDATED with Downloader Routes V1.0.5)
 
 import express from 'express';
-// Tambahkan path untuk mengelola lokasi file
 import path from 'path'; 
 import { fileURLToPath } from 'url';
 
@@ -9,9 +8,8 @@ import { fileURLToPath } from 'url';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-// 1. Import Rucoy Routes
 import rucoyRoutes from './src/routes/rucoy.routes.js'; 
-// 2. Import Downloader Routes yang BARU
+// 1. Import Downloader Routes BARU
 import downloaderRoutes from './src/routes/downloader.routes.js'; 
 
 const app = express();
@@ -28,7 +26,7 @@ app.get('/', (req, res) => {
 // 2. MOUNT ENDPOINT Rucoy API
 app.use('/api/rucoy', rucoyRoutes);
 
-// 3. MOUNT ENDPOINT Downloader API (Pinterest, Videy, Pixeldrain)
+// 3. MOUNT ENDPOINT Downloader API (Spotify, Videy, Pixeldrain)
 app.use('/api/downloader', downloaderRoutes); 
 
 // Jalankan server
