@@ -15,7 +15,7 @@ router.get('/stalk', async (req, res) => {
     if (!charName) {
         return res.status(400).json({ 
             error: "Parameter 'name' wajib diisi.",
-            contoh: "/api/rucoy/stalk?name=NamaKarakter"
+            contoh: "/api/rucoy/stalk?name=xzydanzz"
         });
     }
 
