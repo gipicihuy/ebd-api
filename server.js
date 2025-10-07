@@ -1,6 +1,7 @@
-// FILE: server.js (UPDATED - Rucoy + General API)
+// FILE: server.js (UPDATED with Downloader Routes)
 
 import express from 'express';
+// Tambahkan path untuk mengelola lokasi file
 import path from 'path'; 
 import { fileURLToPath } from 'url';
 
@@ -8,8 +9,10 @@ import { fileURLToPath } from 'url';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
+// 1. Import Rucoy Routes yang sudah ada
 import rucoyRoutes from './src/routes/rucoy.routes.js'; 
-import generalRoutes from './src/routes/general.routes.js'; // IMPORT ROUTE BARU
+// 2. Import Downloader Routes yang BARU
+import downloaderRoutes from './src/routes/downloader.routes.js'; 
 
 const app = express();
 const PORT = process.env.PORT || 3000; 
@@ -17,16 +20,19 @@ const PORT = process.env.PORT || 3000;
 // MIDDLEWARE
 app.use(express.json());
 
-// 1. ROUTE UNTUK MELAYANI TESTER.HTML
+// 1. ROUTE UTAMA untuk melayani file HTML
+// Asumsi tester.html adalah nama file yang Anda gunakan di root folder.
 app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, 'tester.html'));
+    res.sendFile(path.join(__dirname, 'tester.html')); 
 });
 
-// 2. ENDPOINT Rucoy API (PATH LAMA)
+// 2. MOUNT ENDPOINT Rucoy API
+// Semua request ke /api/rucoy/* akan ditangani oleh rucoyRoutes
 app.use('/api/rucoy', rucoyRoutes);
 
-// 3. ENDPOINT GENERAL API (PATH BARU)
-app.use('/api', generalRoutes); // Rute akan menjadi /api/ai/gemini, /api/downloader/...
+// 3. MOUNT ENDPOINT Downloader API
+// Semua request ke /api/downloader/* akan ditangani oleh downloaderRoutes
+app.use('/api/downloader', downloaderRoutes);
 
 // Jalankan server
 app.listen(PORT, () => {
