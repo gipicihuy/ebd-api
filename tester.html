@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Eberardos API Hub - Single Column</title>
-    <link rel="icon" type="image/x-icon" href="https://eberardos.my.id/eberardos.jpg">
+    <link rel="icon" type="image/x-icon" href="https://raw.githubusercontent.com/upload-file-lab/fileupload6/main/uploads/1759330984218.jpeg?format=png&name=900x900">
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
     <style>
@@ -215,7 +215,7 @@
 
     <div id="container">
         
-        <h2 class="text-xl font-bold text-white mb-3 mt-4 border-b border-gray-600 pb-2">RUCOY ONLINE</h2>
+        <h2 class="text-xl font-bold text-white mb-3 mt-4 border-b border-gray-600 pb-2">RUCOY ONLINE API</h2>
 
         <div id="accordion-wrapper-rucoy">
             
@@ -225,24 +225,24 @@
                     <i class="fas fa-chevron-right summary-icon"></i>
                 </div>
                 <div class="accordion-content">
-                    <p class="text-xs text-gray-400 mb-3">Mengambil data status, skill, dan event terbaru karakter.</p>
+                    <p class="text-xs text-gray-400 mb-3">Retrieve character status, skills, and latest event data.</p>
 
                     <div class="api-endpoint-wrapper">
                         <div class="api-endpoint">
-                            /api/rucoy/stalk?name=<span class="text-cyan-400">NamaKarakter</span>
+                            /api/rucoy/stalk?name=<span class="text-cyan-400">CharacterName</span>
                         </div>
-                        <button onclick="copyEndpointUrl('stalk', document.getElementById('charName_stalk').value.trim())" class="copy-button" title="Salin URL Lengkap"><i class="fas fa-copy"></i></button>
+                        <button onclick="copyEndpointUrl('stalk', document.getElementById('charName_stalk').value.trim())" class="copy-button" title="Copy Full URL"><i class="fas fa-copy"></i></button>
                     </div>
 
                     <input type="text" id="charName_stalk" 
-                           placeholder="Nama Karakter (Wajib). Contoh: xzydanzz" 
+                           placeholder="Character Name (Required). E.g: xzydanzz" 
                            value="xzydanzz"> 
                            
                     <button onclick="executeApi('stalk')" class="execute-button">Execute</button>
                     
                     <div class="response-container">
-                        <div id="statusBar_stalk" class="status-bar status-info">Siap Eksekusi.</div>
-                        <textarea id="responseTextarea_stalk" class="response-textarea" readonly placeholder="Hasil JSON akan muncul di sini..."></textarea>
+                        <div id="statusBar_stalk" class="status-bar status-info">Ready to Execute.</div>
+                        <textarea id="responseTextarea_stalk" class="response-textarea" readonly placeholder="The JSON result will appear here..."></textarea>
                     </div>
                 </div>
             </div>
@@ -253,20 +253,20 @@
                     <i class="fas fa-chevron-right summary-icon"></i>
                 </div>
                 <div class="accordion-content">
-                    <p class="text-xs text-gray-400 mb-3">Mengambil data Leaderboard Experience (Top 100).</p>
+                    <p class="text-xs text-gray-400 mb-3">Retrieve the Experience Leaderboard data (Top 100).</p>
 
                     <div class="api-endpoint-wrapper">
                         <div class="api-endpoint">
                             /api/rucoy/leaderboard?category=<span class="text-cyan-400">experience</span>
                         </div>
-                        <button onclick="copyEndpointUrl('leaderboard', 'experience')" class="copy-button" title="Salin URL Lengkap"><i class="fas fa-copy"></i></button>
+                        <button onclick="copyEndpointUrl('leaderboard', 'experience')" class="copy-button" title="Copy Full URL"><i class="fas fa-copy"></i></button>
                     </div>
 
                     <button onclick="executeApi('leaderboard_experience')" class="execute-button">Execute</button>
                     
                     <div class="response-container">
-                        <div id="statusBar_experience" class="status-bar status-info">Siap Eksekusi.</div>
-                        <textarea id="responseTextarea_experience" class="response-textarea" readonly placeholder="Hasil JSON akan muncul di sini..."></textarea>
+                        <div id="statusBar_experience" class="status-bar status-info">Ready to Execute.</div>
+                        <textarea id="responseTextarea_experience" class="response-textarea" readonly placeholder="The JSON result will appear here..."></textarea>
                     </div>
                 </div>
             </div>
@@ -277,20 +277,20 @@
                     <i class="fas fa-chevron-right summary-icon"></i>
                 </div>
                 <div class="accordion-content">
-                    <p class="text-xs text-gray-400 mb-3">Mengambil data Leaderboard Melee (Top 100).</p>
+                    <p class="text-xs text-gray-400 mb-3">Retrieve the Melee Leaderboard data (Top 100).</p>
 
                     <div class="api-endpoint-wrapper">
                         <div class="api-endpoint">
                             /api/rucoy/leaderboard?category=<span class="text-cyan-400">melee</span>
                         </div>
-                        <button onclick="copyEndpointUrl('leaderboard', 'melee')" class="copy-button" title="Salin URL Lengkap"><i class="fas fa-copy"></i></button>
+                        <button onclick="copyEndpointUrl('leaderboard', 'melee')" class="copy-button" title="Copy Full URL"><i class="fas fa-copy"></i></button>
                     </div>
 
                     <button onclick="executeApi('leaderboard_melee')" class="execute-button">Execute</button>
                     
                     <div class="response-container">
-                        <div id="statusBar_melee" class="status-bar status-info">Siap Eksekusi.</div>
-                        <textarea id="responseTextarea_melee" class="response-textarea" readonly placeholder="Hasil JSON akan muncul di sini..."></textarea>
+                        <div id="statusBar_melee" class="status-bar status-info">Ready to Execute.</div>
+                        <textarea id="responseTextarea_melee" class="response-textarea" readonly placeholder="The JSON result will appear here..."></textarea>
                     </div>
                 </div>
             </div>
@@ -301,20 +301,20 @@
                     <i class="fas fa-chevron-right summary-icon"></i>
                 </div>
                 <div class="accordion-content">
-                    <p class="text-xs text-gray-400 mb-3">Mengambil data Leaderboard Distance (Top 100).</p>
+                    <p class="text-xs text-gray-400 mb-3">Retrieve the Distance Leaderboard data (Top 100).</p>
 
                     <div class="api-endpoint-wrapper">
                         <div class="api-endpoint">
                             /api/rucoy/leaderboard?category=<span class="text-cyan-400">distance</span>
                         </div>
-                        <button onclick="copyEndpointUrl('leaderboard', 'distance')" class="copy-button" title="Salin URL Lengkap"><i class="fas fa-copy"></i></button>
+                        <button onclick="copyEndpointUrl('leaderboard', 'distance')" class="copy-button" title="Copy Full URL"><i class="fas fa-copy"></i></button>
                     </div>
 
                     <button onclick="executeApi('leaderboard_distance')" class="execute-button">Execute</button>
                     
                     <div class="response-container">
-                        <div id="statusBar_distance" class="status-bar status-info">Siap Eksekusi.</div>
-                        <textarea id="responseTextarea_distance" class="response-textarea" readonly placeholder="Hasil JSON akan muncul di sini..."></textarea>
+                        <div id="statusBar_distance" class="status-bar status-info">Ready to Execute.</div>
+                        <textarea id="responseTextarea_distance" class="response-textarea" readonly placeholder="The JSON result will appear here..."></textarea>
                     </div>
                 </div>
             </div>
@@ -325,20 +325,20 @@
                     <i class="fas fa-chevron-right summary-icon"></i>
                 </div>
                 <div class="accordion-content">
-                    <p class="text-xs text-gray-400 mb-3">Mengambil data Leaderboard Magic (Top 100).</p>
+                    <p class="text-xs text-gray-400 mb-3">Retrieve the Magic Leaderboard data (Top 100).</p>
 
                     <div class="api-endpoint-wrapper">
                         <div class="api-endpoint">
                             /api/rucoy/leaderboard?category=<span class="text-cyan-400">magic</span>
                         </div>
-                        <button onclick="copyEndpointUrl('leaderboard', 'magic')" class="copy-button" title="Salin URL Lengkap"><i class="fas fa-copy"></i></button>
+                        <button onclick="copyEndpointUrl('leaderboard', 'magic')" class="copy-button" title="Copy Full URL"><i class="fas fa-copy"></i></button>
                     </div>
 
                     <button onclick="executeApi('leaderboard_magic')" class="execute-button">Execute</button>
                     
                     <div class="response-container">
-                        <div id="statusBar_magic" class="status-bar status-info">Siap Eksekusi.</div>
-                        <textarea id="responseTextarea_magic" class="response-textarea" readonly placeholder="Hasil JSON akan muncul di sini..."></textarea>
+                        <div id="statusBar_magic" class="status-bar status-info">Ready to Execute.</div>
+                        <textarea id="responseTextarea_magic" class="response-textarea" readonly placeholder="The JSON result will appear here..."></textarea>
                     </div>
                 </div>
             </div>
@@ -349,20 +349,20 @@
                     <i class="fas fa-chevron-right summary-icon"></i>
                 </div>
                 <div class="accordion-content">
-                    <p class="text-xs text-gray-400 mb-3">Mengambil data Leaderboard Defense (Top 100).</p>
+                    <p class="text-xs text-gray-400 mb-3">Retrieve the Defense Leaderboard data (Top 100).</p>
 
                     <div class="api-endpoint-wrapper">
                         <div class="api-endpoint">
                             /api/rucoy/leaderboard?category=<span class="text-cyan-400">defense</span>
                         </div>
-                        <button onclick="copyEndpointUrl('leaderboard', 'defense')" class="copy-button" title="Salin URL Lengkap"><i class="fas fa-copy"></i></button>
+                        <button onclick="copyEndpointUrl('leaderboard', 'defense')" class="copy-button" title="Copy Full URL"><i class="fas fa-copy"></i></button>
                     </div>
 
                     <button onclick="executeApi('leaderboard_defense')" class="execute-button">Execute</button>
                     
                     <div class="response-container">
-                        <div id="statusBar_defense" class="status-bar status-info">Siap Eksekusi.</div>
-                        <textarea id="responseTextarea_defense" class="response-textarea" readonly placeholder="Hasil JSON akan muncul di sini..."></textarea>
+                        <div id="statusBar_defense" class="status-bar status-info">Ready to Execute.</div>
+                        <textarea id="responseTextarea_defense" class="response-textarea" readonly placeholder="The JSON result will appear here..."></textarea>
                     </div>
                 </div>
             </div>
@@ -379,82 +379,82 @@
                     <i class="fas fa-chevron-right summary-icon"></i>
                 </div>
                 <div class="accordion-content">
-                    <p class="text-xs text-gray-400 mb-3">Menggunakan Gemini-2.5-Flash untuk menghasilkan respons dari input teks. (Membutuhkan API Key)</p>
+                    <p class="text-xs text-gray-400 mb-3">Uses Gemini-2.5-Flash to generate a response from text input. (Requires API Key)</p>
 
                     <div class="api-endpoint-wrapper">
                         <div class="api-endpoint">
-                            /api/ai/gemini?text=<span class="text-cyan-400">QueryAnda</span>&apikey=<span class="text-cyan-400">KeyAnda</span>
+                            /api/ai/gemini?text=<span class="text-cyan-400">YourQuery</span>&apikey=<span class="text-cyan-400">YourKey</span>
                         </div>
-                        <button onclick="copyEndpointUrl('gemini', document.getElementById('text_gemini').value.trim(), document.getElementById('apikey_gemini').value.trim())" class="copy-button" title="Salin URL Lengkap"><i class="fas fa-copy"></i></button>
+                        <button onclick="copyEndpointUrl('gemini', document.getElementById('text_gemini').value.trim(), document.getElementById('apikey_gemini').value.trim())" class="copy-button" title="Copy Full URL"><i class="fas fa-copy"></i></button>
                     </div>
 
                     <input type="text" id="text_gemini" 
-                           placeholder="Teks Pertanyaan (Wajib). Contoh: Ibukota Indonesia adalah?" 
-                           value="Ibukota Indonesia adalah?">
+                           placeholder="Question Text (Required). E.g: What is the capital of Indonesia?" 
+                           value="What is the capital of Indonesia?">
                     
                     <input type="text" id="apikey_gemini" 
-                           placeholder="API Key (Wajib). Dapatkan dari Google AI Studio" 
+                           placeholder="API Key (Required). Get it from Google AI Studio" 
                            value=""> 
                            
                     <button onclick="executeApi('ai_gemini')" class="execute-button">Execute</button>
                     
                     <div class="response-container">
-                        <div id="statusBar_gemini" class="status-bar status-info">Siap Eksekusi.</div>
-                        <textarea id="responseTextarea_gemini" class="response-textarea" readonly placeholder="Hasil JSON akan muncul di sini..."></textarea>
+                        <div id="statusBar_gemini" class="status-bar status-info">Ready to Execute.</div>
+                        <textarea id="responseTextarea_gemini" class="response-textarea" readonly placeholder="The JSON result will appear here..."></textarea>
                     </div>
                 </div>
             </div>
             <div class="accordion-item" data-id="videy">
                 <div class="accordion-summary" onclick="toggleAccordion(this)">
-                    <span class="summary-title">Downloader Videy (Direct URL)</span>
+                    <span class="summary-title">Videy Downloader (Direct URL)</span>
                     <i class="fas fa-chevron-right summary-icon"></i>
                 </div>
                 <div class="accordion-content">
-                    <p class="text-xs text-gray-400 mb-3">Menghasilkan URL file MP4 langsung dari URL share Videy.</p>
+                    <p class="text-xs text-gray-400 mb-3">Generates a direct MP4 file URL from a Videy share URL.</p>
 
                     <div class="api-endpoint-wrapper">
                         <div class="api-endpoint">
-                            /api/downloader/videy?url=<span class="text-cyan-400">URLShareVidey</span>
+                            /api/downloader/videy?url=<span class="text-cyan-400">VideyShareURL</span>
                         </div>
-                        <button onclick="copyEndpointUrl('videy', document.getElementById('url_videy').value.trim())" class="copy-button" title="Salin URL Lengkap"><i class="fas fa-copy"></i></button>
+                        <button onclick="copyEndpointUrl('videy', document.getElementById('url_videy').value.trim())" class="copy-button" title="Copy Full URL"><i class="fas fa-copy"></i></button>
                     </div>
 
                     <input type="text" id="url_videy" 
-                           placeholder="URL Videy (Wajib). Contoh: https://videy.co/v/abcde" 
+                           placeholder="Videy URL (Required). E.g: https://videy.co/v/abcde" 
                            value="https://videy.co/v/abcde"> 
                            
                     <button onclick="executeApi('downloader_videy')" class="execute-button">Execute</button>
                     
                     <div class="response-container">
-                        <div id="statusBar_videy" class="status-bar status-info">Siap Eksekusi.</div>
-                        <textarea id="responseTextarea_videy" class="response-textarea" readonly placeholder="Hasil JSON akan muncul di sini..."></textarea>
+                        <div id="statusBar_videy" class="status-bar status-info">Ready to Execute.</div>
+                        <textarea id="responseTextarea_videy" class="response-textarea" readonly placeholder="The JSON result will appear here..."></textarea>
                     </div>
                 </div>
             </div>
             <div class="accordion-item" data-id="pixeldrain">
                 <div class="accordion-summary" onclick="toggleAccordion(this)">
-                    <span class="summary-title">Downloader Pixeldrain (Direct URL)</span>
+                    <span class="summary-title">Pixeldrain Downloader (Direct URL)</span>
                     <i class="fas fa-chevron-right summary-icon"></i>
                 </div>
                 <div class="accordion-content">
-                    <p class="text-xs text-gray-400 mb-3">Menghasilkan URL file langsung untuk file Pixeldrain, termasuk nama file.</p>
+                    <p class="text-xs text-gray-400 mb-3">Generates a direct file URL for a Pixeldrain file, including the filename.</p>
 
                     <div class="api-endpoint-wrapper">
                         <div class="api-endpoint">
-                            /api/downloader/pixeldrain?url=<span class="text-cyan-400">URLSharePixeldrain</span>
+                            /api/downloader/pixeldrain?url=<span class="text-cyan-400">PixeldrainShareURL</span>
                         </div>
-                        <button onclick="copyEndpointUrl('pixeldrain', document.getElementById('url_pixeldrain').value.trim())" class="copy-button" title="Salin URL Lengkap"><i class="fas fa-copy"></i></button>
+                        <button onclick="copyEndpointUrl('pixeldrain', document.getElementById('url_pixeldrain').value.trim())" class="copy-button" title="Copy Full URL"><i class="fas fa-copy"></i></button>
                     </div>
 
                     <input type="text" id="url_pixeldrain" 
-                           placeholder="URL Pixeldrain (Wajib). Contoh: https://pixeldrain.com/u/abcde" 
+                           placeholder="Pixeldrain URL (Required). E.g: https://pixeldrain.com/u/abcde" 
                            value="https://pixeldrain.com/u/abcde"> 
                            
                     <button onclick="executeApi('downloader_pixeldrain')" class="execute-button">Execute</button>
                     
                     <div class="response-container">
-                        <div id="statusBar_pixeldrain" class="status-bar status-info">Siap Eksekusi.</div>
-                        <textarea id="responseTextarea_pixeldrain" class="response-textarea" readonly placeholder="Hasil JSON akan muncul di sini..."></textarea>
+                        <div id="statusBar_pixeldrain" class="status-bar status-info">Ready to Execute.</div>
+                        <textarea id="responseTextarea_pixeldrain" class="response-textarea" readonly placeholder="The JSON result will appear here..."></textarea>
                     </div>
                 </div>
             </div>
@@ -462,14 +462,13 @@
     </div>
     
     <script>
-        // *** PENTING: BASE_URL DIUBAH MENJADI LOKAL ***
-        // Karena server.js baru menjalankan server di localhost:3000, 
-        // kita akan menggunakan BASE_URL ini untuk semua endpoint.
-        const BASE_URL = 'https://api.eberardos.my.id';
+        // NOTE: If your server is deployed on a live domain, CHANGE the BASE_URL below!
+        // E.g: const BASE_URL = 'https://api.eberardos.my.id';
+        const BASE_URL = 'http://localhost:3000'; // Keep this if testing locally.
         
-        const RUCOY_ENDPOINT = `${BASE_URL}/api/rucoy`; // Contoh: http://localhost:3000/api/rucoy
+        const RUCOY_ENDPOINT = `${BASE_URL}/api/rucoy`;
 
-        // --- ACCORDION TOGGLE LOGIC ---
+        // --- ACCORDION TOGGLE LOGIC (UNCHANGED) ---
         function toggleAccordion(element) {
             const item = element.closest('.accordion-item');
             const content = item.querySelector('.accordion-content');
@@ -498,11 +497,11 @@
             }
         }
 
-        // --- COPY URL FUNCTION (Diupdate untuk mendukung 2 parameter: text & apikey) ---
+        // --- COPY URL FUNCTION (TRANSLATED MESSAGES) ---
         async function copyEndpointUrl(endpointKey, param1 = '', param2 = '') {
             let urlToCopy = '';
 
-            // LOGIKA RUCOY (MENGGUNAKAN RUCOY_ENDPOINT)
+            // RUCOY LOGIC
             if (endpointKey === 'stalk') {
                 const charName = param1 || 'xzydanzz';
                 urlToCopy = `${RUCOY_ENDPOINT}/stalk?name=${encodeURIComponent(charName)}`;
@@ -510,12 +509,11 @@
                 const category = param1; 
                 urlToCopy = `${RUCOY_ENDPOINT}/leaderboard?category=${category}&limit=100`;
             } 
-            // LOGIKA ENDPOINT BARU (MENGGUNAKAN BASE_URL/api)
+            // NEW ENDPOINTS LOGIC
             else if (endpointKey === 'gemini') {
-                const text = param1 || 'Ibukota Indonesia adalah?';
+                const text = param1 || 'What is the capital of Indonesia?';
                 const apikey = param2 || 'YOUR_API_KEY_HERE';
-                // Path API baru dimulai dari /api/
-                urlToCopy = `${BASE_URL}/api/ai/gemini?text=${encodeURIComponent(text)}&apikey=${apikey}`; 
+                urlToCopy = `${BASE_URL}/api/ai/gemini?text=${encodeURIComponent(text)}&apikey=${apikey}`;
             } else if (endpointKey === 'videy') {
                 const url = param1 || 'https://videy.co/v/abcde';
                 urlToCopy = `${BASE_URL}/api/downloader/videy?url=${encodeURIComponent(url)}`;
@@ -526,14 +524,14 @@
             
             try {
                 await navigator.clipboard.writeText(urlToCopy);
-                alert(`URL Lengkap berhasil disalin: \n${urlToCopy}`);
+                alert(`Full URL successfully copied: \n${urlToCopy}`);
             } catch (err) {
                 console.error('Failed to copy text: ', err);
-                alert('Gagal menyalin URL. Silakan salin manual.');
+                alert('Failed to copy URL. Please copy it manually.');
             }
         }
 
-        // --- CORE API EXECUTION FUNCTIONS ---
+        // --- CORE API EXECUTION FUNCTIONS (TRANSLATED MESSAGES) ---
         async function fetchData(url, summary, itemId) {
             const statusBar = document.getElementById(`statusBar_${itemId}`);
             const responseTextarea = document.getElementById(`responseTextarea_${itemId}`);
@@ -561,17 +559,17 @@
                 console.error('Fetch Error:', error);
                 statusBar.className = 'status-bar status-error';
                 statusBar.textContent = `Network Error: Connection Failed.`; 
-                responseTextarea.value = `ERROR: Gagal menghubungi atau memproses response API. Detail: ${error.message}`;
+                responseTextarea.value = `ERROR: Failed to contact or process API response. Details: ${error.message}`;
             }
         }
 
-        // --- EXECUTE API LOGIC (Diupdate untuk endpoint baru) ---
+        // --- EXECUTE API LOGIC (TRANSLATED MESSAGES) ---
         function executeApi(endpointType) {
             let url = '';
             let summary = '';
             let itemId = '';
 
-            // LOGIKA RUCOY
+            // RUCOY LOGIC
             if (endpointType === 'stalk') {
                 itemId = 'stalk';
                 const charNameInput = document.getElementById('charName_stalk');
@@ -582,13 +580,13 @@
                 }
                 
                 if (!charName) {
-                    alert('Harap masukkan Nama Karakter!');
+                    alert('Please enter a Character Name!');
                     return;
                 }
 
                 const encodedName = encodeURIComponent(charName);
                 url = `${RUCOY_ENDPOINT}/stalk?name=${encodedName}`; 
-                summary = `Mencari Data Karakter ${charName}`;
+                summary = `Searching for Character Data: ${charName}`;
             
             } else if (endpointType.startsWith('leaderboard_')) {
                 const category = endpointType.split('_')[1]; 
@@ -596,7 +594,7 @@
                 url = `${RUCOY_ENDPOINT}/leaderboard?category=${category}&limit=100`; 
                 summary = `Fetching ${category.toUpperCase()} Leaderboard`;
             }
-            // LOGIKA ENDPOINT BARU
+            // NEW ENDPOINTS LOGIC
             else if (endpointType === 'ai_gemini') {
                 itemId = 'gemini';
                 const textInput = document.getElementById('text_gemini');
@@ -606,7 +604,7 @@
                 let apikey = apikeyInput ? apikeyInput.value.trim() : '';
                 
                 if (!text || !apikey) {
-                    alert('Harap masukkan Teks Pertanyaan dan API Key!');
+                    alert('Please enter both the Question Text and the API Key!');
                     return;
                 }
                 
@@ -619,7 +617,7 @@
                 let inputUrl = urlInput ? urlInput.value.trim() : '';
                 
                 if (!inputUrl) {
-                    alert('Harap masukkan URL Videy!');
+                    alert('Please enter the Videy URL!');
                     return;
                 }
                 
@@ -632,7 +630,7 @@
                 let inputUrl = urlInput ? urlInput.value.trim() : '';
                 
                 if (!inputUrl) {
-                    alert('Harap masukkan URL Pixeldrain!');
+                    alert('Please enter the Pixeldrain URL!');
                     return;
                 }
                 
