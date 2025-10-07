@@ -1,101 +1,56 @@
-// FILE: src/services/downloader.service.js (KODE SPOTISAVER ASLI, DIKEMAS DENGAN PROTEKSI ERROR)
+// FILE: src/services/downloader.service.js (BARU: PINTEREST DOWNLOADER)
 
 import axios from 'axios';
 
 const USER_AGENT = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36';
 
-// Header yang benar-benar esensial dan paling 'browser-like'
-const MINIMAL_BROWSER_HEADERS = {
-    "User-Agent": USER_AGENT,
-    "Accept": "application/json, text/plain, */*",
-    "Accept-Language": "en-US,en;q=0.9",
-    "Sec-Fetch-Dest": "empty",
-    "Sec-Fetch-Mode": "no-cors",
-    "Sec-Fetch-Site": "cross-site",
-    "Connection": "keep-alive",
-    "Origin": "https://spotisaver.net" 
-};
-
-
 /**
- * Fungsi SPOTIFY ASLI (TARGET: spotisaver.net).
- * Kini menyertakan penanganan ERROR 403 / BLOKIR IP yang sangat jelas.
+ * Menggunakan logika scrape Pinterest Downloader (pinterestdownloader.io)
  */
-export async function getSpotifyInfo(url) {
-    let id, type, referer;
-    
-    // Logika ekstrak ID dari kode teman Anda
-    if (url.includes("/track/")) {
-        id = url.split("/track/")[1]?.split("?")[0];
-        type = "track";
-        referer = `https://spotisaver.net/en/track/${id}/`;
-    } else if (url.includes("/playlist/")) {
-        id = url.split("/playlist/")[1]?.split("?")[0];
-        type = "playlist";
-        referer = `https://spotisaver.net/en/playlist/${id}/`;
-    } else {
-        throw new Error("URL Spotify tidak valid. Harap gunakan URL Track atau Playlist.");
-    }
-    
-    if (!id) {
-        throw new Error("Tidak dapat mengekstrak ID dari URL Spotify.");
-    }
+export async function pinDown(url) {
+    if (!url) throw new Error('URL Pinterest wajib diisi.');
 
-    const apiUrl = `https://spotisaver.net/api/get_playlist.php?id=${id}&type=${type}&lang=en`;
+    const endpoint = 'https://pinterestdownloader.io/frontendService/DownloaderService';
+    
+    // Gunakan headers yang serupa dengan kode teman Anda
+    const headers = {
+        'User-Agent': 'Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Mobile Safari/537.36',
+        'Referer': 'https://pinterestdownloader.io/'
+    };
 
     try {
-        // Melakukan request GET ke Spotisaver dengan headers
-        const res = await axios.get(apiUrl, { 
-            headers: { 
-                ...MINIMAL_BROWSER_HEADERS, 
-                "Referer": referer, 
-                "X-Forwarded-For": "66.249.66.1" // Trik IP
-            },
-            timeout: 20000 
+        const res = await axios.get(endpoint, {
+            params: { url },
+            headers: { ...headers, 'Accept': 'application/json' },
+            timeout: 20000, 
+            responseType: 'json'
         });
-        
-        const tracks = res.data?.tracks || [];
 
-        if (tracks.length === 0) {
-            return { error: "Tidak ditemukan track, atau Spotisaver gagal memproses URL." };
+        const data = res.data;
+
+        if (data.status === 'ERROR') {
+             throw new Error(data.message || 'Gagal memproses link Pinterest.');
         }
-
-        // Jika Sukses (Meskipun kemungkinan besar tidak akan terjadi di server Anda)
-        const result = tracks.map(track => ({
-            name: track.title, 
-            artists: track.artists, 
-            album: track.album,
-            image: { url: track.image?.url || null, width: 640, height: 640 }, // Menambah format image
-            id: track.id,
-            external_url: track.external_url,
-            duration_ms: track.duration_ms,
-            release_date: track.release_date,
-            download_url: track.download_url || null, 
-            metadata_source: "Spotisaver (Original)"
-        }));
-
+        
+        // Asumsi data yang dikembalikan memiliki format yang berguna
         return {
             source_url: url,
-            type: type,
-            count: result.length,
-            tracks: result
+            metadata: data.metadata || null,
+            download_link: data.link || data.download_url || null,
+            raw_response: data
         };
 
-    } catch (error) {
-        // Ini adalah blok penanganan Error 403/500
-        const status = error.response?.status;
-        
-        if (status === 403) {
-            // Jika terdeteksi 403, berikan pesan yang sangat jelas
-            throw new Error(`Spotisaver diblokir (403 Forbidden). Server Anda diblokir oleh Spotisaver. Endpoint ini sementara tidak dapat digunakan. Kode teman Anda benar, tetapi targetnya memblokir IP server.`);
+    } catch (err) {
+        if (err.response) {
+            // Tangani error HTTP seperti 404 atau 500 dari API Target
+            throw new Error(`Gagal scrape Pinterest. Status: ${err.response.status}. Pesan: ${err.response.data.message || 'Error tidak diketahui'}`);
         }
-        
-        // Error lainnya
-        throw new Error(`Gagal menghubungi Spotisaver. Detail: ${error.message}`);
+        // Tangani error jaringan/timeout
+        throw new Error(`Gagal scrape Pinterest. Detail: ${err.message}`);
     }
 }
 
-// Placeholder untuk fitur downloader lainnya
+// Hapus/Ganti fungsi Spotify, Videy, dan Pixeldrain
 export async function getVideyInfo(url) {
     return { error: "Downloader Videy belum diimplementasikan." };
 }
