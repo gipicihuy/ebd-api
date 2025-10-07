@@ -14,10 +14,11 @@
             --bg-color: #0F172A; 
             --card-bg: #1E293B; 
             --border-color: #334155; 
-            --accent-color: #22D3EE; 
-            --accent-hover: #06B6D4;
+            /* MENGUBAH AKESN DARI CYAN KE CRIMSON */
+            --accent-color: #DC2626; /* Crimson/Red 600 */
+            --accent-hover: #B91C1C; /* Crimson/Red 700 */
             --input-bg: #1F2937;
-            --code-text: #A5F3FC; 
+            --code-text: #FCA5A5; /* Teks di dalam endpoint wrapper (lebih lembut dari accent) */
             --status-ok-bg: #10B981;
             --status-error-bg: #EF4444;
             --status-info-bg: #3B82F6;
@@ -70,7 +71,7 @@
         .accordion-summary.active {
             border-bottom-left-radius: 0;
             border-bottom-right-radius: 0;
-            border: 1px solid var(--accent-color);
+            border: 1px solid var(--accent-color); /* ACCENT */
             border-bottom: 0;
             background-color: #0F172A; 
         }
@@ -91,7 +92,7 @@
         /* ACCORDION CONTENT (DETAIL ENDPOINT) */
         .accordion-content {
             background-color: var(--bg-color);
-            border: 1px solid var(--accent-color);
+            border: 1px solid var(--accent-color); /* ACCENT */
             border-top: 0;
             padding: 0 20px; 
             border-bottom-left-radius: 8px;
@@ -115,7 +116,7 @@
             font-family: monospace;
             padding: 10px;
             font-size: 13px;
-            color: var(--code-text);
+            color: var(--code-text); /* CRIMSON CODE TEXT */
             flex-grow: 1;
             word-break: break-all;
             overflow-x: hidden; 
@@ -123,7 +124,7 @@
 
         .copy-button {
             background-color: #2D3748; 
-            color: var(--accent-color);
+            color: var(--accent-color); /* ACCENT */
             padding: 10px 15px;
             border-top-right-radius: 6px;
             border-bottom-right-radius: 6px;
@@ -145,7 +146,7 @@
         }
         
         .execute-button { 
-            background-color: var(--accent-color);
+            background-color: var(--accent-color); /* ACCENT */
             color: var(--bg-color); 
             padding: 12px 15px; 
             border-radius: 6px; 
@@ -156,7 +157,7 @@
         }
         
         .execute-button:hover { 
-            background-color: var(--accent-hover); 
+            background-color: var(--accent-hover); /* ACCENT HOVER */
         }
 
         .response-container { 
@@ -212,7 +213,7 @@
             <div class="flex items-center space-x-3">
                 <img src="https://eberardos.my.id/eberardos.jpg" alt="Logo" class="w-8 h-8 rounded-full"> 
                 <span class="text-2xl font-bold text-white">Eberardos API</span> 
-                <span class="text-sm text-cyan-300 font-medium">v1.0.0</span> 
+                <span class="text-sm text-red-300 font-medium">v1.0.4</span> 
             </div>
         </div>
     </header>
@@ -233,7 +234,7 @@
 
                     <div class="api-endpoint-wrapper">
                         <div class="api-endpoint">
-                            /api/ai/gemini?text=<span class="text-cyan-400">YourQuery</span>&apikey=<span class="text-cyan-400">YourKey</span>
+                            /api/ai/gemini?text=<span class="text-red-300">YourQuery</span>&apikey=<span class="text-red-300">YourKey</span>
                         </div>
                         <button onclick="copyEndpointUrl('gemini', document.getElementById('text_gemini').value.trim(), document.getElementById('apikey_gemini').value.trim())" class="copy-button" title="Copy Full URL"><i class="fas fa-copy"></i></button>
                     </div>
@@ -264,7 +265,7 @@
 
                     <div class="api-endpoint-wrapper">
                         <div class="api-endpoint">
-                            /api/downloader/videy?url=<span class="text-cyan-400">VideyShareURL</span>
+                            /api/downloader/videy?url=<span class="text-red-300">VideyShareURL</span>
                         </div>
                         <button onclick="copyEndpointUrl('videy', document.getElementById('url_videy').value.trim())" class="copy-button" title="Copy Full URL"><i class="fas fa-copy"></i></button>
                     </div>
@@ -291,7 +292,7 @@
 
                     <div class="api-endpoint-wrapper">
                         <div class="api-endpoint">
-                            /api/downloader/pixeldrain?url=<span class="text-cyan-400">PixeldrainShareURL</span>
+                            /api/downloader/pixeldrain?url=<span class="text-red-300">PixeldrainShareURL</span>
                         </div>
                         <button onclick="copyEndpointUrl('pixeldrain', document.getElementById('url_pixeldrain').value.trim())" class="copy-button" title="Copy Full URL"><i class="fas fa-copy"></i></button>
                     </div>
@@ -324,7 +325,7 @@
 
                     <div class="api-endpoint-wrapper">
                         <div class="api-endpoint">
-                            /api/rucoy/stalk?name=<span class="text-cyan-400">CharacterName</span>
+                            /api/rucoy/stalk?name=<span class="text-red-300">CharacterName</span>
                         </div>
                         <button onclick="copyEndpointUrl('stalk', document.getElementById('charName_stalk').value.trim())" class="copy-button" title="Copy Full URL"><i class="fas fa-copy"></i></button>
                     </div>
@@ -352,7 +353,7 @@
 
                     <div class="api-endpoint-wrapper">
                         <div class="api-endpoint">
-                            /api/rucoy/leaderboard?category=<span class="text-cyan-400">experience</span>
+                            /api/rucoy/leaderboard?category=<span class="text-red-300">experience</span>
                         </div>
                         <button onclick="copyEndpointUrl('leaderboard', 'experience')" class="copy-button" title="Copy Full URL"><i class="fas fa-copy"></i></button>
                     </div>
@@ -376,7 +377,7 @@
 
                     <div class="api-endpoint-wrapper">
                         <div class="api-endpoint">
-                            /api/rucoy/leaderboard?category=<span class="text-cyan-400">melee</span>
+                            /api/rucoy/leaderboard?category=<span class="text-red-300">melee</span>
                         </div>
                         <button onclick="copyEndpointUrl('leaderboard', 'melee')" class="copy-button" title="Copy Full URL"><i class="fas fa-copy"></i></button>
                     </div>
@@ -400,7 +401,7 @@
 
                     <div class="api-endpoint-wrapper">
                         <div class="api-endpoint">
-                            /api/rucoy/leaderboard?category=<span class="text-cyan-400">distance</span>
+                            /api/rucoy/leaderboard?category=<span class="text-red-300">distance</span>
                         </div>
                         <button onclick="copyEndpointUrl('leaderboard', 'distance')" class="copy-button" title="Copy Full URL"><i class="fas fa-copy"></i></button>
                     </div>
@@ -424,7 +425,7 @@
 
                     <div class="api-endpoint-wrapper">
                         <div class="api-endpoint">
-                            /api/rucoy/leaderboard?category=<span class="text-cyan-400">magic</span>
+                            /api/rucoy/leaderboard?category=<span class="text-red-300">magic</span>
                         </div>
                         <button onclick="copyEndpointUrl('leaderboard', 'magic')" class="copy-button" title="Copy Full URL"><i class="fas fa-copy"></i></button>
                     </div>
@@ -448,7 +449,7 @@
 
                     <div class="api-endpoint-wrapper">
                         <div class="api-endpoint">
-                            /api/rucoy/leaderboard?category=<span class="text-cyan-400">defense</span>
+                            /api/rucoy/leaderboard?category=<span class="text-red-300">defense</span>
                         </div>
                         <button onclick="copyEndpointUrl('leaderboard', 'defense')" class="copy-button" title="Copy Full URL"><i class="fas fa-copy"></i></button>
                     </div>
