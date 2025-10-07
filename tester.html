@@ -255,30 +255,30 @@
                     </div>
                 </div>
             </div>
-            <div class="accordion-item" data-id="spotify">
+            <div class="accordion-item" data-id="pinterest">
                 <div class="accordion-summary" onclick="toggleAccordion(this)">
-                    <span class="summary-title">Spotify Downloader (Track/Playlist)</span>
+                    <span class="summary-title">Pinterest Downloader (Video/Image)</span>
                     <i class="fas fa-chevron-right summary-icon"></i>
                 </div>
                 <div class="accordion-content">
-                    <p class="text-xs text-gray-400 mb-3">Retrieve track/playlist metadata, including the direct download link from Spotisaver.</p>
+                    <p class="text-xs text-gray-400 mb-3">Retrieve video atau image link langsung dari URL Pin Pinterest (pinterestdownloader.io).</p>
 
                     <div class="api-endpoint-wrapper">
                         <div class="api-endpoint">
-                            /api/downloader/spotify?url=<span class="text-red-300">SpotifyURL</span>
+                            /api/downloader/pinterest?url=<span class="text-red-300">PinterestURL</span>
                         </div>
-                        <button onclick="copyEndpointUrl('spotify', document.getElementById('url_spotify').value.trim())" class="copy-button" title="Copy Full URL"><i class="fas fa-copy"></i></button>
+                        <button onclick="copyEndpointUrl('pinterest', document.getElementById('url_pinterest').value.trim())" class="copy-button" title="Copy Full URL"><i class="fas fa-copy"></i></button>
                     </div>
 
-                    <input type="text" id="url_spotify" 
-                           placeholder="Spotify Track/Playlist URL (Required). E.g: https://open.spotify.com/track/..." 
-                           value="https://open.spotify.com/track/4Pj9C89s5R9c037W3r9j9H"> 
+                    <input type="text" id="url_pinterest" 
+                           placeholder="Pinterest URL (Required). E.g: https://pin.it/abcde" 
+                           value="https://pin.it/abcde"> 
                            
-                    <button onclick="executeApi('downloader_spotify')" class="execute-button">Execute</button>
+                    <button onclick="executeApi('downloader_pinterest')" class="execute-button">Execute</button>
                     
                     <div class="response-container">
-                        <div id="statusBar_spotify" class="status-bar status-info">Ready to Execute.</div>
-                        <textarea id="responseTextarea_spotify" class="response-textarea" readonly placeholder="The JSON result will appear here..."></textarea>
+                        <div id="statusBar_pinterest" class="status-bar status-info">Ready to Execute.</div>
+                        <textarea id="responseTextarea_pinterest" class="response-textarea" readonly placeholder="The JSON result will appear here..."></textarea>
                     </div>
                 </div>
             </div>
@@ -540,14 +540,14 @@
                 const category = param1; 
                 urlToCopy = `${RUCOY_ENDPOINT}/leaderboard?category=${category}&limit=100`;
             } 
-            // NEW DOWNLOADER LOGIC
+            // DOWNLOADER LOGIC
             else if (endpointKey === 'gemini') {
                 const text = param1 || 'What is the capital of Indonesia?';
                 const apikey = param2 || 'YOUR_API_KEY_HERE';
                 urlToCopy = `${BASE_URL}/api/ai/gemini?text=${encodeURIComponent(text)}&apikey=${apikey}`;
-            } else if (endpointKey === 'spotify') { // <-- BARU
-                const url = param1 || 'https://open.spotify.com/track/4Pj9C89s5R9c037W3r9j9H';
-                urlToCopy = `${BASE_URL}/api/downloader/spotify?url=${encodeURIComponent(url)}`;
+            } else if (endpointKey === 'pinterest') { // <-- BARU
+                const url = param1 || 'https://pin.it/abcde';
+                urlToCopy = `${BASE_URL}/api/downloader/pinterest?url=${encodeURIComponent(url)}`;
             } else if (endpointKey === 'videy') {
                 const url = param1 || 'https://videy.co/v/abcde';
                 urlToCopy = `${BASE_URL}/api/downloader/videy?url=${encodeURIComponent(url)}`;
@@ -645,18 +645,18 @@
                 url = `${BASE_URL}/api/ai/gemini?text=${encodeURIComponent(text)}&apikey=${apikey}`; 
                 summary = `Querying Gemini AI`;
                 
-            } else if (endpointType === 'downloader_spotify') { // <-- BARU
-                itemId = 'spotify';
-                const urlInput = document.getElementById('url_spotify');
+            } else if (endpointType === 'downloader_pinterest') { // <-- BARU
+                itemId = 'pinterest';
+                const urlInput = document.getElementById('url_pinterest');
                 let inputUrl = urlInput ? urlInput.value.trim() : '';
                 
                 if (!inputUrl) {
-                    alert('Please enter the Spotify URL!');
+                    alert('Please enter the Pinterest URL!');
                     return;
                 }
                 
-                url = `${BASE_URL}/api/downloader/spotify?url=${encodeURIComponent(inputUrl)}`; 
-                summary = `Fetching Spotify Track/Playlist`;
+                url = `${BASE_URL}/api/downloader/pinterest?url=${encodeURIComponent(inputUrl)}`; 
+                summary = `Fetching Pinterest Pin`;
                 
             } else if (endpointType === 'downloader_videy') {
                 itemId = 'videy';
