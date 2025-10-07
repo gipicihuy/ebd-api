@@ -1,80 +1,124 @@
-// FILE: src/services/downloader.service.js (PERBAIKAN NULL RESPONSE)
+// FILE: src/services/downloader.service.js (BARU: PINTEREST DENGAN FAILOVER)
 
 import axios from 'axios';
 
-// Gunakan User Agent yang lebih umum untuk stabilitas
 const USER_AGENT = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36';
 
-/**
- * Menggunakan logika scrape Pinterest Downloader (pinterestdownloader.io)
- */
+// Fungsi utama dengan Failover
 export async function pinDown(url) {
     if (!url) throw new Error('URL Pinterest wajib diisi.');
 
     // 1. Ekstrak URL lengkap jika itu adalah short link pin.it/
-    // Meskipun API target seharusnya menangani pengalihan, ini adalah praktik yang baik.
     let finalUrl = url;
     if (url.includes('pin.it/')) {
         try {
-            // Melakukan request HEAD untuk mendapatkan lokasi pengalihan (redirect)
             const redirectRes = await axios.head(url, { maxRedirects: 0, timeout: 5000 });
-            // Lokasi lengkap biasanya ada di header 'location'
             if (redirectRes.headers.location) {
                 finalUrl = redirectRes.headers.location;
             }
         } catch (e) {
-            // Jika head request gagal (misalnya 302/301 tidak ditangkap), lanjut dengan URL asli
-            console.warn("Gagal mendapatkan redirect URL, menggunakan URL asli.");
+            // Lanjut dengan URL asli jika redirect gagal
         }
     }
     
-    // 2. Lanjutkan scraping dengan URL lengkap
-    const endpoint = 'https://pinterestdownloader.io/frontendService/DownloaderService';
-    
-    const headers = {
-        'User-Agent': USER_AGENT,
-        'Referer': 'https://pinterestdownloader.io/'
-    };
-
+    // --- COBA SUMBER PERTAMA: PINTERESTDOWNLOADER.IO ---
     try {
-        const res = await axios.get(endpoint, {
-            params: { url: finalUrl }, // Menggunakan URL yang sudah dimurnikan
-            headers: { ...headers, 'Accept': 'application/json' },
-            timeout: 20000, 
-            responseType: 'json'
-        });
-
-        const data = res.data;
-
-        if (data.status === 'ERROR') {
-             throw new Error(data.message || 'Gagal memproses link Pinterest. (API Target Error)');
+        const result1 = await scrapePinterestDownloaderIo(finalUrl);
+        if (result1.download_link) {
+            return result1; // SUKSES DARI SUMBER 1
         }
-        
-        // 3. Pengecekan Kualitas Data (PENTING)
-        if (!data.link && !data.download_url && !data.metadata) {
-             throw new Error('API Target merespon sukses, tetapi tidak ada tautan atau metadata yang ditemukan. Pin mungkin dilindungi atau tidak valid.');
-        }
-
-        // 4. Mengembalikan hasil
-        return {
-            source_url: url,
-            processed_url: finalUrl,
-            metadata: data.metadata || null,
-            download_link: data.link || data.download_url || null,
-            raw_response: data
-        };
-
-    } catch (err) {
-        if (err.response) {
-            // Tangani error HTTP
-            throw new Error(`Gagal scrape Pinterest. Status: ${err.response.status}. Pesan: ${err.response.data.message || 'Error tidak diketahui'}`);
-        }
-        // Tangani error jaringan/timeout
-        throw new Error(`Gagal scrape Pinterest. Detail: ${err.message}`);
+    } catch (e) {
+        // Abaikan error dari sumber pertama, dan lanjut ke sumber kedua
+        console.warn(`[Failover] Sumber 1 gagal: ${e.message}. Mencoba sumber 2...`);
     }
+
+    // --- COBA SUMBER KEDUA: SAVEPIN.APP ---
+    try {
+        const result2 = await scrapeSavePinApp(finalUrl);
+        if (result2.download_link) {
+            return result2; // SUKSES DARI SUMBER 2
+        }
+    } catch (e) {
+        // Abaikan error dari sumber kedua
+        console.warn(`[Failover] Sumber 2 gagal: ${e.message}.`);
+    }
+
+    // Jika kedua sumber gagal mendapatkan link
+    throw new Error('Gagal scrape Pinterest. Tidak ada tautan download yang ditemukan dari kedua sumber. Pin mungkin dilindungi atau tidak valid.');
 }
 
-// Hapus/Ganti fungsi Spotify, Videy, dan Pixeldrain (dibiarkan kosong)
+
+// LOGIKA SCRAPING UNTUK SUMBER 1
+async function scrapePinterestDownloaderIo(finalUrl) {
+    const endpoint = 'https://pinterestdownloader.io/frontendService/DownloaderService';
+    const headers = { 'User-Agent': USER_AGENT, 'Referer': 'https://pinterestdownloader.io/' };
+
+    const res = await axios.get(endpoint, {
+        params: { url: finalUrl }, 
+        headers: { ...headers, 'Accept': 'application/json' },
+        timeout: 20000, 
+        responseType: 'json'
+    });
+
+    const data = res.data;
+
+    if (data.status === 'ERROR' || (!data.link && !data.download_url)) {
+        throw new Error(`pinterestdownloader.io: ${data.message || 'Tautan tidak ditemukan.'}`);
+    }
+    
+    return {
+        source_url: finalUrl,
+        metadata: data.metadata || null,
+        download_link: data.link || data.download_url || null,
+        scraper_source: "pinterestdownloader.io"
+    };
+}
+
+
+// LOGIKA SCRAPING UNTUK SUMBER 2 (BARU)
+async function scrapeSavePinApp(finalUrl) {
+    const endpoint = 'https://savepin.app/api/ajax.php';
+    const headers = { 
+        'User-Agent': USER_AGENT, 
+        'Referer': 'https://savepin.app/',
+        'Content-Type': 'application/x-www-form-urlencoded'
+    };
+    
+    // Data dikirim dalam format form-urlencoded
+    const payload = new URLSearchParams({
+        url: finalUrl,
+        ajax: '1'
+    }).toString();
+
+    const res = await axios.post(endpoint, payload, {
+        headers: headers,
+        timeout: 20000,
+        responseType: 'json'
+    });
+    
+    const data = res.data;
+
+    // SavePin mereturn HTML jika gagal, atau JSON jika sukses. Kita perlu cek.
+    if (typeof data !== 'object' || data.error) {
+        throw new Error(`savepin.app: Tautan tidak ditemukan atau Pin tidak valid.`);
+    }
+
+    // SavePin sering mereturn download link di properti berbeda
+    const downloadLink = data.url || data.urls?.[0]?.url || data.data?.[0]?.url || null;
+
+    if (!downloadLink) {
+        throw new Error(`savepin.app: Tautan download ditemukan tetapi null.`);
+    }
+    
+    return {
+        source_url: finalUrl,
+        metadata: data.title || null,
+        download_link: downloadLink,
+        scraper_source: "savepin.app"
+    };
+}
+
+// Fungsi placeholder lainnya (dibiarkan kosong)
 export async function getVideyInfo(url) {
     return { error: "Downloader Videy belum diimplementasikan." };
 }
