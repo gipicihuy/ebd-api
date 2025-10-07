@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Eberardos API Hub</title>
-    <link rel="icon" type="image/x-icon" href="https://raw.githubusercontent.com/upload-file-lab/fileupload6/main/uploads/1759330984218.jpeg?format=png&name=900x900">
+    <title>Eberardos API Hub - Single Column</title>
+    <link rel="icon" type="image/x-icon" href="eberardos.jpg">
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
     <style>
@@ -12,8 +12,7 @@
         :root {
             --text-color: #E5E7EB; 
             --bg-color: #0F172A; 
-            --sidebar-bg: #1E293B; 
-            --content-bg: #0F172A;
+            --card-bg: #1E293B; /* Card background (Summary & Content) */
             --border-color: #334155; 
             --accent-color: #22D3EE; 
             --accent-hover: #06B6D4;
@@ -32,76 +31,84 @@
             min-height: 100vh;
         }
         
-        /* LAYOUT & SCROLL */
-        .grid-container {
-            display: grid;
-            grid-template-columns: 1fr;
-            min-height: calc(100vh - 64px); 
-        }
-        @media (min-width: 768px) {
-            .grid-container {
-                grid-template-columns: 280px 1fr;
-            }
+        /* HEADER */
+        header { 
+            background-color: var(--card-bg); 
+            border-bottom: 1px solid var(--border-color); 
         }
         
-        /* SIDEBAR (NAVIGASI) */
-        #sidebar {
-            background-color: var(--sidebar-bg);
-            border-right: 1px solid var(--border-color);
-            padding-top: 20px;
-            display: none;
-        }
-        @media (min-width: 768px) {
-            #sidebar {
-                display: block; 
-                overflow-y: auto;
-            }
-        }
-
-        .nav-item {
-            display: block;
-            padding: 8px 16px;
-            font-size: 14px;
-            color: #94A3B8;
-            cursor: pointer;
-            transition: all 0.2s;
-            border-left: 2px solid transparent;
-        }
-        .nav-item.active {
-            color: var(--accent-color);
-            background-color: #0F172A;
-            border-left: 2px solid var(--accent-color);
-            font-weight: 600;
-        }
-
-        /* MAIN CONTENT */
-        #main-content {
-            padding: 20px 15px; 
-        }
-        @media (min-width: 768px) {
-             #main-content {
-                padding: 30px;
-            }
-        }
-        
-        /* ENDPOINT CARD */
-        .endpoint-card {
-            background-color: var(--sidebar-bg);
-            border: 1px solid var(--border-color);
-            border-radius: 8px;
+        /* CONTAINER */
+        #container {
+            max-width: 900px; 
+            margin: 0 auto;
             padding: 20px;
-            margin-bottom: 20px;
-            scroll-margin-top: 80px;
+        }
+        
+        /* ACCORDION ITEM */
+        .accordion-item {
+            margin-top: 10px; 
         }
 
-        /* ENDPOINT BOX & COPY BUTTON */
+        /* ACCORDION SUMMARY (ENDPOINT TITLE) */
+        .accordion-summary {
+            background-color: var(--card-bg);
+            padding: 18px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border: 1px solid var(--card-bg); 
+            transition: background-color 0.2s, border 0.3s;
+        }
+
+        .accordion-summary:hover {
+            background-color: #2D3748;
+        }
+        
+        /* When SUMMARY is ACTIVE */
+        .accordion-summary.active {
+            border-bottom-left-radius: 0;
+            border-bottom-right-radius: 0;
+            border: 1px solid var(--accent-color);
+            border-bottom: 0;
+            background-color: #0F172A; 
+        }
+        
+        .summary-title {
+            font-weight: 600;
+            font-size: 16px;
+        }
+
+        .summary-icon {
+            transition: transform 0.3s;
+        }
+
+        .accordion-summary.active .summary-icon {
+            transform: rotate(90deg);
+        }
+
+        /* ACCORDION CONTENT (ENDPOINT DETAIL) */
+        .accordion-content {
+            background-color: var(--bg-color);
+            border: 1px solid var(--accent-color);
+            border-top: 0;
+            padding: 0 20px; 
+            border-bottom-left-radius: 8px;
+            border-bottom-right-radius: 8px;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease-out, padding 0.4s ease-out;
+        }
+        
+        /* INPUT & CODE STYLES */
         .api-endpoint-wrapper {
             background: #111827;
             border-radius: 6px;
             border: 1px solid #1F2937;
-            padding: 0;
             display: flex;
             align-items: center;
+            margin-bottom: 15px;
         }
 
         .api-endpoint {
@@ -111,7 +118,6 @@
             color: var(--code-text);
             flex-grow: 1;
             word-break: break-all;
-            /* Tambahkan overflow-x: hidden agar tidak mengganggu tata letak wrapper */
             overflow-x: hidden; 
         }
 
@@ -121,38 +127,57 @@
             padding: 10px 15px;
             border-top-right-radius: 6px;
             border-bottom-right-radius: 6px;
-            transition: background-color 0.2s;
             cursor: pointer;
             line-height: 1;
             height: 100%;
         }
 
-        .copy-button:hover {
-            background-color: #4A5568;
-        }
-
-        /* INPUT & BUTTONS */
+        /* BUTTONS & RESPONSE AREA */
         input[type="text"] { 
             width: 100%; 
-            padding: 8px 10px;
+            padding: 12px 15px;
             border: 1px solid #4B5563; 
             border-radius: 6px; 
             background-color: #1F2937; 
             color: var(--text-color);
             font-size: 14px;
+            margin-bottom: 15px; /* Added margin for space before execute button */
         }
+        
         .execute-button { 
             background-color: var(--accent-color);
             color: var(--bg-color); 
-            padding: 8px 15px; 
+            padding: 12px 15px; 
             border-radius: 6px; 
             font-size: 14px; 
+            transition: background-color 0.2s;
+            width: 100%;
+            margin-top: 5px; /* Added slight extra margin */
+        }
+        
+        .execute-button:hover { 
+            background-color: var(--accent-hover); 
         }
 
-        /* PERBAIKAN OVERFLOW JSON RESPONSE */
-        #responseTextarea { 
+        .response-container { 
+            margin-top: 20px; 
+            padding-top: 15px; 
+            border-top: 1px solid var(--border-color); 
+        }
+        
+        .status-bar { 
+            padding: 10px; 
+            border-radius: 6px; 
+            font-weight: 600; 
+            color: white;
+            text-align: center;
+            font-size: 13px;
+            margin-bottom: 10px;
+        }
+
+        .response-textarea { 
             width: 100%; 
-            height: 300px; 
+            height: 200px; 
             padding: 15px; 
             border: 1px solid var(--border-color); 
             border-radius: 8px; 
@@ -161,185 +186,234 @@
             background-color: #080D17; 
             color: var(--code-text); 
             resize: vertical; 
-            /* KUNCI PERBAIKAN OVERFLOW HORIZONTAL */
             white-space: pre; 
             overflow-x: auto;
             word-break: normal;
         }
-
-        .status-bar { 
-            padding: 10px; 
-            border-radius: 6px; 
-            font-weight: 600; 
-            color: white;
-            text-align: center;
-            font-size: 13px;
+        
+        /* ADDED: Status bar classes */
+        .status-info {
+            background-color: var(--status-info-bg);
+        }
+        
+        .status-ok {
+            background-color: var(--status-ok-bg);
+        }
+        
+        .status-error {
+            background-color: var(--status-error-bg);
         }
     </style>
 </head>
 <body class="font-sans">
 
     <header class="py-4 px-6 sticky top-0 z-50">
-        <div class="container mx-auto flex justify-between items-center max-w-7xl">
-            <span class="text-2xl font-bold text-white">EBERARDOS API HUB</span>
-            <span class="text-sm text-gray-500">v1.0.0</span>
+        <div id="header-content" class="container mx-auto max-w-7xl">
+            <span class="text-2xl font-bold text-white">EBERARDOS API HUB v1.0.0</span>
         </div>
     </header>
 
-    <div class="grid-container max-w-7xl mx-auto">
+    <div id="container">
         
-        <aside id="sidebar">
-            <div class="px-4 mb-4">
-                <h3 class="text-xs font-semibold uppercase tracking-wider text-gray-500 mb-3">API SERVICES</h3>
-                
-                <div class="space-y-3">
-                    <div class="text-sm font-medium text-gray-300">RUCOY ONLINE</div>
-                    <a href="#stalk" class="nav-item">
-                        <i class="fas fa-search w-4 mr-2"></i> Stalk Character
-                    </a>
-                    <a href="#leaderboards" class="nav-item">
-                        <i class="fas fa-trophy w-4 mr-2"></i> Leaderboards (All)
-                    </a>
-                </div>
+        <h2 class="text-xl font-bold text-white mb-3 mt-4 border-b border-gray-600 pb-2">RUCOY ONLINE</h2>
 
-                <div class="mt-6 space-y-3">
-                    <div class="text-sm font-medium text-gray-300">SOCIAL MEDIA</div>
-                    <a href="#" class="nav-item text-gray-600 cursor-default">
-                        <i class="fas fa-robot w-4 mr-2"></i> TikTok Downloader (Soon)
-                    </a>
+        <div id="accordion-wrapper">
+            
+            <div class="accordion-item" data-id="stalk">
+                <div class="accordion-summary" onclick="toggleAccordion(this)">
+                    <span class="summary-title">Stalk Character</span>
+                    <i class="fas fa-chevron-right summary-icon"></i>
                 </div>
-            </div>
-        </aside>
+                <div class="accordion-content">
+                    <p class="text-xs text-gray-400 mb-3">Retrieves the character's status, skills, and latest event data.</p>
 
-        <main id="main-content">
-            
-            <h1 class="text-3xl font-bold mb-6 text-white">RUCOY ONLINE TOOLS</h1>
-            
-            <div id="stalk" class="endpoint-card">
-                <h3 class="text-xl font-semibold mb-3 border-b border-gray-600 pb-2">STALK CHARACTER</h3>
-                <p class="text-xs text-gray-400 mb-4">Mengambil data status, skill, dan event terbaru karakter.</p>
-                
-                <div class="api-endpoint-wrapper mb-4">
-                    <div class="api-endpoint">
-                        /api/rucoy/stalk?name=<span class="text-cyan-400">NamaKarakter</span>
+                    <div class="api-endpoint-wrapper">
+                        <div class="api-endpoint">
+                            /api/rucoy/stalk?name=<span class="text-cyan-400">CharacterName</span>
+                        </div>
+                        <button onclick="copyEndpointUrl('stalk', document.getElementById('charName_stalk').value.trim())" class="copy-button" title="Copy Full URL"><i class="fas fa-copy"></i></button>
                     </div>
-                    <button onclick="copyEndpointUrl('stalk', document.getElementById('charName').value.trim())" class="copy-button" title="Salin URL Lengkap"><i class="fas fa-copy"></i></button>
-                </div>
 
-                <label for="charName" class="text-sm text-gray-400 block mb-1">Nama Karakter (Wajib):</label>
-                <input type="text" id="charName" placeholder="Contoh: Velica Corrupt" data-endpoint-id="stalk">
-                <button onclick="executeStalk()" class="execute-button w-full mt-2">⚡️ Execute Stalk</button>
-            </div>
-
-            <div id="leaderboards">
-                <h3 class="text-xl font-semibold mt-8 mb-3 border-b border-gray-600 pb-2">LEADERBOARD CATEGORIES (TOP 100)</h3>
-            </div>
-            
-            <div class="endpoint-card">
-                <h4 class="text-lg font-semibold mb-2">EXPERIENCE LEADERBOARD</h4>
-                <div class="api-endpoint-wrapper mb-3">
-                    <div class="api-endpoint">
-                        /api/rucoy/leaderboard?category=<span class="text-cyan-400">experience</span>
+                    <input type="text" id="charName_stalk" 
+                           placeholder="Character Name (Required). Example: xzydanzz" 
+                           value="xzydanzz"> 
+                           
+                    <button onclick="executeApi('stalk')" class="execute-button">Execute</button>
+                    
+                    <div class="response-container">
+                        <div id="statusBar_stalk" class="status-bar status-info">Ready to Execute.</div>
+                        <textarea id="responseTextarea_stalk" class="response-textarea" readonly placeholder="JSON results will appear here..."></textarea>
                     </div>
-                    <button onclick="copyEndpointUrl('leaderboard', 'experience')" class="copy-button" title="Salin URL Lengkap"><i class="fas fa-copy"></i></button>
                 </div>
-                <button onclick="executeLeaderboard('experience')" class="execute-button w-full">⚡️ Execute Experience LB</button>
             </div>
 
-            <div class="endpoint-card">
-                <h4 class="text-lg font-semibold mb-2">MELEE LEADERBOARD</h4>
-                <div class="api-endpoint-wrapper mb-3">
-                    <div class="api-endpoint">
-                        /api/rucoy/leaderboard?category=<span class="text-cyan-400">melee</span>
-                    </div>
-                    <button onclick="copyEndpointUrl('leaderboard', 'melee')" class="copy-button" title="Salin URL Lengkap"><i class="fas fa-copy"></i></button>
+            <div class="accordion-item" data-id="experience">
+                <div class="accordion-summary" onclick="toggleAccordion(this)">
+                    <span class="summary-title">Leaderboard Experience (Top 100)</span>
+                    <i class="fas fa-chevron-right summary-icon"></i>
                 </div>
-                <button onclick="executeLeaderboard('melee')" class="execute-button w-full">⚡️ Execute Melee LB</button>
+                <div class="accordion-content">
+                    <p class="text-xs text-gray-400 mb-3">Retrieves the Experience Leaderboard data (Top 100).</p>
+
+                    <div class="api-endpoint-wrapper">
+                        <div class="api-endpoint">
+                            /api/rucoy/leaderboard?category=<span class="text-cyan-400">experience</span>
+                        </div>
+                        <button onclick="copyEndpointUrl('leaderboard', 'experience')" class="copy-button" title="Copy Full URL"><i class="fas fa-copy"></i></button>
+                    </div>
+
+                    <button onclick="executeApi('leaderboard_experience')" class="execute-button">Execute</button>
+                    
+                    <div class="response-container">
+                        <div id="statusBar_experience" class="status-bar status-info">Ready to Execute.</div>
+                        <textarea id="responseTextarea_experience" class="response-textarea" readonly placeholder="JSON results will appear here..."></textarea>
+                    </div>
+                </div>
             </div>
 
-            <div class="endpoint-card">
-                <h4 class="text-lg font-semibold mb-2">DISTANCE LEADERBOARD</h4>
-                <div class="api-endpoint-wrapper mb-3">
-                    <div class="api-endpoint">
-                        /api/rucoy/leaderboard?category=<span class="text-cyan-400">distance</span>
-                    </div>
-                    <button onclick="copyEndpointUrl('leaderboard', 'distance')" class="copy-button" title="Salin URL Lengkap"><i class="fas fa-copy"></i></button>
+            <div class="accordion-item" data-id="melee">
+                <div class="accordion-summary" onclick="toggleAccordion(this)">
+                    <span class="summary-title">Leaderboard Melee (Top 100)</span>
+                    <i class="fas fa-chevron-right summary-icon"></i>
                 </div>
-                <button onclick="executeLeaderboard('distance')" class="execute-button w-full">⚡️ Execute Distance LB</button>
+                <div class="accordion-content">
+                    <p class="text-xs text-gray-400 mb-3">Retrieves the Melee Leaderboard data (Top 100).</p>
+
+                    <div class="api-endpoint-wrapper">
+                        <div class="api-endpoint">
+                            /api/rucoy/leaderboard?category=<span class="text-cyan-400">melee</span>
+                        </div>
+                        <button onclick="copyEndpointUrl('leaderboard', 'melee')" class="copy-button" title="Copy Full URL"><i class="fas fa-copy"></i></button>
+                    </div>
+
+                    <button onclick="executeApi('leaderboard_melee')" class="execute-button">Execute</button>
+                    
+                    <div class="response-container">
+                        <div id="statusBar_melee" class="status-bar status-info">Ready to Execute.</div>
+                        <textarea id="responseTextarea_melee" class="response-textarea" readonly placeholder="JSON results will appear here..."></textarea>
+                    </div>
+                </div>
             </div>
             
-            <div class="endpoint-card">
-                <h4 class="text-lg font-semibold mb-2">MAGIC LEADERBOARD</h4>
-                <div class="api-endpoint-wrapper mb-3">
-                    <div class="api-endpoint">
-                        /api/rucoy/leaderboard?category=<span class="text-cyan-400">magic</span>
-                    </div>
-                    <button onclick="copyEndpointUrl('leaderboard', 'magic')" class="copy-button" title="Salin URL Lengkap"><i class="fas fa-copy"></i></button>
+            <div class="accordion-item" data-id="distance">
+                <div class="accordion-summary" onclick="toggleAccordion(this)">
+                    <span class="summary-title">Leaderboard Distance (Top 100)</span>
+                    <i class="fas fa-chevron-right summary-icon"></i>
                 </div>
-                <button onclick="executeLeaderboard('magic')" class="execute-button w-full">⚡️ Execute Magic LB</button>
+                <div class="accordion-content">
+                    <p class="text-xs text-gray-400 mb-3">Retrieves the Distance Leaderboard data (Top 100).</p>
+
+                    <div class="api-endpoint-wrapper">
+                        <div class="api-endpoint">
+                            /api/rucoy/leaderboard?category=<span class="text-cyan-400">distance</span>
+                        </div>
+                        <button onclick="copyEndpointUrl('leaderboard', 'distance')" class="copy-button" title="Copy Full URL"><i class="fas fa-copy"></i></button>
+                    </div>
+
+                    <button onclick="executeApi('leaderboard_distance')" class="execute-button">Execute</button>
+                    
+                    <div class="response-container">
+                        <div id="statusBar_distance" class="status-bar status-info">Ready to Execute.</div>
+                        <textarea id="responseTextarea_distance" class="response-textarea" readonly placeholder="JSON results will appear here..."></textarea>
+                    </div>
+                </div>
             </div>
 
-            <div class="endpoint-card">
-                <h4 class="text-lg font-semibold mb-2">DEFENSE LEADERBOARD</h4>
-                <div class="api-endpoint-wrapper mb-3">
-                    <div class="api-endpoint">
-                        /api/rucoy/leaderboard?category=<span class="text-cyan-400">defense</span>
-                    </div>
-                    <button onclick="copyEndpointUrl('leaderboard', 'defense')" class="copy-button" title="Salin URL Lengkap"><i class="fas fa-copy"></i></button>
+            <div class="accordion-item" data-id="magic">
+                <div class="accordion-summary" onclick="toggleAccordion(this)">
+                    <span class="summary-title">Leaderboard Magic (Top 100)</span>
+                    <i class="fas fa-chevron-right summary-icon"></i>
                 </div>
-                <button onclick="executeLeaderboard('defense')" class="execute-button w-full">⚡️ Execute Defense LB</button>
+                <div class="accordion-content">
+                    <p class="text-xs text-gray-400 mb-3">Retrieves the Magic Leaderboard data (Top 100).</p>
+
+                    <div class="api-endpoint-wrapper">
+                        <div class="api-endpoint">
+                            /api/rucoy/leaderboard?category=<span class="text-cyan-400">magic</span>
+                        </div>
+                        <button onclick="copyEndpointUrl('leaderboard', 'magic')" class="copy-button" title="Copy Full URL"><i class="fas fa-copy"></i></button>
+                    </div>
+
+                    <button onclick="executeApi('leaderboard_magic')" class="execute-button">Execute</button>
+                    
+                    <div class="response-container">
+                        <div id="statusBar_magic" class="status-bar status-info">Ready to Execute.</div>
+                        <textarea id="responseTextarea_magic" class="response-textarea" readonly placeholder="JSON results will appear here..."></textarea>
+                    </div>
+                </div>
             </div>
-            
-            <h2 class="text-xl font-bold mt-10 mb-4 text-white border-b border-gray-700 pb-2">JSON RESPONSE</h2>
-            
-            <div id="statusBar" class="status-bar status-info">Status: Pilih endpoint dan klik Execute.</div>
-            <textarea id="responseTextarea" readonly placeholder="Hasil JSON akan muncul di sini..."></textarea>
-            <button id="copyButton" onclick="copyResponse()" class="execute-button mt-2 bg-gray-600 hover:bg-gray-500 w-full">📋 Salin Response</button>
-            
-        </main>
+
+            <div class="accordion-item" data-id="defense">
+                <div class="accordion-summary" onclick="toggleAccordion(this)">
+                    <span class="summary-title">Leaderboard Defense (Top 100)</span>
+                    <i class="fas fa-chevron-right summary-icon"></i>
+                </div>
+                <div class="accordion-content">
+                    <p class="text-xs text-gray-400 mb-3">Retrieves the Defense Leaderboard data (Top 100).</p>
+
+                    <div class="api-endpoint-wrapper">
+                        <div class="api-endpoint">
+                            /api/rucoy/leaderboard?category=<span class="text-cyan-400">defense</span>
+                        </div>
+                        <button onclick="copyEndpointUrl('leaderboard', 'defense')" class="copy-button" title="Copy Full URL"><i class="fas fa-copy"></i></button>
+                    </div>
+
+                    <button onclick="executeApi('leaderboard_defense')" class="execute-button">Execute</button>
+                    
+                    <div class="response-container">
+                        <div id="statusBar_defense" class="status-bar status-info">Ready to Execute.</div>
+                        <textarea id="responseTextarea_defense" class="response-textarea" readonly placeholder="JSON results will appear here..."></textarea>
+                    </div>
+                </div>
+            </div>
+
+        </div>
     </div>
-
+    
     <script>
-        // PERBAIKAN TYPO: Hapus salah satu 'https://'
         const BASE_URL = 'https://api.eberardos.my.id';
         const RUCOY_ENDPOINT = `${BASE_URL}/api/rucoy`;
 
-        const responseTextarea = document.getElementById('responseTextarea');
-        const statusBar = document.getElementById('statusBar');
-        const navItems = document.querySelectorAll('.nav-item');
+        // --- ACCORDION TOGGLE LOGIC ---
+        function toggleAccordion(element) {
+            const item = element.closest('.accordion-item');
+            const content = item.querySelector('.accordion-content');
+            const isActive = element.classList.contains('active');
 
-        // --- NAVIGATION & DISPLAY LOGIC (Anchor Scroll) ---
-        navItems.forEach(item => {
-            item.addEventListener('click', function(e) {
-                e.preventDefault();
-                const targetId = this.getAttribute('href'); 
-                const targetElement = document.querySelector(targetId);
-
-                if (targetElement) {
-                    targetElement.scrollIntoView({
-                        behavior: 'smooth',
-                        block: 'start'
-                    });
-                    
-                    navItems.forEach(nav => nav.classList.remove('active'));
-                    this.classList.add('active');
+            // 1. Close all currently open accordions
+            document.querySelectorAll('.accordion-summary.active').forEach(activeSummary => {
+                if (activeSummary !== element) {
+                    activeSummary.classList.remove('active');
+                    const activeContent = activeSummary.nextElementSibling;
+                    activeContent.style.maxHeight = null;
+                    activeContent.style.paddingTop = '0px';
+                    activeContent.style.paddingBottom = '0px';
                 }
             });
-        });
 
-        document.addEventListener('DOMContentLoaded', () => {
-            const firstNavItem = document.querySelector('.nav-item');
-            if (firstNavItem) {
-                firstNavItem.classList.add('active');
+            // 2. Toggle the clicked item
+            if (isActive) {
+                // Close
+                element.classList.remove('active');
+                content.style.maxHeight = null;
+                content.style.paddingTop = '0px';
+                content.style.paddingBottom = '0px';
+            } else {
+                // Open
+                element.classList.add('active');
+                // Set max-height to match its content height
+                content.style.maxHeight = content.scrollHeight + 40 + "px"; 
+                content.style.paddingTop = '20px';
+                content.style.paddingBottom = '20px';
             }
-        });
+        }
 
         // --- COPY URL FUNCTION ---
         async function copyEndpointUrl(endpointKey, param = '') {
             let urlToCopy = '';
 
             if (endpointKey === 'stalk') {
-                const charName = param || 'NamaKarakterContoh';
+                const charName = param || 'xzydanzz';
                 urlToCopy = `${RUCOY_ENDPOINT}/stalk?name=${encodeURIComponent(charName)}`;
             } else if (endpointKey === 'leaderboard') {
                 const category = param; 
@@ -348,70 +422,80 @@
             
             try {
                 await navigator.clipboard.writeText(urlToCopy);
-                alert(`URL Lengkap berhasil disalin: \n${urlToCopy}`);
+                alert(`Full URL successfully copied: \n${urlToCopy}`);
             } catch (err) {
                 console.error('Failed to copy text: ', err);
-                alert('Gagal menyalin URL. Silakan salin manual.');
+                alert('Failed to copy URL. Please copy manually.');
             }
         }
 
         // --- CORE API EXECUTION FUNCTIONS ---
-        async function fetchData(url) {
+        async function fetchData(url, summary, itemId) {
+            const statusBar = document.getElementById(`statusBar_${itemId}`);
+            const responseTextarea = document.getElementById(`responseTextarea_${itemId}`);
+            
+            // Set loading status
             statusBar.className = 'status-bar status-info';
-            statusBar.textContent = `Status: Mengirim permintaan ke ${url}...`;
+            statusBar.textContent = `${summary}...`; 
             responseTextarea.value = 'Loading...';
 
             try {
                 const response = await fetch(url);
                 const data = await response.json();
                 
-                // Menggunakan JSON.stringify dengan indentasi 4 spasi
                 const formattedJson = JSON.stringify(data, null, 4); 
                 responseTextarea.value = formattedJson;
 
                 if (response.ok) {
                     statusBar.className = 'status-bar status-ok';
-                    statusBar.textContent = `Status: Sukses (${response.status} OK)`;
+                    statusBar.textContent = `${summary} Success (200)`; 
                 } else {
                     statusBar.className = 'status-bar status-error';
-                    statusBar.textContent = `Status: Gagal (${response.status} ${data.error || 'Server Error'})`;
+                    statusBar.textContent = `${summary} Error (${response.status}): ${data.error || 'Unknown Server Error'}`;
                 }
 
             } catch (error) {
                 console.error('Fetch Error:', error);
                 statusBar.className = 'status-bar status-error';
-                // Jika error, kemungkinan besar karena Base URL salah atau jaringan
-                statusBar.textContent = `Status: Kesalahan Jaringan/Parsing. (${error.message})`;
-                responseTextarea.value = `ERROR: Gagal menghubungi atau memproses response API. Pastikan Base URL benar dan server aktif. Detail: ${error.message}`;
+                statusBar.textContent = `Network Error: Connection Failed.`; 
+                responseTextarea.value = `ERROR: Failed to contact or process API response. Detail: ${error.message}`;
             }
         }
 
-        function executeStalk() {
-            const charNameInput = document.getElementById('charName');
-            const charName = charNameInput ? charNameInput.value.trim() : '';
+        function executeApi(endpointType) {
+            let url = '';
+            let summary = '';
+            let itemId = '';
 
-            if (!charName) {
-                alert('Harap masukkan Nama Karakter!');
-                return;
-            }
+            if (endpointType === 'stalk') {
+                itemId = 'stalk';
+                const charNameInput = document.getElementById('charName_stalk');
+                let charName = charNameInput ? charNameInput.value.trim() : '';
+
+                if (!charName) {
+                    // Use default value if input is empty
+                    charName = charNameInput.defaultValue;
+                }
+                
+                if (!charName) {
+                    alert('Please enter a Character Name!');
+                    return;
+                }
+
+                const encodedName = encodeURIComponent(charName);
+                url = `${RUCOY_ENDPOINT}/stalk?name=${encodedName}`; 
+                summary = `Searching for Character Data: ${charName}`;
             
-            const encodedName = encodeURIComponent(charName);
-            const url = `${RUCOY_ENDPOINT}/stalk?name=${encodedName}`; 
-            fetchData(url);
-        }
+            } else if (endpointType.startsWith('leaderboard_')) {
+                const category = endpointType.split('_')[1]; 
+                itemId = category;
+                url = `${RUCOY_ENDPOINT}/leaderboard?category=${category}&limit=100`; 
+                summary = `Fetching ${category.toUpperCase()} Leaderboard`;
+            }
 
-        function executeLeaderboard(category) {
-            const url = `${RUCOY_ENDPOINT}/leaderboard?category=${category}&limit=100`; 
-            fetchData(url);
-        }
-
-        function copyResponse() {
-            responseTextarea.select();
-            navigator.clipboard.writeText(responseTextarea.value).then(function() {
-                alert('Response JSON berhasil disalin!');
-            }).catch(function(error) {
-                alert('Gagal menyalin. Silakan salin manual.');
-            });
+            if (url && summary && itemId) {
+                fetchData(url, summary, itemId);
+            }
         }
     </script>
 </body>
