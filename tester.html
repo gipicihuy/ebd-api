@@ -215,7 +215,98 @@
 
     <div id="container">
         
-        <h2 class="text-xl font-bold text-white mb-3 mt-4 border-b border-gray-600 pb-2">RUCOY ONLINE API</h2>
+        <h2 class="text-xl font-bold text-white mb-3 mt-4 border-b border-gray-600 pb-2">AI & DOWNLOADERS</h2>
+
+        <div id="accordion-wrapper-general">
+            
+            <div class="accordion-item" data-id="gemini">
+                <div class="accordion-summary" onclick="toggleAccordion(this)">
+                    <span class="summary-title">AI Chat (Gemini)</span>
+                    <i class="fas fa-chevron-right summary-icon"></i>
+                </div>
+                <div class="accordion-content">
+                    <p class="text-xs text-gray-400 mb-3">Uses Gemini-2.5-Flash to generate a response from text input. (**API Key Required**)</p>
+
+                    <div class="api-endpoint-wrapper">
+                        <div class="api-endpoint">
+                            /api/ai/gemini?text=<span class="text-cyan-400">YourQuery</span>&apikey=<span class="text-cyan-400">YourKey</span>
+                        </div>
+                        <button onclick="copyEndpointUrl('gemini', document.getElementById('text_gemini').value.trim(), document.getElementById('apikey_gemini').value.trim())" class="copy-button" title="Copy Full URL"><i class="fas fa-copy"></i></button>
+                    </div>
+
+                    <input type="text" id="text_gemini" 
+                           placeholder="Question Text (Required). E.g: What is the capital of Indonesia?" 
+                           value="What is the capital of Indonesia?">
+                    
+                    <input type="text" id="apikey_gemini" 
+                           placeholder="API Key (Required). Get it from Google AI Studio" 
+                           value=""> 
+                           
+                    <button onclick="executeApi('ai_gemini')" class="execute-button">Execute</button>
+                    
+                    <div class="response-container">
+                        <div id="statusBar_gemini" class="status-bar status-info">Ready to Execute.</div>
+                        <textarea id="responseTextarea_gemini" class="response-textarea" readonly placeholder="The JSON result will appear here..."></textarea>
+                    </div>
+                </div>
+            </div>
+            <div class="accordion-item" data-id="videy">
+                <div class="accordion-summary" onclick="toggleAccordion(this)">
+                    <span class="summary-title">Videy Downloader (Direct URL)</span>
+                    <i class="fas fa-chevron-right summary-icon"></i>
+                </div>
+                <div class="accordion-content">
+                    <p class="text-xs text-gray-400 mb-3">Generates a direct MP4 file URL from a Videy share URL.</p>
+
+                    <div class="api-endpoint-wrapper">
+                        <div class="api-endpoint">
+                            /api/downloader/videy?url=<span class="text-cyan-400">VideyShareURL</span>
+                        </div>
+                        <button onclick="copyEndpointUrl('videy', document.getElementById('url_videy').value.trim())" class="copy-button" title="Copy Full URL"><i class="fas fa-copy"></i></button>
+                    </div>
+
+                    <input type="text" id="url_videy" 
+                           placeholder="Videy URL (Required). E.g: https://videy.co/v/abcde" 
+                           value="https://videy.co/v/abcde"> 
+                           
+                    <button onclick="executeApi('downloader_videy')" class="execute-button">Execute</button>
+                    
+                    <div class="response-container">
+                        <div id="statusBar_videy" class="status-bar status-info">Ready to Execute.</div>
+                        <textarea id="responseTextarea_videy" class="response-textarea" readonly placeholder="The JSON result will appear here..."></textarea>
+                    </div>
+                </div>
+            </div>
+            <div class="accordion-item" data-id="pixeldrain">
+                <div class="accordion-summary" onclick="toggleAccordion(this)">
+                    <span class="summary-title">Pixeldrain Downloader (Direct URL)</span>
+                    <i class="fas fa-chevron-right summary-icon"></i>
+                </div>
+                <div class="accordion-content">
+                    <p class="text-xs text-gray-400 mb-3">Generates a direct file URL for a Pixeldrain file, including the filename.</p>
+
+                    <div class="api-endpoint-wrapper">
+                        <div class="api-endpoint">
+                            /api/downloader/pixeldrain?url=<span class="text-cyan-400">PixeldrainShareURL</span>
+                        </div>
+                        <button onclick="copyEndpointUrl('pixeldrain', document.getElementById('url_pixeldrain').value.trim())" class="copy-button" title="Copy Full URL"><i class="fas fa-copy"></i></button>
+                    </div>
+
+                    <input type="text" id="url_pixeldrain" 
+                           placeholder="Pixeldrain URL (Required). E.g: https://pixeldrain.com/u/abcde" 
+                           value="https://pixeldrain.com/u/abcde"> 
+                           
+                    <button onclick="executeApi('downloader_pixeldrain')" class="execute-button">Execute</button>
+                    
+                    <div class="response-container">
+                        <div id="statusBar_pixeldrain" class="status-bar status-info">Ready to Execute.</div>
+                        <textarea id="responseTextarea_pixeldrain" class="response-textarea" readonly placeholder="The JSON result will appear here..."></textarea>
+                    </div>
+                </div>
+            </div>
+            </div>
+        
+        <h2 class="text-xl font-bold text-white mb-3 mt-8 border-b border-gray-600 pb-2">RUCOY ONLINE API</h2>
 
         <div id="accordion-wrapper-rucoy">
             
@@ -368,103 +459,11 @@
             </div>
 
         </div>
-        
-        <h2 class="text-xl font-bold text-white mb-3 mt-8 border-b border-gray-600 pb-2">GENERAL API (AI & DOWNLOADERS)</h2>
-
-        <div id="accordion-wrapper-general">
-            
-            <div class="accordion-item" data-id="gemini">
-                <div class="accordion-summary" onclick="toggleAccordion(this)">
-                    <span class="summary-title">AI Chat (Gemini)</span>
-                    <i class="fas fa-chevron-right summary-icon"></i>
-                </div>
-                <div class="accordion-content">
-                    <p class="text-xs text-gray-400 mb-3">Uses Gemini-2.5-Flash to generate a response from text input. (Requires API Key)</p>
-
-                    <div class="api-endpoint-wrapper">
-                        <div class="api-endpoint">
-                            /api/ai/gemini?text=<span class="text-cyan-400">YourQuery</span>&apikey=<span class="text-cyan-400">YourKey</span>
-                        </div>
-                        <button onclick="copyEndpointUrl('gemini', document.getElementById('text_gemini').value.trim(), document.getElementById('apikey_gemini').value.trim())" class="copy-button" title="Copy Full URL"><i class="fas fa-copy"></i></button>
-                    </div>
-
-                    <input type="text" id="text_gemini" 
-                           placeholder="Question Text (Required). E.g: What is the capital of Indonesia?" 
-                           value="What is the capital of Indonesia?">
-                    
-                    <input type="text" id="apikey_gemini" 
-                           placeholder="API Key (Required). Get it from Google AI Studio" 
-                           value=""> 
-                           
-                    <button onclick="executeApi('ai_gemini')" class="execute-button">Execute</button>
-                    
-                    <div class="response-container">
-                        <div id="statusBar_gemini" class="status-bar status-info">Ready to Execute.</div>
-                        <textarea id="responseTextarea_gemini" class="response-textarea" readonly placeholder="The JSON result will appear here..."></textarea>
-                    </div>
-                </div>
-            </div>
-            <div class="accordion-item" data-id="videy">
-                <div class="accordion-summary" onclick="toggleAccordion(this)">
-                    <span class="summary-title">Videy Downloader (Direct URL)</span>
-                    <i class="fas fa-chevron-right summary-icon"></i>
-                </div>
-                <div class="accordion-content">
-                    <p class="text-xs text-gray-400 mb-3">Generates a direct MP4 file URL from a Videy share URL.</p>
-
-                    <div class="api-endpoint-wrapper">
-                        <div class="api-endpoint">
-                            /api/downloader/videy?url=<span class="text-cyan-400">VideyShareURL</span>
-                        </div>
-                        <button onclick="copyEndpointUrl('videy', document.getElementById('url_videy').value.trim())" class="copy-button" title="Copy Full URL"><i class="fas fa-copy"></i></button>
-                    </div>
-
-                    <input type="text" id="url_videy" 
-                           placeholder="Videy URL (Required). E.g: https://videy.co/v/abcde" 
-                           value="https://videy.co/v/abcde"> 
-                           
-                    <button onclick="executeApi('downloader_videy')" class="execute-button">Execute</button>
-                    
-                    <div class="response-container">
-                        <div id="statusBar_videy" class="status-bar status-info">Ready to Execute.</div>
-                        <textarea id="responseTextarea_videy" class="response-textarea" readonly placeholder="The JSON result will appear here..."></textarea>
-                    </div>
-                </div>
-            </div>
-            <div class="accordion-item" data-id="pixeldrain">
-                <div class="accordion-summary" onclick="toggleAccordion(this)">
-                    <span class="summary-title">Pixeldrain Downloader (Direct URL)</span>
-                    <i class="fas fa-chevron-right summary-icon"></i>
-                </div>
-                <div class="accordion-content">
-                    <p class="text-xs text-gray-400 mb-3">Generates a direct file URL for a Pixeldrain file, including the filename.</p>
-
-                    <div class="api-endpoint-wrapper">
-                        <div class="api-endpoint">
-                            /api/downloader/pixeldrain?url=<span class="text-cyan-400">PixeldrainShareURL</span>
-                        </div>
-                        <button onclick="copyEndpointUrl('pixeldrain', document.getElementById('url_pixeldrain').value.trim())" class="copy-button" title="Copy Full URL"><i class="fas fa-copy"></i></button>
-                    </div>
-
-                    <input type="text" id="url_pixeldrain" 
-                           placeholder="Pixeldrain URL (Required). E.g: https://pixeldrain.com/u/abcde" 
-                           value="https://pixeldrain.com/u/abcde"> 
-                           
-                    <button onclick="executeApi('downloader_pixeldrain')" class="execute-button">Execute</button>
-                    
-                    <div class="response-container">
-                        <div id="statusBar_pixeldrain" class="status-bar status-info">Ready to Execute.</div>
-                        <textarea id="responseTextarea_pixeldrain" class="response-textarea" readonly placeholder="The JSON result will appear here..."></textarea>
-                    </div>
-                </div>
-            </div>
-            </div>
     </div>
     
     <script>
-        // NOTE: If your server is deployed on a live domain, CHANGE the BASE_URL below!
-        // E.g: const BASE_URL = 'https://api.eberardos.my.id';
-        const BASE_URL = 'https://api.eberardos.my.id'; // Keep this if testing locally.
+        // *** BASE_URL MENGGUNAKAN LIVE DOMAIN ANDA: https://api.eberardos.my.id ***
+        const BASE_URL = 'https://api.eberardos.my.id'; 
         
         const RUCOY_ENDPOINT = `${BASE_URL}/api/rucoy`;
 
@@ -497,7 +496,7 @@
             }
         }
 
-        // --- COPY URL FUNCTION (TRANSLATED MESSAGES) ---
+        // --- COPY URL FUNCTION ---
         async function copyEndpointUrl(endpointKey, param1 = '', param2 = '') {
             let urlToCopy = '';
 
@@ -531,7 +530,7 @@
             }
         }
 
-        // --- CORE API EXECUTION FUNCTIONS (TRANSLATED MESSAGES) ---
+        // --- CORE API EXECUTION FUNCTIONS ---
         async function fetchData(url, summary, itemId) {
             const statusBar = document.getElementById(`statusBar_${itemId}`);
             const responseTextarea = document.getElementById(`responseTextarea_${itemId}`);
@@ -563,7 +562,7 @@
             }
         }
 
-        // --- EXECUTE API LOGIC (TRANSLATED MESSAGES) ---
+        // --- EXECUTE API LOGIC ---
         function executeApi(endpointType) {
             let url = '';
             let summary = '';
