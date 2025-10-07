@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Eberardos API Hub</title>
+    <title>Eberardos API</title>
     <link rel="icon" type="image/x-icon" href="https://eberardos.my.id/eberardos.jpg">
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
@@ -204,13 +204,14 @@
             <div class="flex items-center space-x-3">
                 <img src="https://eberardos.my.id/eberardos.jpg" alt="Logo" class="w-8 h-8 rounded-full"> 
                 <span class="text-2xl font-bold text-white">Eberardos API</span> 
-                <span class="text-sm text-red-300 font-medium">v1.0.5</span> </div>
+                <span class="text-sm text-red-300 font-medium">v1.0.5 Beta</span> 
+            </div>
         </div>
     </header>
 
     <div id="container">
         
-        <h2 class="text-xl font-bold text-white mb-3 mt-4 border-b border-gray-600 pb-2">AI & DOWNLOADERS</h2>
+        <h2 class="text-xl font-bold text-white mb-3 mt-4 border-b border-gray-600 pb-2">AI ENGINE</h2>
 
         <div id="accordion-wrapper-general">
             
@@ -242,87 +243,6 @@
                     <div class="response-container">
                         <div id="statusBar_gemini" class="status-bar status-info">Ready to Execute.</div>
                         <textarea id="responseTextarea_gemini" class="response-textarea" readonly placeholder="The JSON result will appear here..."></textarea>
-                    </div>
-                </div>
-            </div>
-            <div class="accordion-item" data-id="spotify">
-                <div class="accordion-summary" onclick="toggleAccordion(this)">
-                    <span class="summary-title">Spotify Downloader (Spotisaver)</span>
-                    <i class="fas fa-chevron-right summary-icon"></i>
-                </div>
-                <div class="accordion-content">
-                    <p class="text-xs text-gray-400 mb-3">Retrieve track or playlist metadata and download link (via spotisaver.net).</p>
-
-                    <div class="api-endpoint-wrapper">
-                        <div class="api-endpoint">
-                            /api/downloader/spotify?url=<span class="text-red-300">SpotifyURL</span>
-                        </div>
-                        <button onclick="copyEndpointUrl('spotify', document.getElementById('url_spotify').value.trim())" class="copy-button" title="Copy Full URL"><i class="fas fa-copy"></i></button>
-                    </div>
-
-                    <input type="text" id="url_spotify" 
-                           placeholder="Spotify Track or Playlist URL (Required). E.g: https://open.spotify.com/track/..." 
-                           value="https://open.spotify.com/track/1y7693tM077w2M6YV2xJ1w"> 
-                           
-                    <button onclick="executeApi('downloader_spotify')" class="execute-button">Execute</button>
-                    
-                    <div class="response-container">
-                        <div id="statusBar_spotify" class="status-bar status-info">Ready to Execute.</div>
-                        <textarea id="responseTextarea_spotify" class="response-textarea" readonly placeholder="The JSON result will appear here..."></textarea>
-                    </div>
-                </div>
-            </div>
-            <div class="accordion-item" data-id="videy">
-                <div class="accordion-summary" onclick="toggleAccordion(this)">
-                    <span class="summary-title">Videy Downloader (Direct URL)</span>
-                    <i class="fas fa-chevron-right summary-icon"></i>
-                </div>
-                <div class="accordion-content">
-                    <p class="text-xs text-gray-400 mb-3">Generates a direct MP4 file URL from a Videy share URL.</p>
-
-                    <div class="api-endpoint-wrapper">
-                        <div class="api-endpoint">
-                            /api/downloader/videy?url=<span class="text-red-300">VideyShareURL</span>
-                        </div>
-                        <button onclick="copyEndpointUrl('videy', document.getElementById('url_videy').value.trim())" class="copy-button" title="Copy Full URL"><i class="fas fa-copy"></i></button>
-                    </div>
-
-                    <input type="text" id="url_videy" 
-                           placeholder="Videy URL (Required). E.g: https://videy.co/v/abcde" 
-                           value="https://videy.co/v/abcde"> 
-                           
-                    <button onclick="executeApi('downloader_videy')" class="execute-button">Execute</button>
-                    
-                    <div class="response-container">
-                        <div id="statusBar_videy" class="status-bar status-info">Ready to Execute.</div>
-                        <textarea id="responseTextarea_videy" class="response-textarea" readonly placeholder="The JSON result will appear here..."></textarea>
-                    </div>
-                </div>
-            </div>
-            <div class="accordion-item" data-id="pixeldrain">
-                <div class="accordion-summary" onclick="toggleAccordion(this)">
-                    <span class="summary-title">Pixeldrain Downloader (Direct URL)</span>
-                    <i class="fas fa-chevron-right summary-icon"></i>
-                </div>
-                <div class="accordion-content">
-                    <p class="text-xs text-gray-400 mb-3">Generates a direct file URL for a Pixeldrain file, including the filename.</p>
-
-                    <div class="api-endpoint-wrapper">
-                        <div class="api-endpoint">
-                            /api/downloader/pixeldrain?url=<span class="text-red-300">PixeldrainShareURL</span>
-                        </div>
-                        <button onclick="copyEndpointUrl('pixeldrain', document.getElementById('url_pixeldrain').value.trim())" class="copy-button" title="Copy Full URL"><i class="fas fa-copy"></i></button>
-                    </div>
-
-                    <input type="text" id="url_pixeldrain" 
-                           placeholder="Pixeldrain URL (Required). E.g: https://pixeldrain.com/u/abcde" 
-                           value="https://pixeldrain.com/u/abcde"> 
-                           
-                    <button onclick="executeApi('downloader_pixeldrain')" class="execute-button">Execute</button>
-                    
-                    <div class="response-container">
-                        <div id="statusBar_pixeldrain" class="status-bar status-info">Ready to Execute.</div>
-                        <textarea id="responseTextarea_pixeldrain" class="response-textarea" readonly placeholder="The JSON result will appear here..."></textarea>
                     </div>
                 </div>
             </div>
@@ -360,6 +280,121 @@
                 </div>
             </div>
 
+            <div class="accordion-item" data-id="experience">
+                <div class="accordion-summary" onclick="toggleAccordion(this)">
+                    <span class="summary-title">Leaderboard Experience (Top 100)</span>
+                    <i class="fas fa-chevron-right summary-icon"></i>
+                </div>
+                <div class="accordion-content">
+                    <p class="text-xs text-gray-400 mb-3">Retrieve the Experience Leaderboard data (Top 100).</p>
+
+                    <div class="api-endpoint-wrapper">
+                        <div class="api-endpoint">
+                            /api/rucoy/leaderboard?category=<span class="text-red-300">experience</span>
+                        </div>
+                        <button onclick="copyEndpointUrl('leaderboard', 'experience')" class="copy-button" title="Copy Full URL"><i class="fas fa-copy"></i></button>
+                    </div>
+
+                    <button onclick="executeApi('leaderboard_experience')" class="execute-button">Execute</button>
+                    
+                    <div class="response-container">
+                        <div id="statusBar_experience" class="status-bar status-info">Ready to Execute.</div>
+                        <textarea id="responseTextarea_experience" class="response-textarea" readonly placeholder="The JSON result will appear here..."></textarea>
+                    </div>
+                </div>
+            </div>
+            <div class="accordion-item" data-id="melee">
+                <div class="accordion-summary" onclick="toggleAccordion(this)">
+                    <span class="summary-title">Leaderboard Melee (Top 100)</span>
+                    <i class="fas fa-chevron-right summary-icon"></i>
+                </div>
+                <div class="accordion-content">
+                    <p class="text-xs text-gray-400 mb-3">Retrieve the Melee Leaderboard data (Top 100).</p>
+
+                    <div class="api-endpoint-wrapper">
+                        <div class="api-endpoint">
+                            /api/rucoy/leaderboard?category=<span class="text-red-300">melee</span>
+                        </div>
+                        <button onclick="copyEndpointUrl('leaderboard', 'melee')" class="copy-button" title="Copy Full URL"><i class="fas fa-copy"></i></button>
+                    </div>
+
+                    <button onclick="executeApi('leaderboard_melee')" class="execute-button">Execute</button>
+                    
+                    <div class="response-container">
+                        <div id="statusBar_melee" class="status-bar status-info">Ready to Execute.</div>
+                        <textarea id="responseTextarea_melee" class="response-textarea" readonly placeholder="The JSON result will appear here..."></textarea>
+                    </div>
+                </div>
+            </div>
+            <div class="accordion-item" data-id="distance">
+                <div class="accordion-summary" onclick="toggleAccordion(this)">
+                    <span class="summary-title">Leaderboard Distance (Top 100)</span>
+                    <i class="fas fa-chevron-right summary-icon"></i>
+                </div>
+                <div class="accordion-content">
+                    <p class="text-xs text-gray-400 mb-3">Retrieve the Distance Leaderboard data (Top 100).</p>
+
+                    <div class="api-endpoint-wrapper">
+                        <div class="api-endpoint">
+                            /api/rucoy/leaderboard?category=<span class="text-red-300">distance</span>
+                        </div>
+                        <button onclick="copyEndpointUrl('leaderboard', 'distance')" class="copy-button" title="Copy Full URL"><i class="fas fa-copy"></i></button>
+                    </div>
+
+                    <button onclick="executeApi('leaderboard_distance')" class="execute-button">Execute</button>
+                    
+                    <div class="response-container">
+                        <div id="statusBar_distance" class="status-bar status-info">Ready to Execute.</div>
+                        <textarea id="responseTextarea_distance" class="response-textarea" readonly placeholder="The JSON result will appear here..."></textarea>
+                    </div>
+                </div>
+            </div>
+            <div class="accordion-item" data-id="magic">
+                <div class="accordion-summary" onclick="toggleAccordion(this)">
+                    <span class="summary-title">Leaderboard Magic (Top 100)</span>
+                    <i class="fas fa-chevron-right summary-icon"></i>
+                </div>
+                <div class="accordion-content">
+                    <p class="text-xs text-gray-400 mb-3">Retrieve the Magic Leaderboard data (Top 100).</p>
+
+                    <div class="api-endpoint-wrapper">
+                        <div class="api-endpoint">
+                            /api/rucoy/leaderboard?category=<span class="text-red-300">magic</span>
+                        </div>
+                        <button onclick="copyEndpointUrl('leaderboard', 'magic')" class="copy-button" title="Copy Full URL"><i class="fas fa-copy"></i></button>
+                    </div>
+
+                    <button onclick="executeApi('leaderboard_magic')" class="execute-button">Execute</button>
+                    
+                    <div class="response-container">
+                        <div id="statusBar_magic" class="status-bar status-info">Ready to Execute.</div>
+                        <textarea id="responseTextarea_magic" class="response-textarea" readonly placeholder="The JSON result will appear here..."></textarea>
+                    </div>
+                </div>
+            </div>
+            <div class="accordion-item" data-id="defense">
+                <div class="accordion-summary" onclick="toggleAccordion(this)">
+                    <span class="summary-title">Leaderboard Defense (Top 100)</span>
+                    <i class="fas fa-chevron-right summary-icon"></i>
+                </div>
+                <div class="accordion-content">
+                    <p class="text-xs text-gray-400 mb-3">Retrieve the Defense Leaderboard data (Top 100).</p>
+
+                    <div class="api-endpoint-wrapper">
+                        <div class="api-endpoint">
+                            /api/rucoy/leaderboard?category=<span class="text-red-300">defense</span>
+                        </div>
+                        <button onclick="copyEndpointUrl('leaderboard', 'defense')" class="copy-button" title="Copy Full URL"><i class="fas fa-copy"></i></button>
+                    </div>
+
+                    <button onclick="executeApi('leaderboard_defense')" class="execute-button">Execute</button>
+                    
+                    <div class="response-container">
+                        <div id="statusBar_defense" class="status-bar status-info">Ready to Execute.</div>
+                        <textarea id="responseTextarea_defense" class="response-textarea" readonly placeholder="The JSON result will appear here..."></textarea>
+                    </div>
+                </div>
+            </div>
             </div>
     </div>
     
@@ -396,7 +431,7 @@
             }
         }
 
-        // --- COPY URL FUNCTION (UPDATED) ---
+        // --- COPY URL FUNCTION (Hanya Rucoy dan Gemini) ---
         async function copyEndpointUrl(endpointKey, param1 = '', param2 = '') {
             let urlToCopy = '';
 
@@ -408,21 +443,12 @@
                 const category = param1; 
                 urlToCopy = `${RUCOY_ENDPOINT}/leaderboard?category=${category}&limit=100`;
             } 
-            // DOWNLOADER LOGIC
-            else if (endpointKey === 'gemini') {
+            // AI LOGIC
+            else if (endpointKey === 'gemini') { 
                 const text = param1 || 'What is the capital of Indonesia?';
                 const apikey = param2 || 'YOUR_API_KEY_HERE';
                 urlToCopy = `${BASE_URL}/api/ai/gemini?text=${encodeURIComponent(text)}&apikey=${apikey}`;
-            } else if (endpointKey === 'spotify') { // <-- BARU
-                const url = param1 || 'https://open.spotify.com/track/...';
-                urlToCopy = `${BASE_URL}/api/downloader/spotify?url=${encodeURIComponent(url)}`;
-            } else if (endpointKey === 'videy') {
-                const url = param1 || 'https://videy.co/v/abcde';
-                urlToCopy = `${BASE_URL}/api/downloader/videy?url=${encodeURIComponent(url)}`;
-            } else if (endpointKey === 'pixeldrain') {
-                const url = param1 || 'https://pixeldrain.com/u/abcde';
-                urlToCopy = `${BASE_URL}/api/downloader/pixeldrain?url=${encodeURIComponent(url)}`;
-            }
+            } 
             
             try {
                 await navigator.clipboard.writeText(urlToCopy);
@@ -465,7 +491,7 @@
             }
         }
 
-        // --- EXECUTE API LOGIC (UPDATED) ---
+        // --- EXECUTE API LOGIC (Hanya Rucoy dan Gemini) ---
         function executeApi(endpointType) {
             let url = '';
             let summary = '';
@@ -496,7 +522,7 @@
                 url = `${RUCOY_ENDPOINT}/leaderboard?category=${category}&limit=100`; 
                 summary = `Fetching ${category.toUpperCase()} Leaderboard`;
             }
-            // DOWNLOADER LOGIC
+            // AI LOGIC
             else if (endpointType === 'ai_gemini') {
                 itemId = 'gemini';
                 const textInput = document.getElementById('text_gemini');
@@ -513,44 +539,10 @@
                 url = `${BASE_URL}/api/ai/gemini?text=${encodeURIComponent(text)}&apikey=${apikey}`; 
                 summary = `Querying Gemini AI`;
                 
-            } else if (endpointType === 'downloader_spotify') { // <-- BARU
-                itemId = 'spotify';
-                const urlInput = document.getElementById('url_spotify');
-                let inputUrl = urlInput ? urlInput.value.trim() : '';
-                
-                if (!inputUrl) {
-                    alert('Harap masukkan URL Spotify!');
-                    return;
-                }
-                
-                url = `${BASE_URL}/api/downloader/spotify?url=${encodeURIComponent(inputUrl)}`; 
-                summary = `Mencari Metadata Spotify`;
-                
-            } else if (endpointType === 'downloader_videy') {
-                itemId = 'videy';
-                const urlInput = document.getElementById('url_videy');
-                let inputUrl = urlInput ? urlInput.value.trim() : '';
-                
-                if (!inputUrl) {
-                    alert('Harap masukkan URL Videy!');
-                    return;
-                }
-                
-                url = `${BASE_URL}/api/downloader/videy?url=${encodeURIComponent(inputUrl)}`; 
-                summary = `Downloading Videy URL`;
-                
-            } else if (endpointType === 'downloader_pixeldrain') {
-                itemId = 'pixeldrain';
-                const urlInput = document.getElementById('url_pixeldrain');
-                let inputUrl = urlInput ? urlInput.value.trim() : '';
-                
-                if (!inputUrl) {
-                    alert('Harap masukkan URL Pixeldrain!');
-                    return;
-                }
-                
-                url = `${BASE_URL}/api/downloader/pixeldrain?url=${encodeURIComponent(inputUrl)}`; 
-                summary = `Downloading Pixeldrain URL`;
+            } else {
+                // Untuk berjaga-jaga jika ada tombol yang masih memanggil fungsi yang tidak ada
+                alert(`Endpoint ${endpointType} tidak dikenali atau telah dihapus.`);
+                return;
             }
 
             if (url && summary && itemId) {
