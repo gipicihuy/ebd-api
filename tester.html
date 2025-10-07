@@ -14,7 +14,7 @@
             --bg-color: #0F172A; 
             --card-bg: #1E293B; 
             --border-color: #334155; 
-            /* MENGUBAH AKESN DARI CYAN KE CRIMSON */
+            /* CRIMSON THEME */
             --accent-color: #DC2626; /* Crimson/Red 600 */
             --accent-hover: #B91C1C; /* Crimson/Red 700 */
             --input-bg: #1F2937;
@@ -24,7 +24,7 @@
             --status-info-bg: #3B82F6;
         }
 
-        /* GENERAL STYLES */
+        /* GENERAL STYLES (Dipertahankan) */
         body {
             background-color: var(--bg-color);
             color: var(--text-color);
@@ -32,25 +32,25 @@
             min-height: 100vh;
         }
         
-        /* HEADER */
+        /* HEADER (Dipertahankan) */
         header { 
             background-color: var(--card-bg); 
             border-bottom: 1px solid var(--border-color); 
         }
         
-        /* CONTAINER */
+        /* CONTAINER (Dipertahankan) */
         #container {
             max-width: 900px; 
             margin: 0 auto;
             padding: 20px;
         }
         
-        /* ACCORDION ITEM */
+        /* ACCORDION ITEM (Dipertahankan) */
         .accordion-item {
             margin-top: 10px; 
         }
 
-        /* ACCORDION SUMMARY (JUDUL ENDPOINT) */
+        /* ACCORDION SUMMARY (Dipertahankan) */
         .accordion-summary {
             background-color: var(--card-bg);
             padding: 18px 20px;
@@ -67,11 +67,11 @@
             background-color: #2D3748;
         }
         
-        /* Ketika SUMMARY AKTIF */
+        /* Ketika SUMMARY AKTIF (Dipertahankan) */
         .accordion-summary.active {
             border-bottom-left-radius: 0;
             border-bottom-right-radius: 0;
-            border: 1px solid var(--accent-color); /* ACCENT */
+            border: 1px solid var(--accent-color); 
             border-bottom: 0;
             background-color: #0F172A; 
         }
@@ -89,10 +89,10 @@
             transform: rotate(90deg);
         }
 
-        /* ACCORDION CONTENT (DETAIL ENDPOINT) */
+        /* ACCORDION CONTENT (Dipertahankan) */
         .accordion-content {
             background-color: var(--bg-color);
-            border: 1px solid var(--accent-color); /* ACCENT */
+            border: 1px solid var(--accent-color); 
             border-top: 0;
             padding: 0 20px; 
             border-bottom-left-radius: 8px;
@@ -102,7 +102,7 @@
             transition: max-height 0.4s ease-out, padding 0.4s ease-out;
         }
         
-        /* INPUT & CODE STYLES */
+        /* INPUT & CODE STYLES (Dipertahankan) */
         .api-endpoint-wrapper {
             background: #111827;
             border-radius: 6px;
@@ -116,7 +116,7 @@
             font-family: monospace;
             padding: 10px;
             font-size: 13px;
-            color: var(--code-text); /* CRIMSON CODE TEXT */
+            color: var(--code-text); 
             flex-grow: 1;
             word-break: break-all;
             overflow-x: hidden; 
@@ -124,7 +124,7 @@
 
         .copy-button {
             background-color: #2D3748; 
-            color: var(--accent-color); /* ACCENT */
+            color: var(--accent-color); 
             padding: 10px 15px;
             border-top-right-radius: 6px;
             border-bottom-right-radius: 6px;
@@ -133,7 +133,7 @@
             height: 100%;
         }
 
-        /* BUTTONS & RESPONSE AREA */
+        /* BUTTONS & RESPONSE AREA (Dipertahankan) */
         input[type="text"] { 
             width: 100%; 
             padding: 12px 15px;
@@ -146,7 +146,7 @@
         }
         
         .execute-button { 
-            background-color: var(--accent-color); /* ACCENT */
+            background-color: var(--accent-color); 
             color: var(--bg-color); 
             padding: 12px 15px; 
             border-radius: 6px; 
@@ -157,7 +157,7 @@
         }
         
         .execute-button:hover { 
-            background-color: var(--accent-hover); /* ACCENT HOVER */
+            background-color: var(--accent-hover); 
         }
 
         .response-container { 
@@ -192,7 +192,7 @@
             word-break: normal;
         }
         
-        /* TAMBAHAN: Class untuk status bar */
+        /* TAMBAHAN: Class untuk status bar (Dipertahankan) */
         .status-info {
             background-color: var(--status-info-bg);
         }
@@ -213,7 +213,7 @@
             <div class="flex items-center space-x-3">
                 <img src="https://eberardos.my.id/eberardos.jpg" alt="Logo" class="w-8 h-8 rounded-full"> 
                 <span class="text-2xl font-bold text-white">Eberardos API</span> 
-                <span class="text-sm text-red-300 font-medium">v1.0.4</span> 
+                <span class="text-sm text-red-300 font-medium">v1.0.0</span> 
             </div>
         </div>
     </header>
@@ -252,6 +252,33 @@
                     <div class="response-container">
                         <div id="statusBar_gemini" class="status-bar status-info">Ready to Execute.</div>
                         <textarea id="responseTextarea_gemini" class="response-textarea" readonly placeholder="The JSON result will appear here..."></textarea>
+                    </div>
+                </div>
+            </div>
+            <div class="accordion-item" data-id="spotify">
+                <div class="accordion-summary" onclick="toggleAccordion(this)">
+                    <span class="summary-title">Spotify Downloader (Track/Playlist)</span>
+                    <i class="fas fa-chevron-right summary-icon"></i>
+                </div>
+                <div class="accordion-content">
+                    <p class="text-xs text-gray-400 mb-3">Retrieve track/playlist metadata, including the direct download link from Spotisaver.</p>
+
+                    <div class="api-endpoint-wrapper">
+                        <div class="api-endpoint">
+                            /api/downloader/spotify?url=<span class="text-red-300">SpotifyURL</span>
+                        </div>
+                        <button onclick="copyEndpointUrl('spotify', document.getElementById('url_spotify').value.trim())" class="copy-button" title="Copy Full URL"><i class="fas fa-copy"></i></button>
+                    </div>
+
+                    <input type="text" id="url_spotify" 
+                           placeholder="Spotify Track/Playlist URL (Required). E.g: https://open.spotify.com/track/..." 
+                           value="https://open.spotify.com/track/4Pj9C89s5R9c037W3r9j9H"> 
+                           
+                    <button onclick="executeApi('downloader_spotify')" class="execute-button">Execute</button>
+                    
+                    <div class="response-container">
+                        <div id="statusBar_spotify" class="status-bar status-info">Ready to Execute.</div>
+                        <textarea id="responseTextarea_spotify" class="response-textarea" readonly placeholder="The JSON result will appear here..."></textarea>
                     </div>
                 </div>
             </div>
@@ -501,7 +528,7 @@
             }
         }
 
-        // --- COPY URL FUNCTION ---
+        // --- COPY URL FUNCTION (UPDATED) ---
         async function copyEndpointUrl(endpointKey, param1 = '', param2 = '') {
             let urlToCopy = '';
 
@@ -513,11 +540,14 @@
                 const category = param1; 
                 urlToCopy = `${RUCOY_ENDPOINT}/leaderboard?category=${category}&limit=100`;
             } 
-            // NEW ENDPOINTS LOGIC
+            // NEW DOWNLOADER LOGIC
             else if (endpointKey === 'gemini') {
                 const text = param1 || 'What is the capital of Indonesia?';
                 const apikey = param2 || 'YOUR_API_KEY_HERE';
                 urlToCopy = `${BASE_URL}/api/ai/gemini?text=${encodeURIComponent(text)}&apikey=${apikey}`;
+            } else if (endpointKey === 'spotify') { // <-- BARU
+                const url = param1 || 'https://open.spotify.com/track/4Pj9C89s5R9c037W3r9j9H';
+                urlToCopy = `${BASE_URL}/api/downloader/spotify?url=${encodeURIComponent(url)}`;
             } else if (endpointKey === 'videy') {
                 const url = param1 || 'https://videy.co/v/abcde';
                 urlToCopy = `${BASE_URL}/api/downloader/videy?url=${encodeURIComponent(url)}`;
@@ -535,7 +565,7 @@
             }
         }
 
-        // --- CORE API EXECUTION FUNCTIONS ---
+        // --- CORE API EXECUTION FUNCTIONS (UNCHANGED) ---
         async function fetchData(url, summary, itemId) {
             const statusBar = document.getElementById(`statusBar_${itemId}`);
             const responseTextarea = document.getElementById(`responseTextarea_${itemId}`);
@@ -567,7 +597,7 @@
             }
         }
 
-        // --- EXECUTE API LOGIC ---
+        // --- EXECUTE API LOGIC (UPDATED) ---
         function executeApi(endpointType) {
             let url = '';
             let summary = '';
@@ -598,7 +628,7 @@
                 url = `${RUCOY_ENDPOINT}/leaderboard?category=${category}&limit=100`; 
                 summary = `Fetching ${category.toUpperCase()} Leaderboard`;
             }
-            // NEW ENDPOINTS LOGIC
+            // DOWNLOADER LOGIC
             else if (endpointType === 'ai_gemini') {
                 itemId = 'gemini';
                 const textInput = document.getElementById('text_gemini');
@@ -614,6 +644,19 @@
                 
                 url = `${BASE_URL}/api/ai/gemini?text=${encodeURIComponent(text)}&apikey=${apikey}`; 
                 summary = `Querying Gemini AI`;
+                
+            } else if (endpointType === 'downloader_spotify') { // <-- BARU
+                itemId = 'spotify';
+                const urlInput = document.getElementById('url_spotify');
+                let inputUrl = urlInput ? urlInput.value.trim() : '';
+                
+                if (!inputUrl) {
+                    alert('Please enter the Spotify URL!');
+                    return;
+                }
+                
+                url = `${BASE_URL}/api/downloader/spotify?url=${encodeURIComponent(inputUrl)}`; 
+                summary = `Fetching Spotify Track/Playlist`;
                 
             } else if (endpointType === 'downloader_videy') {
                 itemId = 'videy';
