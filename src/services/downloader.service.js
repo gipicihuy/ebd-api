@@ -1,8 +1,19 @@
-// FILE: src/services/downloader.service.js
+// FILE: src/services/downloader.service.js (FIXED 403 ERROR)
 import axios from 'axios';
 
-// User Agent yang sama dengan yang digunakan oleh teman Anda
-const USER_AGENT = "Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Mobile Safari/537.36";
+// Gunakan sekumpulan header yang lebih lengkap untuk menghindari deteksi bot
+const USER_AGENT = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36';
+
+const ENHANCED_HEADERS = {
+    "User-Agent": USER_AGENT,
+    // Header ini penting agar request terlihat seperti dari browser
+    "Accept": "application/json, text/plain, */*",
+    "Accept-Language": "en-US,en;q=0.5",
+    "Connection": "keep-alive",
+    // Penting: Mengklaim bahwa request berasal dari domain Spotisaver itu sendiri
+    "Origin": "https://spotisaver.net" 
+};
+
 
 /**
  * Menggunakan logika scrape Spotisaver untuk mengambil metadata dan link track/playlist.
@@ -10,7 +21,7 @@ const USER_AGENT = "Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537.36 (KHTML
 export async function getSpotifyInfo(url) {
     let id, type, referer;
     
-    // 1. Validasi URL Spotify dan ekstrak ID
+    // 1. Validasi URL Spotify dan ekstrak ID (Logika tetap dari teman Anda)
     if (url.includes("/track/")) {
         id = url.split("/track/")[1]?.split("?")[0];
         type = "track";
@@ -30,11 +41,11 @@ export async function getSpotifyInfo(url) {
     const apiUrl = `https://spotisaver.net/api/get_playlist.php?id=${id}&type=${type}&lang=en`;
 
     try {
-        // 2. Melakukan request ke API Spotisaver
+        // 2. Melakukan request ke API Spotisaver dengan ENHANCED HEADERS
         const res = await axios.get(apiUrl, { 
             headers: { 
-                "User-Agent": USER_AGENT, 
-                "Referer": referer // Penting untuk melewati proteksi
+                ...ENHANCED_HEADERS, 
+                "Referer": referer // Referer tetap dinamis
             },
             timeout: 15000 
         });
@@ -54,7 +65,6 @@ export async function getSpotifyInfo(url) {
             album: track.album,
             release_date: track.release_date,
             duration_ms: track.duration_ms,
-            // Ini adalah link download yang diekstrak dari Spotisaver
             download_url: track.download_url || null, 
             metadata_source: "Spotisaver"
         }));
@@ -67,7 +77,8 @@ export async function getSpotifyInfo(url) {
         };
 
     } catch (error) {
-        throw new Error(`Failed to scrape Spotisaver. Details: ${error.message}`);
+        // Jika masih gagal, tampilkan error yang lebih deskriptif
+        throw new Error(`Failed to scrape Spotisaver. Details: ${error.message}. Try checking the Referer or Spotisaver's latest protection.`);
     }
 }
 
