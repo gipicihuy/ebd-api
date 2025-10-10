@@ -14,7 +14,7 @@ router.get('/ff', async (req, res) => {
     if (!playerId || !/^\d+$/.test(playerId)) {
         return res.status(400).json({ 
             error: "Parameter 'id' wajib diisi dan harus berupa angka.",
-            contoh: "/api/stalk/ff?id=1234567890"
+            contoh: "/api/stalk/ff?id=12345678"
         });
     }
 
