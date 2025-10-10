@@ -284,34 +284,34 @@
                 </div>
             </div>
 
-            <div class="accordion-item" data-id="ff">
-                <div class="accordion-summary" onclick="toggleAccordion(this)">
-                    <span class="summary-title">Free Fire Stalk (Via DG API)</span>
-                    <i class="fas fa-chevron-right summary-icon"></i>
-                </div>
-                <div class="accordion-content">
-                    <p class="text-xs text-gray-400 mb-3">Retrieve Nickname and Server data dari Free Fire Player ID.</p>
+                        <div class="accordion-item" data-id="ff">
+                <div class="accordion-summary" onclick="toggleAccordion(this)">
+                    <span class="summary-title">Free Fire Stalk</span>
+                    <i class="fas fa-chevron-right summary-icon"></i>
+                </div>
+                <div class="accordion-content">
+                    <p class="text-xs text-gray-400 mb-3">Retrieve public profile data (level, rank, stats, dll.) dari Player ID Free Fire.</p>
 
-                    <div class="api-endpoint-wrapper">
-                        <div class="api-endpoint">
-                            /api/stalk/ff?id=<span class="text-red-300">PlayerID</span>
-                        </div>
-                        <button onclick="copyEndpointUrl('ff', document.getElementById('id_ff').value.trim())" class="copy-button" title="Copy Full URL"><i class="fas fa-copy"></i></button>
-                    </div>
+                    <div class="api-endpoint-wrapper">
+                        <div class="api-endpoint">
+                            /api/stalk/ff?id=<span class="text-red-300">PlayerID</span>
+                        </div>
+                        <button onclick="copyEndpointUrl('ff', document.getElementById('player_id_ff').value.trim())" class="copy-button" title="Copy Full URL"><i class="fas fa-copy"></i></button>
+                    </div>
 
-                    <input type="text" id="id_ff" 
-                           placeholder="Free Fire Player ID (Required). E.g: 1234567890" 
-                           value="1234567890">
-                            
-                    <button onclick="executeApi('stalk_ff')" class="execute-button">Execute</button>
-                    
-                    <div class="response-container">
-                        <div id="statusBar_ff" class="status-bar status-info">Ready to Execute.</div>
-                        <textarea id="responseTextarea_ff" class="response-textarea" readonly placeholder="The JSON result will appear here..."></textarea>
-                    </div>
-                </div>
-            </div>
-                    </div>
+                    <input type="text" id="player_id_ff" 
+                           placeholder="Free Fire Player ID (Required). E.g: 10000000" 
+                           value="10000000">
+                            
+                    <button onclick="executeApi('stalk_ff')" class="execute-button">Execute</button>
+                    
+                    <div class="response-container">
+                        <div id="statusBar_ff" class="status-bar status-info">Ready to Execute.</div>
+                        <textarea id="responseTextarea_ff" class="response-textarea" readonly placeholder="The JSON result will appear here..."></textarea>
+                    </div>
+                </div>
+            </div>
+        </div>
         
         <h2 class="text-xl font-bold text-white mb-3 mt-8 border-b border-gray-600 pb-2">RUCOY ONLINE API</h2>
 
@@ -463,19 +463,16 @@
     </div>
     
     <script>
-        // Jika API Anda di-host di tempat lain, ganti ini. Jika lokal, biarkan saja.
-        const BASE_URL = 'https://api.eberardos.my.id'; // Gunakan string kosong jika diakses secara lokal (misalnya http://localhost:3000)
-        // Jika di-host di domain, ganti BASE_URL = 'https://api.eberardos.my.id';
+        const BASE_URL = 'https://api.eberardos.my.id'; 
         const RUCOY_ENDPOINT = `${BASE_URL}/api/rucoy`;
         const STALK_ENDPOINT = `${BASE_URL}/api/stalk`;
 
-        // --- ACCORDION TOGGLE LOGIC ---
+        // --- ACCORDION TOGGLE LOGIC (UNCHANGED) ---
         function toggleAccordion(element) {
             const item = element.closest('.accordion-item');
             const content = item.querySelector('.accordion-content');
             const isActive = element.classList.contains('active');
 
-            // Close all other active accordions
             document.querySelectorAll('.accordion-summary.active').forEach(activeSummary => {
                 if (activeSummary !== element) {
                     activeSummary.classList.remove('active');
@@ -493,14 +490,13 @@
                 content.style.paddingBottom = '0px';
             } else {
                 element.classList.add('active');
-                // Set max-height and padding for smooth transition
                 content.style.maxHeight = content.scrollHeight + 40 + "px"; 
                 content.style.paddingTop = '20px';
                 content.style.paddingBottom = '20px';
             }
         }
 
-        // --- COPY URL FUNCTION ---
+        // --- COPY URL FUNCTION (UPDATED) ---
         async function copyEndpointUrl(endpointKey, param1 = '') {
             let urlToCopy = '';
 
@@ -511,9 +507,9 @@
             } else if (endpointKey === 'roblox') { 
                 const username = param1 || 'builderman';
                 urlToCopy = `${STALK_ENDPOINT}/roblox?username=${encodeURIComponent(username)}`;
-            } else if (endpointKey === 'ff') { 
-                const id = param1 || '1234567890';
-                urlToCopy = `${STALK_ENDPOINT}/ff?id=${encodeURIComponent(id)}`;
+            } else if (endpointKey === 'ff') { // <-- NEW: Free Fire Stalk
+                const playerId = param1 || '10000000';
+                urlToCopy = `${STALK_ENDPOINT}/ff?id=${encodeURIComponent(playerId)}`;
             } else if (endpointKey === 'rucoy_stalk') { 
                 const charName = param1 || 'xzydanzz';
                 urlToCopy = `${RUCOY_ENDPOINT}/stalk?name=${encodeURIComponent(charName)}`;
@@ -533,7 +529,7 @@
             }
         }
 
-        // --- CORE API EXECUTION FUNCTIONS ---
+        // --- CORE API EXECUTION FUNCTIONS (UNCHANGED) ---
         async function fetchData(url, summary, itemId) {
             const statusBar = document.getElementById(`statusBar_${itemId}`);
             const responseTextarea = document.getElementById(`responseTextarea_${itemId}`);
@@ -565,7 +561,7 @@
             }
         }
 
-        // --- EXECUTE API LOGIC ---
+        // --- EXECUTE API LOGIC (UPDATED) ---
         function executeApi(endpointType) {
             let url = '';
             let summary = '';
@@ -597,22 +593,21 @@
 
                 url = `${STALK_ENDPOINT}/roblox?username=${encodeURIComponent(username)}`; 
                 summary = `Mencari Data Roblox ${username}`;
-            }
-            
-            else if (endpointType === 'stalk_ff') { 
-                itemId = 'ff';
-                const idInput = document.getElementById('id_ff');
-                let playerId = idInput ? idInput.value.trim() : '';
 
-                if (!playerId || isNaN(playerId) || playerId.includes('.')) {
-                    alert('Harap masukkan Free Fire Player ID yang valid (hanya angka)!');
+            } else if (endpointType === 'stalk_ff') { // <-- NEW: Free Fire Stalk
+                itemId = 'ff';
+                const playerIdInput = document.getElementById('player_id_ff');
+                let playerId = playerIdInput ? playerIdInput.value.trim() : '';
+
+                if (!playerId) {
+                    alert('Harap masukkan Player ID Free Fire!');
                     return;
                 }
 
-                url = `${STALK_ENDPOINT}/ff?id=${encodeURIComponent(playerId)}`; 
+                url = `${STALK_ENDPOINT}/ff?id=${encodeURIComponent(playerId)}`;
                 summary = `Mencari Data Free Fire ID: ${playerId}`;
-            }
-
+                
+            }
             // RUCOY STALK 
             else if (endpointType === 'stalk_rucoy') {
                 itemId = 'rucoy_stalk';
