@@ -1,4 +1,4 @@
-// FILE: server.js (UPDATED with TikTok & Roblox Stalker)
+// server.js (UPDATED with FF Stalker)
 
 import express from 'express';
 import path from 'path'; 
@@ -9,7 +9,8 @@ const __dirname = path.dirname(__filename);
 
 import rucoyRoutes from './src/routes/rucoy.routes.js'; 
 import tiktokRoutes from './src/routes/tiktok.routes.js';
-import robloxRoutes from './src/routes/stalkrblx.routes.js'; // <--- PERUBAHAN 1
+import robloxRoutes from './src/routes/stalkrblx.routes.js'; 
+import ffRoutes from './src/routes/ffstalk.routes.js'; // <-- NEW IMPORT
 
 const app = express();
 const PORT = process.env.PORT || 3000; 
@@ -17,7 +18,7 @@ const PORT = process.env.PORT || 3000; 
 // MIDDLEWARE
 app.use(express.json());
 
-// 1. ROUTE UTAMA untuk melayani file HTML
+// 1. ROUTE UTAMA
 app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'tester.html'));
 });
@@ -27,7 +28,8 @@ app.use('/api/rucoy', rucoyRoutes);
 
 // 3. MOUNT ENDPOINT Stalker API
 app.use('/api/stalk', tiktokRoutes); 
-app.use('/api/stalk', robloxRoutes); // <--- PERUBAHAN 2 (BASE: /api/stalk/roblox)
+app.use('/api/stalk', robloxRoutes); 
+app.use('/api/stalk', ffRoutes); // <-- NEW MOUNT (BASE: /api/stalk/ff)
 
 // Jalankan server
 app.listen(PORT, () => {
