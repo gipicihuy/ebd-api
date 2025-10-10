@@ -1,4 +1,4 @@
-// FILE: src/routes/ffstalk.routes.js
+// FILE: src/routes/ffstalk.routes.js (Sudah Diperbaiki)
 
 import express from 'express';
 import { stalkFreeFirePlayer } from '../services/ffstalk.service.js'; 
@@ -27,9 +27,11 @@ router.get('/ff', async (req, res) => {
             return res.status(status).json({ error: data.error }); 
         }
 
+        // PERUBAHAN KRITIS ADA DI BAWAH INI
         res.status(200).json({ 
             status: "success", 
-            source: "duniagames.co.id",
+            // BARIS INI MENGGANTIKAN 'source: "duniagames.co.id"'
+            creator: "givy", 
             data: data
         });
 
