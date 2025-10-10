@@ -244,163 +244,252 @@
                     <img src="https://eberardos.my.id/eberardos.jpg" alt="Logo" class="w-8 h-8 rounded-full"> 
                     <span class="text-2xl font-bold text-white">Eberardos API</span> 
                 </div>
-                <span class="version-badge">V1.0.6 BETA</span>
+                <span class="version-badge">V1.0.7 BETA</span>
             </div>
         </div>
     </header>
 
-    <div id="container">
+<div id="container">
         
-        <h2 class="text-xl font-bold text-white mb-3 mt-4 border-b border-gray-600 pb-2">STALKER HUB</h2>
+    <h2 class="text-xl font-bold text-white mb-3 mt-4 border-b border-gray-600 pb-2">STALKER HUB</h2>
 
-        <div id="accordion-wrapper-stalker">
-            
-            <div class="accordion-item" data-id="tiktok">
-                <div class="accordion-summary" onclick="toggleAccordion(this)">
-                    <span class="summary-title">TikTok Stalk</span>
-                    <i class="fas fa-chevron-right summary-icon"></i>
-                </div>
-                <div class="accordion-content">
-                    <p class="text-xs text-gray-400 mb-3">Retrieve public profile data (stats, bio, links, dll.) dari username TikTok.</p>
-
-                    <div class="api-endpoint-wrapper">
-                        <div class="api-endpoint">
-                            /api/stalk/tiktok?username=<span class="text-red-300">TikTokUsername</span>
-                        </div>
-                        <button onclick="copyEndpointUrl('tiktok', document.getElementById('username_tiktok').value.trim())" class="copy-button" title="Copy Full URL"><i class="fas fa-copy"></i></button>
-                    </div>
-
-                    <input type="text" id="username_tiktok" 
-                           placeholder="TikTok Username (Required). E.g: puan_maharaniri" 
-                           value="puan_maharaniri">
-                           
-                    <button onclick="executeApi('stalk_tiktok')" class="execute-button">Execute</button>
-                    
-                    <div class="response-container">
-                        <div id="statusBar_tiktok" class="status-bar status-info">Ready to Execute.</div>
-                        <textarea id="responseTextarea_tiktok" class="response-textarea" readonly placeholder="The JSON result will appear here..."></textarea>
-                    </div>
-                </div>
+    <div id="accordion-wrapper-stalker">
+        
+        <div class="accordion-item" data-id="tiktok">
+            <div class="accordion-summary" onclick="toggleAccordion(this)">
+                <span class="summary-title">TikTok Stalk</span>
+                <i class="fas fa-chevron-right summary-icon"></i>
             </div>
-            
-            <div class="accordion-item" data-id="roblox">
-                <div class="accordion-summary" onclick="toggleAccordion(this)">
-                    <span class="summary-title">Roblox Stalk</span>
-                    <i class="fas fa-chevron-right summary-icon"></i>
+            <div class="accordion-content">
+                <p class="text-xs text-gray-400 mb-3">Retrieve public profile data (stats, bio, links, dll.) dari username TikTok.</p>
+
+                <div class="api-endpoint-wrapper">
+                    <div class="api-endpoint">
+                        /api/stalk/tiktok?username=<span class="text-red-300">TikTokUsername</span>
+                    </div>
+                    <button onclick="copyEndpointUrl('tiktok', document.getElementById('username_tiktok').value.trim())" class="copy-button" title="Copy Full URL"><i class="fas fa-copy"></i></button>
                 </div>
-                <div class="accordion-content">
-                    <p class="text-xs text-gray-400 mb-3">Retrieve public profile data (ID, bio, stats, presence, groups, dll.) dari username Roblox.</p>
 
-                    <div class="api-endpoint-wrapper">
-                        <div class="api-endpoint">
-                            /api/stalk/roblox?username=<span class="text-red-300">RobloxUsername</span>
-                        </div>
-                        <button onclick="copyEndpointUrl('roblox', document.getElementById('username_roblox').value.trim())" class="copy-button" title="Copy Full URL"><i class="fas fa-copy"></i></button>
-                    </div>
-
-                    <input type="text" id="username_roblox" 
-                           placeholder="Roblox Username (Required). E.g: builderman" 
-                           value="builderman">
-                           
-                    <button onclick="executeApi('stalk_roblox')" class="execute-button">Execute</button>
-                    
-                    <div class="response-container">
-                        <div id="statusBar_roblox" class="status-bar status-info">Ready to Execute.</div>
-                        <textarea id="responseTextarea_roblox" class="response-textarea" readonly placeholder="The JSON result will appear here..."></textarea>
-                    </div>
-                </div>
-            </div>
-
-            <div class="accordion-item" data-id="ff_stalk">
-                <div class="accordion-summary" onclick="toggleAccordion(this)">
-                    <span class="summary-title">Free Fire (FF) Stalk</span>
-                    <i class="fas fa-chevron-right summary-icon"></i>
-                </div>
-                <div class="accordion-content">
-                    <p class="text-xs text-gray-400 mb-3">Retrieve public profile data (Stats, Name, Rank, dll.) dari **Free Fire User ID**.</p>
-
-                    <div class="api-endpoint-wrapper">
-                        <div class="api-endpoint">
-                            /api/stalk/ff?id=<span class="text-red-300">FreeFireUserID</span>
-                        </div>
-                        <button onclick="copyEndpointUrl('ff_stalk', document.getElementById('id_ff_stalk').value.trim())" class="copy-button" title="Copy Full URL"><i class="fas fa-copy"></i></button>
-                    </div>
-
-                    <input type="text" id="id_ff_stalk" 
-                           placeholder="Free Fire User ID (Required). E.g: 22756858" 
-                           value="22756858">
-                            
-                    <button onclick="executeApi('stalk_ff')" class="execute-button">Execute</button>
-                    
-                    <div class="response-container">
-                        <div id="statusBar_ff_stalk" class="status-bar status-info">Ready to Execute.</div>
-                        <textarea id="responseTextarea_ff_stalk" class="response-textarea" readonly placeholder="The JSON result will appear here..."></textarea>
-                    </div>
+                <input type="text" id="username_tiktok" 
+                       placeholder="TikTok Username (Required). E.g: puan_maharaniri" 
+                       value="puan_maharaniri">
+                       
+                <button onclick="executeApi('stalk_tiktok')" class="execute-button">Execute</button>
+                
+                <div class="response-container">
+                    <div id="statusBar_tiktok" class="status-bar status-info">Ready to Execute.</div>
+                    <textarea id="responseTextarea_tiktok" class="response-textarea" readonly placeholder="The JSON result will appear here..."></textarea>
                 </div>
             </div>
         </div>
         
-<h2 class="text-xl font-bold text-white mb-3 mt-8 border-b border-gray-600 pb-2">RUCOY ONLINE API</h2>
+        <div class="accordion-item" data-id="roblox">
+            <div class="accordion-summary" onclick="toggleAccordion(this)">
+                <span class="summary-title">Roblox Stalk</span>
+                <i class="fas fa-chevron-right summary-icon"></i>
+            </div>
+            <div class="accordion-content">
+                <p class="text-xs text-gray-400 mb-3">Retrieve public profile data (ID, bio, stats, presence, groups, dll.) dari username Roblox.</p>
 
-<div id="accordion-wrapper-rucoy">
-    
-    <div class="accordion-item" data-id="rucoy_stalk">
-        <div class="accordion-summary" onclick="toggleAccordion(this)">
-            <span class="summary-title">Rucoy Character Stalk</span>
-            <i class="fas fa-chevron-right summary-icon"></i>
+                <div class="api-endpoint-wrapper">
+                    <div class="api-endpoint">
+                        /api/stalk/roblox?username=<span class="text-red-300">RobloxUsername</span>
+                    </div>
+                    <button onclick="copyEndpointUrl('roblox', document.getElementById('username_roblox').value.trim())" class="copy-button" title="Copy Full URL"><i class="fas fa-copy"></i></button>
+                </div>
+
+                <input type="text" id="username_roblox" 
+                       placeholder="Roblox Username (Required). E.g: builderman" 
+                       value="builderman">
+                       
+                <button onclick="executeApi('stalk_roblox')" class="execute-button">Execute</button>
+                
+                <div class="response-container">
+                    <div id="statusBar_roblox" class="status-bar status-info">Ready to Execute.</div>
+                    <textarea id="responseTextarea_roblox" class="response-textarea" readonly placeholder="The JSON result will appear here..."></textarea>
+                </div>
+            </div>
         </div>
-        <div class="accordion-content">
-            <!-- content rucoy stalk -->
-        </div>
-    </div>
-    
-    <div class="accordion-item" data-id="experience">
-        <div class="accordion-summary" onclick="toggleAccordion(this)">
-            <span class="summary-title">Leaderboard Experience (Top 100)</span>
-            <i class="fas fa-chevron-right summary-icon"></i>
-        </div>
-        <div class="accordion-content">
-            <!-- content experience -->
-        </div>
-    </div>
-    
-    <div class="accordion-item" data-id="melee">
-        <div class="accordion-summary" onclick="toggleAccordion(this)">
-            <span class="summary-title">Leaderboard Melee (Top 100)</span>
-            <i class="fas fa-chevron-right summary-icon"></i>
-        </div>
-        <div class="accordion-content">
-            <!-- content melee -->
-        </div>
-    </div>
-    
-    <div class="accordion-item" data-id="distance">
-        <div class="accordion-summary" onclick="toggleAccordion(this)">
-            <span class="summary-title">Leaderboard Distance (Top 100)</span>
-            <i class="fas fa-chevron-right summary-icon"></i>
-        </div>
-        <div class="accordion-content">
-            <!-- content distance -->
-        </div>
-    </div>
-    
-    <div class="accordion-item" data-id="magic">
-        <div class="accordion-summary" onclick="toggleAccordion(this)">
-            <span class="summary-title">Leaderboard Magic (Top 100)</span>
-            <i class="fas fa-chevron-right summary-icon"></i>
-        </div>
-        <div class="accordion-content">
-            <!-- content magic -->
+
+        <div class="accordion-item" data-id="ff_stalk">
+            <div class="accordion-summary" onclick="toggleAccordion(this)">
+                <span class="summary-title">Free Fire (FF) Stalk</span>
+                <i class="fas fa-chevron-right summary-icon"></i>
+            </div>
+            <div class="accordion-content">
+                <p class="text-xs text-gray-400 mb-3">Retrieve public profile data (Stats, Name, Rank, dll.) dari **Free Fire User ID**.</p>
+
+                <div class="api-endpoint-wrapper">
+                    <div class="api-endpoint">
+                        /api/stalk/ff?id=<span class="text-red-300">FreeFireUserID</span>
+                    </div>
+                    <button onclick="copyEndpointUrl('ff_stalk', document.getElementById('id_ff_stalk').value.trim())" class="copy-button" title="Copy Full URL"><i class="fas fa-copy"></i></button>
+                </div>
+
+                <input type="text" id="id_ff_stalk" 
+                       placeholder="Free Fire User ID (Required). E.g: 22756858" 
+                       value="22756858">
+                        
+                <button onclick="executeApi('stalk_ff')" class="execute-button">Execute</button>
+                
+                <div class="response-container">
+                    <div id="statusBar_ff_stalk" class="status-bar status-info">Ready to Execute.</div>
+                    <textarea id="responseTextarea_ff_stalk" class="response-textarea" readonly placeholder="The JSON result will appear here..."></textarea>
+                </div>
+            </div>
         </div>
     </div>
     
-    <div class="accordion-item" data-id="defense">
-        <div class="accordion-summary" onclick="toggleAccordion(this)">
-            <span class="summary-title">Leaderboard Defense (Top 100)</span>
-            <i class="fas fa-chevron-right summary-icon"></i>
+    <h2 class="text-xl font-bold text-white mb-3 mt-8 border-b border-gray-600 pb-2">RUCOY ONLINE API</h2>
+
+    <div id="accordion-wrapper-rucoy">
+        
+        <div class="accordion-item" data-id="rucoy_stalk">
+            <div class="accordion-summary" onclick="toggleAccordion(this)">
+                <span class="summary-title">Rucoy Character Stalk</span>
+                <i class="fas fa-chevron-right summary-icon"></i>
+            </div>
+            <div class="accordion-content">
+                <p class="text-xs text-gray-400 mb-3">Retrieve character status, skills, and latest event data dari Rucoy Online.</p>
+
+                <div class="api-endpoint-wrapper">
+                    <div class="api-endpoint">
+                        /api/rucoy/stalk?name=<span class="text-red-300">CharacterName</span>
+                    </div>
+                    <button onclick="copyEndpointUrl('rucoy_stalk', document.getElementById('charName_rucoy_stalk').value.trim())" class="copy-button" title="Copy Full URL"><i class="fas fa-copy"></i></button>
+                </div>
+
+                <input type="text" id="charName_rucoy_stalk" 
+                       placeholder="Rucoy Character Name (Required). E.g: xzydanzz" 
+                       value="xzydanzz"> 
+                       
+                <button onclick="executeApi('stalk_rucoy')" class="execute-button">Execute</button>
+                
+                <div class="response-container">
+                    <div id="statusBar_rucoy_stalk" class="status-bar status-info">Ready to Execute.</div>
+                    <textarea id="responseTextarea_rucoy_stalk" class="response-textarea" readonly placeholder="The JSON result will appear here..."></textarea>
+                </div>
+            </div>
         </div>
-        <div class="accordion-content">
-            <!-- content defense -->
+        
+        <div class="accordion-item" data-id="experience">
+            <div class="accordion-summary" onclick="toggleAccordion(this)">
+                <span class="summary-title">Leaderboard Experience (Top 100)</span>
+                <i class="fas fa-chevron-right summary-icon"></i>
+            </div>
+            <div class="accordion-content">
+                <p class="text-xs text-gray-400 mb-3">Retrieve the Experience Leaderboard data (Top 100).</p>
+
+                <div class="api-endpoint-wrapper">
+                    <div class="api-endpoint">
+                        /api/rucoy/leaderboard?category=<span class="text-red-300">experience</span>
+                    </div>
+                    <button onclick="copyEndpointUrl('leaderboard', 'experience')" class="copy-button" title="Copy Full URL"><i class="fas fa-copy"></i></button>
+                </div>
+
+                <button onclick="executeApi('leaderboard_experience')" class="execute-button">Execute</button>
+                
+                <div class="response-container">
+                    <div id="statusBar_experience" class="status-bar status-info">Ready to Execute.</div>
+                    <textarea id="responseTextarea_experience" class="response-textarea" readonly placeholder="The JSON result will appear here..."></textarea>
+                </div>
+            </div>
+        </div>
+        
+        <div class="accordion-item" data-id="melee">
+            <div class="accordion-summary" onclick="toggleAccordion(this)">
+                <span class="summary-title">Leaderboard Melee (Top 100)</span>
+                <i class="fas fa-chevron-right summary-icon"></i>
+            </div>
+            <div class="accordion-content">
+                <p class="text-xs text-gray-400 mb-3">Retrieve the Melee Leaderboard data (Top 100).</p>
+
+                <div class="api-endpoint-wrapper">
+                    <div class="api-endpoint">
+                        /api/rucoy/leaderboard?category=<span class="text-red-300">melee</span>
+                    </div>
+                    <button onclick="copyEndpointUrl('leaderboard', 'melee')" class="copy-button" title="Copy Full URL"><i class="fas fa-copy"></i></button>
+                </div>
+
+                <button onclick="executeApi('leaderboard_melee')" class="execute-button">Execute</button>
+                
+                <div class="response-container">
+                    <div id="statusBar_melee" class="status-bar status-info">Ready to Execute.</div>
+                    <textarea id="responseTextarea_melee" class="response-textarea" readonly placeholder="The JSON result will appear here..."></textarea>
+                </div>
+            </div>
+        </div>
+        
+        <div class="accordion-item" data-id="distance">
+            <div class="accordion-summary" onclick="toggleAccordion(this)">
+                <span class="summary-title">Leaderboard Distance (Top 100)</span>
+                <i class="fas fa-chevron-right summary-icon"></i>
+            </div>
+            <div class="accordion-content">
+                <p class="text-xs text-gray-400 mb-3">Retrieve the Distance Leaderboard data (Top 100).</p>
+
+                <div class="api-endpoint-wrapper">
+                    <div class="api-endpoint">
+                        /api/rucoy/leaderboard?category=<span class="text-red-300">distance</span>
+                    </div>
+                    <button onclick="copyEndpointUrl('leaderboard', 'distance')" class="copy-button" title="Copy Full URL"><i class="fas fa-copy"></i></button>
+                </div>
+
+                <button onclick="executeApi('leaderboard_distance')" class="execute-button">Execute</button>
+                
+                <div class="response-container">
+                    <div id="statusBar_distance" class="status-bar status-info">Ready to Execute.</div>
+                    <textarea id="responseTextarea_distance" class="response-textarea" readonly placeholder="The JSON result will appear here..."></textarea>
+                </div>
+            </div>
+        </div>
+        
+        <div class="accordion-item" data-id="magic">
+            <div class="accordion-summary" onclick="toggleAccordion(this)">
+                <span class="summary-title">Leaderboard Magic (Top 100)</span>
+                <i class="fas fa-chevron-right summary-icon"></i>
+            </div>
+            <div class="accordion-content">
+                <p class="text-xs text-gray-400 mb-3">Retrieve the Magic Leaderboard data (Top 100).</p>
+
+                <div class="api-endpoint-wrapper">
+                    <div class="api-endpoint">
+                        /api/rucoy/leaderboard?category=<span class="text-red-300">magic</span>
+                    </div>
+                    <button onclick="copyEndpointUrl('leaderboard', 'magic')" class="copy-button" title="Copy Full URL"><i class="fas fa-copy"></i></button>
+                </div>
+
+                <button onclick="executeApi('leaderboard_magic')" class="execute-button">Execute</button>
+                
+                <div class="response-container">
+                    <div id="statusBar_magic" class="status-bar status-info">Ready to Execute.</div>
+                    <textarea id="responseTextarea_magic" class="response-textarea" readonly placeholder="The JSON result will appear here..."></textarea>
+                </div>
+            </div>
+        </div>
+        
+        <div class="accordion-item" data-id="defense">
+            <div class="accordion-summary" onclick="toggleAccordion(this)">
+                <span class="summary-title">Leaderboard Defense (Top 100)</span>
+                <i class="fas fa-chevron-right summary-icon"></i>
+            </div>
+            <div class="accordion-content">
+                <p class="text-xs text-gray-400 mb-3">Retrieve the Defense Leaderboard data (Top 100).</p>
+
+                <div class="api-endpoint-wrapper">
+                    <div class="api-endpoint">
+                        /api/rucoy/leaderboard?category=<span class="text-red-300">defense</span>
+                    </div>
+                    <button onclick="copyEndpointUrl('leaderboard', 'defense')" class="copy-button" title="Copy Full URL"><i class="fas fa-copy"></i></button>
+                </div>
+
+                <button onclick="executeApi('leaderboard_defense')" class="execute-button">Execute</button>
+                
+                <div class="response-container">
+                    <div id="statusBar_defense" class="status-bar status-info">Ready to Execute.</div>
+                    <textarea id="responseTextarea_defense" class="response-textarea" readonly placeholder="The JSON result will appear here..."></textarea>
+                </div>
+            </div>
         </div>
     </div>
 </div>
