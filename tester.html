@@ -463,16 +463,19 @@
     </div>
     
     <script>
-        const BASE_URL = 'https://api.eberardos.my.id'; 
+        // Jika API Anda di-host di tempat lain, ganti ini. Jika lokal, biarkan saja.
+        const BASE_URL = 'https://api.eberardos.my.id'; // Gunakan string kosong jika diakses secara lokal (misalnya http://localhost:3000)
+        // Jika di-host di domain, ganti BASE_URL = 'https://api.eberardos.my.id';
         const RUCOY_ENDPOINT = `${BASE_URL}/api/rucoy`;
         const STALK_ENDPOINT = `${BASE_URL}/api/stalk`;
 
-        // --- ACCORDION TOGGLE LOGIC (UNCHANGED) ---
+        // --- ACCORDION TOGGLE LOGIC ---
         function toggleAccordion(element) {
             const item = element.closest('.accordion-item');
             const content = item.querySelector('.accordion-content');
             const isActive = element.classList.contains('active');
 
+            // Close all other active accordions
             document.querySelectorAll('.accordion-summary.active').forEach(activeSummary => {
                 if (activeSummary !== element) {
                     activeSummary.classList.remove('active');
@@ -490,13 +493,14 @@
                 content.style.paddingBottom = '0px';
             } else {
                 element.classList.add('active');
+                // Set max-height and padding for smooth transition
                 content.style.maxHeight = content.scrollHeight + 40 + "px"; 
                 content.style.paddingTop = '20px';
                 content.style.paddingBottom = '20px';
             }
         }
 
-        // --- COPY URL FUNCTION (UPDATED) ---
+        // --- COPY URL FUNCTION ---
         async function copyEndpointUrl(endpointKey, param1 = '') {
             let urlToCopy = '';
 
@@ -507,7 +511,7 @@
             } else if (endpointKey === 'roblox') { 
                 const username = param1 || 'builderman';
                 urlToCopy = `${STALK_ENDPOINT}/roblox?username=${encodeURIComponent(username)}`;
-            } else if (endpointKey === 'ff') { // <-- NEW: FF Stalk
+            } else if (endpointKey === 'ff') { 
                 const id = param1 || '1234567890';
                 urlToCopy = `${STALK_ENDPOINT}/ff?id=${encodeURIComponent(id)}`;
             } else if (endpointKey === 'rucoy_stalk') { 
@@ -529,7 +533,7 @@
             }
         }
 
-        // --- CORE API EXECUTION FUNCTIONS (UNCHANGED) ---
+        // --- CORE API EXECUTION FUNCTIONS ---
         async function fetchData(url, summary, itemId) {
             const statusBar = document.getElementById(`statusBar_${itemId}`);
             const responseTextarea = document.getElementById(`responseTextarea_${itemId}`);
@@ -561,7 +565,7 @@
             }
         }
 
-        // --- EXECUTE API LOGIC (UPDATED) ---
+        // --- EXECUTE API LOGIC ---
         function executeApi(endpointType) {
             let url = '';
             let summary = '';
@@ -581,7 +585,7 @@
                 url = `${STALK_ENDPOINT}/tiktok?username=${encodeURIComponent(username)}`; 
                 summary = `Mencari Data TikTok @${username}`;
 
-            } else if (endpointType === 'stalk_roblox') { // <-- ROBlox Stalk
+            } else if (endpointType === 'stalk_roblox') { 
                 itemId = 'roblox';
                 const usernameInput = document.getElementById('username_roblox');
                 let username = usernameInput ? usernameInput.value.trim() : '';
@@ -595,7 +599,7 @@
                 summary = `Mencari Data Roblox ${username}`;
             }
             
-            else if (endpointType === 'stalk_ff') { // <-- NEW: FF Stalk
+            else if (endpointType === 'stalk_ff') { 
                 itemId = 'ff';
                 const idInput = document.getElementById('id_ff');
                 let playerId = idInput ? idInput.value.trim() : '';
