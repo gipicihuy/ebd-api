@@ -217,7 +217,7 @@
                     <img src="https://eberardos.my.id/eberardos.jpg" alt="Logo" class="w-8 h-8 rounded-full"> 
                     <span class="text-2xl font-bold text-white">Eberardos API</span> 
                 </div>
-                <span class="version-badge">V1.0.5 BETA</span>
+                <span class="version-badge">V1.0.6 BETA</span>
             </div>
         </div>
     </header>
@@ -255,7 +255,35 @@
                     </div>
                 </div>
             </div>
-        </div>
+            
+            <div class="accordion-item" data-id="roblox">
+                <div class="accordion-summary" onclick="toggleAccordion(this)">
+                    <span class="summary-title">Roblox Stalk</span>
+                    <i class="fas fa-chevron-right summary-icon"></i>
+                </div>
+                <div class="accordion-content">
+                    <p class="text-xs text-gray-400 mb-3">Retrieve public profile data (ID, bio, stats, presence, groups, dll.) dari username Roblox.</p>
+
+                    <div class="api-endpoint-wrapper">
+                        <div class="api-endpoint">
+                            /api/stalk/roblox?username=<span class="text-red-300">RobloxUsername</span>
+                        </div>
+                        <button onclick="copyEndpointUrl('roblox', document.getElementById('username_roblox').value.trim())" class="copy-button" title="Copy Full URL"><i class="fas fa-copy"></i></button>
+                    </div>
+
+                    <input type="text" id="username_roblox" 
+                           placeholder="Roblox Username (Required). E.g: builderman" 
+                           value="builderman">
+                            
+                    <button onclick="executeApi('stalk_roblox')" class="execute-button">Execute</button>
+                    
+                    <div class="response-container">
+                        <div id="statusBar_roblox" class="status-bar status-info">Ready to Execute.</div>
+                        <textarea id="responseTextarea_roblox" class="response-textarea" readonly placeholder="The JSON result will appear here..."></textarea>
+                    </div>
+                </div>
+            </div>
+            </div>
         
         <h2 class="text-xl font-bold text-white mb-3 mt-8 border-b border-gray-600 pb-2">RUCOY ONLINE API</h2>
 
@@ -448,7 +476,10 @@
             if (endpointKey === 'tiktok') {
                 const username = param1 || 'puan_maharaniri';
                 urlToCopy = `${STALK_ENDPOINT}/tiktok?username=${encodeURIComponent(username)}`;
-            } else if (endpointKey === 'rucoy_stalk') { // Rucoy Stalk now uses RUCOY_ENDPOINT
+            } else if (endpointKey === 'roblox') { // <-- ROBlox Stalk
+                const username = param1 || 'builderman';
+                urlToCopy = `${STALK_ENDPOINT}/roblox?username=${encodeURIComponent(username)}`;
+            } else if (endpointKey === 'rucoy_stalk') { 
                 const charName = param1 || 'xzydanzz';
                 urlToCopy = `${RUCOY_ENDPOINT}/stalk?name=${encodeURIComponent(charName)}`;
             } 
@@ -519,8 +550,20 @@
                 url = `${STALK_ENDPOINT}/tiktok?username=${encodeURIComponent(username)}`; 
                 summary = `Mencari Data TikTok @${username}`;
 
-            } 
-            // RUCOY STALK (Dipindahkan)
+            } else if (endpointType === 'stalk_roblox') { // <-- ROBlox Stalk
+                itemId = 'roblox';
+                const usernameInput = document.getElementById('username_roblox');
+                let username = usernameInput ? usernameInput.value.trim() : '';
+
+                if (!username) {
+                    alert('Harap masukkan Username Roblox!');
+                    return;
+                }
+
+                url = `${STALK_ENDPOINT}/roblox?username=${encodeURIComponent(username)}`; 
+                summary = `Mencari Data Roblox ${username}`;
+            }
+            // RUCOY STALK 
             else if (endpointType === 'stalk_rucoy') {
                 itemId = 'rucoy_stalk';
                 const charNameInput = document.getElementById('charName_rucoy_stalk');
