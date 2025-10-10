@@ -1,598 +1,641 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Eberardos API</title>
-    <link rel="icon" type="image/x-icon" href="https://eberardos.my.id/eberardos.jpg">
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
-    <style>
-        /* THEME & UTILITIES (Minimalist Deep Dark - Custom DARK RED) */
-        :root {
-            --text-color: #E5E7EB; /* Light Gray text */
-            --bg-color: #110A0A; /* Very Dark Red/Black BG (Near Black) */
-            --card-bg: #291111; /* Darker Red/Brown for cards */
-            --border-color: #441A1A; /* Deep Red-Brown border */
-            /* DARK RED THEME */
-            --accent-color: #EF4444; /* Bright Red 500 (used for primary actions/accents) */
-            --accent-hover: #DC2626; /* Slightly Darker Red for hover */
-            --input-bg: #371C1C; /* Dark Red-Brown for input fields */
-            --code-text: #FCA5A5; /* Lighter Red/Pink for code/output */
-            --status-ok-bg: #10B981; /* Keep Green for OK status */
-            --status-error-bg: #EF4444; /* Use the accent red for errors */
-            --status-info-bg: #6366F1; /* Keep a blue/indigo for info/loading */
-        }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Eberardos API</title>
+    <link rel="icon" type="image/x-icon" href="https://eberardos.my.id/eberardos.jpg">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <style>
+        /* THEME & UTILITIES (Minimalist Deep Dark - Custom DARK RED) */
+        :root {
+            --text-color: #E5E7EB; /* Light Gray text */
+            --bg-color: #110A0A; /* Very Dark Red/Black BG (Near Black) */
+            --card-bg: #291111; /* Darker Red/Brown for cards */
+            --border-color: #441A1A; /* Deep Red-Brown border */
+            /* DARK RED THEME */
+            --accent-color: #EF4444; /* Bright Red 500 (used for primary actions/accents) */
+            --accent-hover: #DC2626; /* Slightly Darker Red for hover */
+            --input-bg: #371C1C; /* Dark Red-Brown for input fields */
+            --code-text: #FCA5A5; /* Lighter Red/Pink for code/output */
+            --status-ok-bg: #10B981; /* Keep Green for OK status */
+            --status-error-bg: #EF4444; /* Use the accent red for errors */
+            --status-info-bg: #6366F1; /* Keep a blue/indigo for info/loading */
+        }
 
-        /* GENERAL STYLES */
-        body {
-            background-color: var(--bg-color);
-            color: var(--text-color);
-            font-family: 'Inter', sans-serif;
-            min-height: 100vh;
-        }
-        
-        header { 
-            background-color: var(--card-bg); 
-            border-bottom: 1px solid var(--border-color); 
-        }
-        
-        .version-badge {
-            background-color: var(--accent-color);
-            color: var(--bg-color);
-            padding: 4px 10px;
-            border-radius: 9999px; 
-            font-size: 11px;
-            font-weight: 700;
-            letter-spacing: 0.5px;
-            opacity: 0.9;
-        }
+        /* GENERAL STYLES */
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            font-family: 'Inter', sans-serif;
+            min-height: 100vh;
+        }
+        
+        header { 
+            background-color: var(--card-bg); 
+            border-bottom: 1px solid var(--border-color); 
+        }
+        
+        .version-badge {
+            background-color: var(--accent-color);
+            color: var(--bg-color);
+            padding: 4px 10px;
+            border-radius: 9999px; 
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            opacity: 0.9;
+        }
 
-        #container {
-            max-width: 900px; 
-            margin: 0 auto;
-            padding: 20px;
-        }
-        
-        .accordion-item {
-            margin-top: 10px; 
-        }
+        #container {
+            max-width: 900px; 
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .accordion-item {
+            margin-top: 10px; 
+        }
 
-        .accordion-summary {
-            background-color: var(--card-bg);
-            padding: 18px 20px;
-            border-radius: 8px;
-            cursor: pointer;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border: 1px solid var(--card-bg); 
-            transition: background-color 0.2s, border 0.3s;
-        }
+        .accordion-summary {
+            background-color: var(--card-bg);
+            padding: 18px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border: 1px solid var(--card-bg); 
+            transition: background-color 0.2s, border 0.3s;
+        }
 
-        .accordion-summary:hover {
-            background-color: #371C1C;
-        }
-        
-        .accordion-summary.active {
-            border-bottom-left-radius: 0;
-            border-bottom-right-radius: 0;
-            border: 1px solid var(--accent-color); 
-            border-bottom: 0;
-            background-color: var(--bg-color); 
-        }
-        
-        .summary-title {
-            font-weight: 600;
-            font-size: 16px;
-        }
+        .accordion-summary:hover {
+            background-color: #371C1C;
+        }
+        
+        .accordion-summary.active {
+            border-bottom-left-radius: 0;
+            border-bottom-right-radius: 0;
+            border: 1px solid var(--accent-color); 
+            border-bottom: 0;
+            background-color: var(--bg-color); 
+        }
+        
+        .summary-title {
+            font-weight: 600;
+            font-size: 16px;
+        }
 
-        .summary-icon {
-            transition: transform 0.3s;
-        }
+        .summary-icon {
+            transition: transform 0.3s;
+        }
 
-        .accordion-summary.active .summary-icon {
-            transform: rotate(90deg);
-        }
+        .accordion-summary.active .summary-icon {
+            transform: rotate(90deg);
+        }
 
-        .accordion-content {
-            background-color: var(--bg-color);
-            border: 1px solid var(--accent-color); 
-            border-top: 0;
-            padding: 0 20px; 
-            border-bottom-left-radius: 8px;
-            border-bottom-right-radius: 8px;
-            max-height: 0;
-            overflow: hidden;
-            transition: max-height 0.4s ease-out, padding 0.4s ease-out;
-        }
-        
-        .api-endpoint-wrapper {
-            background: #1F1010;
-            border-radius: 6px;
-            border: 1px solid #371C1C;
-            display: flex;
-            align-items: center;
-            margin-bottom: 15px;
-        }
+        .accordion-content {
+            background-color: var(--bg-color);
+            border: 1px solid var(--accent-color); 
+            border-top: 0;
+            padding: 0 20px; 
+            border-bottom-left-radius: 8px;
+            border-bottom-right-radius: 8px;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease-out, padding 0.4s ease-out;
+        }
+        
+        .api-endpoint-wrapper {
+            background: #1F1010;
+            border-radius: 6px;
+            border: 1px solid #371C1C;
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+        }
 
-        .api-endpoint {
-            font-family: monospace;
-            padding: 10px;
-            font-size: 13px;
-            color: var(--code-text); 
-            flex-grow: 1;
-            word-break: break-all;
-            overflow-x: hidden; 
-        }
+        .api-endpoint {
+            font-family: monospace;
+            padding: 10px;
+            font-size: 13px;
+            color: var(--code-text); 
+            flex-grow: 1;
+            word-break: break-all;
+            overflow-x: hidden; 
+        }
 
-        .copy-button {
-            background-color: #371C1C;
-            color: var(--accent-color); 
-            padding: 10px 15px;
-            border-top-right-radius: 6px;
-            border-bottom-right-radius: 6px;
-            cursor: pointer;
-            line-height: 1;
-            height: 100%;
-        }
+        .copy-button {
+            background-color: #371C1C;
+            color: var(--accent-color); 
+            padding: 10px 15px;
+            border-top-right-radius: 6px;
+            border-bottom-right-radius: 6px;
+            cursor: pointer;
+            line-height: 1;
+            height: 100%;
+        }
 
-        input[type="text"] { 
-            width: 100%; 
-            padding: 12px 15px;
-            border: 1px solid #634343; 
-            border-radius: 6px; 
-            background-color: var(--input-bg); 
-            color: var(--text-color);
-            font-size: 14px;
-            margin-bottom: 15px; 
-        }
-        
-        .execute-button { 
-            background-color: var(--accent-color); 
-            color: var(--bg-color); 
-            padding: 12px 15px; 
-            border-radius: 6px; 
-            font-size: 14px; 
-            transition: background-color 0.2s;
-            width: 100%;
-            margin-top: 5px; 
-        }
-        
-        .execute-button:hover { 
-            background-color: var(--accent-hover); 
-        }
+        input[type="text"] { 
+            width: 100%; 
+            padding: 12px 15px;
+            border: 1px solid #634343; 
+            border-radius: 6px; 
+            background-color: var(--input-bg); 
+            color: var(--text-color);
+            font-size: 14px;
+            margin-bottom: 15px; 
+        }
+        
+        .execute-button { 
+            background-color: var(--accent-color); 
+            color: var(--bg-color); 
+            padding: 12px 15px; 
+            border-radius: 6px; 
+            font-size: 14px; 
+            transition: background-color 0.2s;
+            width: 100%;
+            margin-top: 5px; 
+        }
+        
+        .execute-button:hover { 
+            background-color: var(--accent-hover); 
+        }
 
-        .response-container { 
-            margin-top: 20px; 
-            padding-top: 15px; 
-            border-top: 1px solid var(--border-color); 
-        }
-        
-        .status-bar { 
-            padding: 10px; 
-            border-radius: 6px; 
-            font-weight: 600; 
-            color: white;
-            text-align: center;
-            font-size: 13px;
-            margin-bottom: 10px;
-        }
+        .response-container { 
+            margin-top: 20px; 
+            padding-top: 15px; 
+            border-top: 1px solid var(--border-color); 
+        }
+        
+        .status-bar { 
+            padding: 10px; 
+            border-radius: 6px; 
+            font-weight: 600; 
+            color: white;
+            text-align: center;
+            font-size: 13px;
+            margin-bottom: 10px;
+        }
 
-        .response-textarea { 
-            width: 100%; 
-            height: 200px; 
-            padding: 15px; 
-            border: 1px solid var(--border-color); 
-            border-radius: 8px; 
-            font-family: Consolas, monospace; 
-            font-size: 12px;
-            background-color: #080303; 
-            color: var(--code-text); 
-            resize: vertical; 
-            white-space: pre; 
-            overflow-x: auto;
-            word-break: normal;
-        }
-        
-        .status-info {
-            background-color: var(--status-info-bg);
-        }
-        
-        .status-ok {
-            background-color: var(--status-ok-bg);
-        }
-        
-        .status-error {
-            background-color: var(--status-error-bg);
-        }
-    </style>
+        .response-textarea { 
+            width: 100%; 
+            height: 200px; 
+            padding: 15px; 
+            border: 1px solid var(--border-color); 
+            border-radius: 8px; 
+            font-family: Consolas, monospace; 
+            font-size: 12px;
+            background-color: #080303; 
+            color: var(--code-text); 
+            resize: vertical; 
+            white-space: pre; 
+            overflow-x: auto;
+            word-break: normal;
+        }
+        
+        .status-info {
+            background-color: var(--status-info-bg);
+        }
+        
+        .status-ok {
+            background-color: var(--status-ok-bg);
+        }
+        
+        .status-error {
+            background-color: var(--status-error-bg);
+        }
+    </style>
 </head>
 <body class="font-sans">
 
-    <header class="py-4 px-6 sticky top-0 z-50">
-        <div id="header-content" class="container mx-auto max-w-7xl">
-            <div class="flex items-center justify-between">
-                <div class="flex items-center space-x-3">
-                    <img src="https://eberardos.my.id/eberardos.jpg" alt="Logo" class="w-8 h-8 rounded-full"> 
-                    <span class="text-2xl font-bold text-white">Eberardos API</span> 
-                </div>
-                <span class="version-badge">V1.0.6 BETA</span>
-            </div>
-        </div>
-    </header>
+    <header class="py-4 px-6 sticky top-0 z-50">
+        <div id="header-content" class="container mx-auto max-w-7xl">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center space-x-3">
+                    <img src="https://eberardos.my.id/eberardos.jpg" alt="Logo" class="w-8 h-8 rounded-full"> 
+                    <span class="text-2xl font-bold text-white">Eberardos API</span> 
+                </div>
+                <span class="version-badge">V1.0.6 BETA</span>
+            </div>
+        </div>
+    </header>
 
-    <div id="container">
-        
-        <h2 class="text-xl font-bold text-white mb-3 mt-4 border-b border-gray-600 pb-2">STALKER HUB</h2>
+    <div id="container">
+        
+        <h2 class="text-xl font-bold text-white mb-3 mt-4 border-b border-gray-600 pb-2">STALKER HUB</h2>
 
-        <div id="accordion-wrapper-stalker">
-            
-            <div class="accordion-item" data-id="tiktok">
+        <div id="accordion-wrapper-stalker">
+            
+            <div class="accordion-item" data-id="tiktok">
+                <div class="accordion-summary" onclick="toggleAccordion(this)">
+                    <span class="summary-title">TikTok Stalk</span>
+                    <i class="fas fa-chevron-right summary-icon"></i>
+                </div>
+                <div class="accordion-content">
+                    <p class="text-xs text-gray-400 mb-3">Retrieve public profile data (stats, bio, links, dll.) dari username TikTok.</p>
+
+                    <div class="api-endpoint-wrapper">
+                        <div class="api-endpoint">
+                            /api/stalk/tiktok?username=<span class="text-red-300">TikTokUsername</span>
+                        </div>
+                        <button onclick="copyEndpointUrl('tiktok', document.getElementById('username_tiktok').value.trim())" class="copy-button" title="Copy Full URL"><i class="fas fa-copy"></i></button>
+                    </div>
+
+                    <input type="text" id="username_tiktok" 
+                           placeholder="TikTok Username (Required). E.g: puan_maharaniri" 
+                           value="puan_maharaniri">
+                            
+                    <button onclick="executeApi('stalk_tiktok')" class="execute-button">Execute</button>
+                    
+                    <div class="response-container">
+                        <div id="statusBar_tiktok" class="status-bar status-info">Ready to Execute.</div>
+                        <textarea id="responseTextarea_tiktok" class="response-textarea" readonly placeholder="The JSON result will appear here..."></textarea>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="accordion-item" data-id="roblox">
+                <div class="accordion-summary" onclick="toggleAccordion(this)">
+                    <span class="summary-title">Roblox Stalk</span>
+                    <i class="fas fa-chevron-right summary-icon"></i>
+                </div>
+                <div class="accordion-content">
+                    <p class="text-xs text-gray-400 mb-3">Retrieve public profile data (ID, bio, stats, presence, groups, dll.) dari username Roblox.</p>
+
+                    <div class="api-endpoint-wrapper">
+                        <div class="api-endpoint">
+                            /api/stalk/roblox?username=<span class="text-red-300">RobloxUsername</span>
+                        </div>
+                        <button onclick="copyEndpointUrl('roblox', document.getElementById('username_roblox').value.trim())" class="copy-button" title="Copy Full URL"><i class="fas fa-copy"></i></button>
+                    </div>
+
+                    <input type="text" id="username_roblox" 
+                           placeholder="Roblox Username (Required). E.g: builderman" 
+                           value="builderman">
+                            
+                    <button onclick="executeApi('stalk_roblox')" class="execute-button">Execute</button>
+                    
+                    <div class="response-container">
+                        <div id="statusBar_roblox" class="status-bar status-info">Ready to Execute.</div>
+                        <textarea id="responseTextarea_roblox" class="response-textarea" readonly placeholder="The JSON result will appear here..."></textarea>
+                    </div>
+                </div>
+            </div>
+
+            <div class="accordion-item" data-id="ff_stalk">
                 <div class="accordion-summary" onclick="toggleAccordion(this)">
-                    <span class="summary-title">TikTok Stalk</span>
+                    <span class="summary-title">Free Fire (FF) Stalk</span>
                     <i class="fas fa-chevron-right summary-icon"></i>
                 </div>
                 <div class="accordion-content">
-                    <p class="text-xs text-gray-400 mb-3">Retrieve public profile data (stats, bio, links, dll.) dari username TikTok.</p>
+                    <p class="text-xs text-gray-400 mb-3">Retrieve public profile data (Stats, Name, Rank, dll.) dari **Free Fire User ID**.</p>
 
                     <div class="api-endpoint-wrapper">
                         <div class="api-endpoint">
-                            /api/stalk/tiktok?username=<span class="text-red-300">TikTokUsername</span>
+                            /api/stalk/ff?id=<span class="text-red-300">FreeFireUserID</span>
                         </div>
-                        <button onclick="copyEndpointUrl('tiktok', document.getElementById('username_tiktok').value.trim())" class="copy-button" title="Copy Full URL"><i class="fas fa-copy"></i></button>
+                        <button onclick="copyEndpointUrl('ff_stalk', document.getElementById('id_ff_stalk').value.trim())" class="copy-button" title="Copy Full URL"><i class="fas fa-copy"></i></button>
                     </div>
 
-                    <input type="text" id="username_tiktok" 
-                           placeholder="TikTok Username (Required). E.g: puan_maharaniri" 
-                           value="puan_maharaniri">
+                    <input type="text" id="id_ff_stalk" 
+                           placeholder="Free Fire User ID (Required). E.g: 22756858" 
+                           value="22756858">
                             
-                    <button onclick="executeApi('stalk_tiktok')" class="execute-button">Execute</button>
+                    <button onclick="executeApi('stalk_ff')" class="execute-button">Execute</button>
                     
                     <div class="response-container">
-                        <div id="statusBar_tiktok" class="status-bar status-info">Ready to Execute.</div>
-                        <textarea id="responseTextarea_tiktok" class="response-textarea" readonly placeholder="The JSON result will appear here..."></textarea>
+                        <div id="statusBar_ff_stalk" class="status-bar status-info">Ready to Execute.</div>
+                        <textarea id="responseTextarea_ff_stalk" class="response-textarea" readonly placeholder="The JSON result will appear here..."></textarea>
                     </div>
                 </div>
             </div>
-            
-            <div class="accordion-item" data-id="roblox">
-                <div class="accordion-summary" onclick="toggleAccordion(this)">
-                    <span class="summary-title">Roblox Stalk</span>
-                    <i class="fas fa-chevron-right summary-icon"></i>
-                </div>
-                <div class="accordion-content">
-                    <p class="text-xs text-gray-400 mb-3">Retrieve public profile data (ID, bio, stats, presence, groups, dll.) dari username Roblox.</p>
+                        </div>
+        
+        <h2 class="text-xl font-bold text-white mb-3 mt-8 border-b border-gray-600 pb-2">RUCOY ONLINE API</h2>
 
-                    <div class="api-endpoint-wrapper">
-                        <div class="api-endpoint">
-                            /api/stalk/roblox?username=<span class="text-red-300">RobloxUsername</span>
-                        </div>
-                        <button onclick="copyEndpointUrl('roblox', document.getElementById('username_roblox').value.trim())" class="copy-button" title="Copy Full URL"><i class="fas fa-copy"></i></button>
-                    </div>
+        <div id="accordion-wrapper-rucoy">
+            
+            <div class="accordion-item" data-id="rucoy_stalk">
+                <div class="accordion-summary" onclick="toggleAccordion(this)">
+                    <span class="summary-title">Rucoy Character Stalk</span>
+                    <i class="fas fa-chevron-right summary-icon"></i>
+                </div>
+                <div class="accordion-content">
+                    <p class="text-xs text-gray-400 mb-3">Retrieve character status, skills, and latest event data dari Rucoy Online.</p>
 
-                    <input type="text" id="username_roblox" 
-                           placeholder="Roblox Username (Required). E.g: builderman" 
-                           value="builderman">
-                            
-                    <button onclick="executeApi('stalk_roblox')" class="execute-button">Execute</button>
-                    
-                    <div class="response-container">
-                        <div id="statusBar_roblox" class="status-bar status-info">Ready to Execute.</div>
-                        <textarea id="responseTextarea_roblox" class="response-textarea" readonly placeholder="The JSON result will appear here..."></textarea>
-                    </div>
-                </div>
-            </div>
-            </div>
-        
-        <h2 class="text-xl font-bold text-white mb-3 mt-8 border-b border-gray-600 pb-2">RUCOY ONLINE API</h2>
+                    <div class="api-endpoint-wrapper">
+                        <div class="api-endpoint">
+                            /api/rucoy/stalk?name=<span class="text-red-300">CharacterName</span>
+                        </div>
+                        <button onclick="copyEndpointUrl('rucoy_stalk', document.getElementById('charName_rucoy_stalk').value.trim())" class="copy-button" title="Copy Full URL"><i class="fas fa-copy"></i></button>
+                    </div>
 
-        <div id="accordion-wrapper-rucoy">
-            
-            <div class="accordion-item" data-id="rucoy_stalk">
-                <div class="accordion-summary" onclick="toggleAccordion(this)">
-                    <span class="summary-title">Rucoy Character Stalk</span>
-                    <i class="fas fa-chevron-right summary-icon"></i>
-                </div>
-                <div class="accordion-content">
-                    <p class="text-xs text-gray-400 mb-3">Retrieve character status, skills, and latest event data dari Rucoy Online.</p>
+                    <input type="text" id="charName_rucoy_stalk" 
+                           placeholder="Rucoy Character Name (Required). E.g: xzydanzz" 
+                           value="xzydanzz"> 
+                            
+                    <button onclick="executeApi('stalk_rucoy')" class="execute-button">Execute</button>
+                    
+                    <div class="response-container">
+                        <div id="statusBar_rucoy_stalk" class="status-bar status-info">Ready to Execute.</div>
+                        <textarea id="responseTextarea_rucoy_stalk" class="response-textarea" readonly placeholder="The JSON result will appear here..."></textarea>
+                    </div>
+                </div>
+            </div>
+            <div class="accordion-item" data-id="experience">
+                <div class="accordion-summary" onclick="toggleAccordion(this)">
+                    <span class="summary-title">Leaderboard Experience (Top 100)</span>
+                    <i class="fas fa-chevron-right summary-icon"></i>
+                </div>
+                <div class="accordion-content">
+                    <p class="text-xs text-gray-400 mb-3">Retrieve the Experience Leaderboard data (Top 100).</p>
 
-                    <div class="api-endpoint-wrapper">
-                        <div class="api-endpoint">
-                            /api/rucoy/stalk?name=<span class="text-red-300">CharacterName</span>
-                        </div>
-                        <button onclick="copyEndpointUrl('rucoy_stalk', document.getElementById('charName_rucoy_stalk').value.trim())" class="copy-button" title="Copy Full URL"><i class="fas fa-copy"></i></button>
-                    </div>
+                    <div class="api-endpoint-wrapper">
+                        <div class="api-endpoint">
+                            /api/rucoy/leaderboard?category=<span class="text-red-300">experience</span>
+                        </div>
+                        <button onclick="copyEndpointUrl('leaderboard', 'experience')" class="copy-button" title="Copy Full URL"><i class="fas fa-copy"></i></button>
+                    </div>
 
-                    <input type="text" id="charName_rucoy_stalk" 
-                           placeholder="Rucoy Character Name (Required). E.g: xzydanzz" 
-                           value="xzydanzz"> 
-                            
-                    <button onclick="executeApi('stalk_rucoy')" class="execute-button">Execute</button>
-                    
-                    <div class="response-container">
-                        <div id="statusBar_rucoy_stalk" class="status-bar status-info">Ready to Execute.</div>
-                        <textarea id="responseTextarea_rucoy_stalk" class="response-textarea" readonly placeholder="The JSON result will appear here..."></textarea>
-                    </div>
-                </div>
-            </div>
-            <div class="accordion-item" data-id="experience">
-                <div class="accordion-summary" onclick="toggleAccordion(this)">
-                    <span class="summary-title">Leaderboard Experience (Top 100)</span>
-                    <i class="fas fa-chevron-right summary-icon"></i>
-                </div>
-                <div class="accordion-content">
-                    <p class="text-xs text-gray-400 mb-3">Retrieve the Experience Leaderboard data (Top 100).</p>
+                    <button onclick="executeApi('leaderboard_experience')" class="execute-button">Execute</button>
+                    
+                    <div class="response-container">
+                        <div id="statusBar_experience" class="status-bar status-info">Ready to Execute.</div>
+                        <textarea id="responseTextarea_experience" class="response-textarea" readonly placeholder="The JSON result will appear here..."></textarea>
+                    </div>
+                </div>
+            </div>
+            <div class="accordion-item" data-id="melee">
+                <div class="accordion-summary" onclick="toggleAccordion(this)">
+                    <span class="summary-title">Leaderboard Melee (Top 100)</span>
+                    <i class="fas fa-chevron-right summary-icon"></i>
+                </div>
+                <div class="accordion-content">
+                    <p class="text-xs text-gray-400 mb-3">Retrieve the Melee Leaderboard data (Top 100).</p>
 
-                    <div class="api-endpoint-wrapper">
-                        <div class="api-endpoint">
-                            /api/rucoy/leaderboard?category=<span class="text-red-300">experience</span>
-                        </div>
-                        <button onclick="copyEndpointUrl('leaderboard', 'experience')" class="copy-button" title="Copy Full URL"><i class="fas fa-copy"></i></button>
-                    </div>
+                    <div class="api-endpoint-wrapper">
+                        <div class="api-endpoint">
+                            /api/rucoy/leaderboard?category=<span class="text-red-300">melee</span>
+                        </div>
+                        <button onclick="copyEndpointUrl('leaderboard', 'melee')" class="copy-button" title="Copy Full URL"><i class="fas fa-copy"></i></button>
+                    </div>
 
-                    <button onclick="executeApi('leaderboard_experience')" class="execute-button">Execute</button>
-                    
-                    <div class="response-container">
-                        <div id="statusBar_experience" class="status-bar status-info">Ready to Execute.</div>
-                        <textarea id="responseTextarea_experience" class="response-textarea" readonly placeholder="The JSON result will appear here..."></textarea>
-                    </div>
-                </div>
-            </div>
-            <div class="accordion-item" data-id="melee">
-                <div class="accordion-summary" onclick="toggleAccordion(this)">
-                    <span class="summary-title">Leaderboard Melee (Top 100)</span>
-                    <i class="fas fa-chevron-right summary-icon"></i>
-                </div>
-                <div class="accordion-content">
-                    <p class="text-xs text-gray-400 mb-3">Retrieve the Melee Leaderboard data (Top 100).</p>
+                    <button onclick="executeApi('leaderboard_melee')" class="execute-button">Execute</button>
+                    
+                    <div class="response-container">
+                        <div id="statusBar_melee" class="status-bar status-info">Ready to Execute.</div>
+                        <textarea id="responseTextarea_melee" class="response-textarea" readonly placeholder="The JSON result will appear here..."></textarea>
+                    </div>
+                </div>
+            </div>
+            <div class="accordion-item" data-id="distance">
+                <div class="accordion-summary" onclick="toggleAccordion(this)">
+                    <span class="summary-title">Leaderboard Distance (Top 100)</span>
+                    <i class="fas fa-chevron-right summary-icon"></i>
+                </div>
+                <div class="accordion-content">
+                    <p class="text-xs text-gray-400 mb-3">Retrieve the Distance Leaderboard data (Top 100).</p>
 
-                    <div class="api-endpoint-wrapper">
-                        <div class="api-endpoint">
-                            /api/rucoy/leaderboard?category=<span class="text-red-300">melee</span>
-                        </div>
-                        <button onclick="copyEndpointUrl('leaderboard', 'melee')" class="copy-button" title="Copy Full URL"><i class="fas fa-copy"></i></button>
-                    </div>
+                    <div class="api-endpoint-wrapper">
+                        <div class="api-endpoint">
+                            /api/rucoy/leaderboard?category=<span class="text-red-300">distance</span>
+                        </div>
+                        <button onclick="copyEndpointUrl('leaderboard', 'distance')" class="copy-button" title="Copy Full URL"><i class="fas fa-copy"></i></button>
+                    </div>
 
-                    <button onclick="executeApi('leaderboard_melee')" class="execute-button">Execute</button>
-                    
-                    <div class="response-container">
-                        <div id="statusBar_melee" class="status-bar status-info">Ready to Execute.</div>
-                        <textarea id="responseTextarea_melee" class="response-textarea" readonly placeholder="The JSON result will appear here..."></textarea>
-                    </div>
-                </div>
-            </div>
-            <div class="accordion-item" data-id="distance">
-                <div class="accordion-summary" onclick="toggleAccordion(this)">
-                    <span class="summary-title">Leaderboard Distance (Top 100)</span>
-                    <i class="fas fa-chevron-right summary-icon"></i>
-                </div>
-                <div class="accordion-content">
-                    <p class="text-xs text-gray-400 mb-3">Retrieve the Distance Leaderboard data (Top 100).</p>
+                    <button onclick="executeApi('leaderboard_distance')" class="execute-button">Execute</button>
+                    
+                    <div class="response-container">
+                        <div id="statusBar_distance" class="status-bar status-info">Ready to Execute.</div>
+                        <textarea id="responseTextarea_distance" class="response-textarea" readonly placeholder="The JSON result will appear here..."></textarea>
+                    </div>
+                </div>
+            </div>
+            <div class="accordion-item" data-id="magic">
+                <div class="accordion-summary" onclick="toggleAccordion(this)">
+                    <span class="summary-title">Leaderboard Magic (Top 100)</span>
+                    <i class="fas fa-chevron-right summary-icon"></i>
+                </div>
+                <div class="accordion-content">
+                    <p class="text-xs text-gray-400 mb-3">Retrieve the Magic Leaderboard data (Top 100).</p>
 
-                    <div class="api-endpoint-wrapper">
-                        <div class="api-endpoint">
-                            /api/rucoy/leaderboard?category=<span class="text-red-300">distance</span>
-                        </div>
-                        <button onclick="copyEndpointUrl('leaderboard', 'distance')" class="copy-button" title="Copy Full URL"><i class="fas fa-copy"></i></button>
-                    </div>
+                    <div class="api-endpoint-wrapper">
+                        <div class="api-endpoint">
+                            /api/rucoy/leaderboard?category=<span class="text-red-300">magic</span>
+                        </div>
+                        <button onclick="copyEndpointUrl('leaderboard', 'magic')" class="copy-button" title="Copy Full URL"><i class="fas fa-copy"></i></button>
+                    </div>
 
-                    <button onclick="executeApi('leaderboard_distance')" class="execute-button">Execute</button>
-                    
-                    <div class="response-container">
-                        <div id="statusBar_distance" class="status-bar status-info">Ready to Execute.</div>
-                        <textarea id="responseTextarea_distance" class="response-textarea" readonly placeholder="The JSON result will appear here..."></textarea>
-                    </div>
-                </div>
-            </div>
-            <div class="accordion-item" data-id="magic">
-                <div class="accordion-summary" onclick="toggleAccordion(this)">
-                    <span class="summary-title">Leaderboard Magic (Top 100)</span>
-                    <i class="fas fa-chevron-right summary-icon"></i>
-                </div>
-                <div class="accordion-content">
-                    <p class="text-xs text-gray-400 mb-3">Retrieve the Magic Leaderboard data (Top 100).</p>
+                    <button onclick="executeApi('leaderboard_magic')" class="execute-button">Execute</button>
+                    
+                    <div class="response-container">
+                        <div id="statusBar_magic" class="status-bar status-info">Ready to Execute.</div>
+                        <textarea id="responseTextarea_magic" class="response-textarea" readonly placeholder="The JSON result will appear here..."></textarea>
+                    </div>
+                </div>
+            </div>
+            <div class="accordion-item" data-id="defense">
+                <div class="accordion-summary" onclick="toggleAccordion(this)">
+                    <span class="summary-title">Leaderboard Defense (Top 100)</span>
+                    <i class="fas fa-chevron-right summary-icon"></i>
+                </div>
+                <div class="accordion-content">
+                    <p class="text-xs text-gray-400 mb-3">Retrieve the Defense Leaderboard data (Top 100).</p>
 
-                    <div class="api-endpoint-wrapper">
-                        <div class="api-endpoint">
-                            /api/rucoy/leaderboard?category=<span class="text-red-300">magic</span>
-                        </div>
-                        <button onclick="copyEndpointUrl('leaderboard', 'magic')" class="copy-button" title="Copy Full URL"><i class="fas fa-copy"></i></button>
-                    </div>
+                    <div class="api-endpoint-wrapper">
+                        <div class="api-endpoint">
+                            /api/rucoy/leaderboard?category=<span class="text-red-300">defense</span>
+                        </div>
+                        <button onclick="copyEndpointUrl('leaderboard', 'defense')" class="copy-button" title="Copy Full URL"><i class="fas fa-copy"></i></button>
+                    </div>
 
-                    <button onclick="executeApi('leaderboard_magic')" class="execute-button">Execute</button>
-                    
-                    <div class="response-container">
-                        <div id="statusBar_magic" class="status-bar status-info">Ready to Execute.</div>
-                        <textarea id="responseTextarea_magic" class="response-textarea" readonly placeholder="The JSON result will appear here..."></textarea>
-                    </div>
-                </div>
-            </div>
-            <div class="accordion-item" data-id="defense">
-                <div class="accordion-summary" onclick="toggleAccordion(this)">
-                    <span class="summary-title">Leaderboard Defense (Top 100)</span>
-                    <i class="fas fa-chevron-right summary-icon"></i>
-                </div>
-                <div class="accordion-content">
-                    <p class="text-xs text-gray-400 mb-3">Retrieve the Defense Leaderboard data (Top 100).</p>
+                    <button onclick="executeApi('leaderboard_defense')" class="execute-button">Execute</button>
+                    
+                    <div class="response-container">
+                        <div id="statusBar_defense" class="status-bar status-info">Ready to Execute.</div>
+                        <textarea id="responseTextarea_defense" class="response-textarea" readonly placeholder="The JSON result will appear here..."></textarea>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        const BASE_URL = 'https://api.eberardos.my.id'; 
+        const RUCOY_ENDPOINT = `${BASE_URL}/api/rucoy`;
+        const STALK_ENDPOINT = `${BASE_URL}/api/stalk`;
 
-                    <div class="api-endpoint-wrapper">
-                        <div class="api-endpoint">
-                            /api/rucoy/leaderboard?category=<span class="text-red-300">defense</span>
-                        </div>
-                        <button onclick="copyEndpointUrl('leaderboard', 'defense')" class="copy-button" title="Copy Full URL"><i class="fas fa-copy"></i></button>
-                    </div>
+        // --- ACCORDION TOGGLE LOGIC (UNCHANGED) ---
+        function toggleAccordion(element) {
+            const item = element.closest('.accordion-item');
+            const content = item.querySelector('.accordion-content');
+            const isActive = element.classList.contains('active');
 
-                    <button onclick="executeApi('leaderboard_defense')" class="execute-button">Execute</button>
-                    
-                    <div class="response-container">
-                        <div id="statusBar_defense" class="status-bar status-info">Ready to Execute.</div>
-                        <textarea id="responseTextarea_defense" class="response-textarea" readonly placeholder="The JSON result will appear here..."></textarea>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    
-    <script>
-        const BASE_URL = 'https://api.eberardos.my.id'; 
-        const RUCOY_ENDPOINT = `${BASE_URL}/api/rucoy`;
-        const STALK_ENDPOINT = `${BASE_URL}/api/stalk`;
+            document.querySelectorAll('.accordion-summary.active').forEach(activeSummary => {
+                if (activeSummary !== element) {
+                    activeSummary.classList.remove('active');
+                    const activeContent = activeSummary.nextElementSibling;
+                    activeContent.style.maxHeight = null;
+                    activeContent.style.paddingTop = '0px';
+                    activeContent.style.paddingBottom = '0px';
+                }
+            });
 
-        // --- ACCORDION TOGGLE LOGIC (UNCHANGED) ---
-        function toggleAccordion(element) {
-            const item = element.closest('.accordion-item');
-            const content = item.querySelector('.accordion-content');
-            const isActive = element.classList.contains('active');
+            if (isActive) {
+                element.classList.remove('active');
+                content.style.maxHeight = null;
+                content.style.paddingTop = '0px';
+                content.style.paddingBottom = '0px';
+            } else {
+                element.classList.add('active');
+                content.style.maxHeight = content.scrollHeight + 40 + "px"; 
+                content.style.paddingTop = '20px';
+                content.style.paddingBottom = '20px';
+            }
+        }
 
-            document.querySelectorAll('.accordion-summary.active').forEach(activeSummary => {
-                if (activeSummary !== element) {
-                    activeSummary.classList.remove('active');
-                    const activeContent = activeSummary.nextElementSibling;
-                    activeContent.style.maxHeight = null;
-                    activeContent.style.paddingTop = '0px';
-                    activeContent.style.paddingBottom = '0px';
-                }
-            });
+        // --- COPY URL FUNCTION (UPDATED) ---
+        async function copyEndpointUrl(endpointKey, param1 = '') {
+            let urlToCopy = '';
 
-            if (isActive) {
-                element.classList.remove('active');
-                content.style.maxHeight = null;
-                content.style.paddingTop = '0px';
-                content.style.paddingBottom = '0px';
-            } else {
-                element.classList.add('active');
-                content.style.maxHeight = content.scrollHeight + 40 + "px"; 
-                content.style.paddingTop = '20px';
-                content.style.paddingBottom = '20px';
-            }
-        }
+            // STALKER LOGIC
+            if (endpointKey === 'tiktok') {
+                const username = param1 || 'puan_maharaniri';
+                urlToCopy = `${STALK_ENDPOINT}/tiktok?username=${encodeURIComponent(username)}`;
+            } else if (endpointKey === 'roblox') { // <-- ROBlox Stalk
+                const username = param1 || 'builderman';
+                urlToCopy = `${STALK_ENDPOINT}/roblox?username=${encodeURIComponent(username)}`;
+            } else if (endpointKey === 'ff_stalk') { // 🔑 TAMBAHAN FF STALK
+                const ff_id = param1 || '22756858';
+                urlToCopy = `${STALK_ENDPOINT}/ff?id=${encodeURIComponent(ff_id)}`;
+            } else if (endpointKey === 'rucoy_stalk') { 
+                const charName = param1 || 'xzydanzz';
+                urlToCopy = `${RUCOY_ENDPOINT}/stalk?name=${encodeURIComponent(charName)}`;
+            } 
+            // RUCOY LEADERBOARD
+            else if (endpointKey === 'leaderboard') {
+                const category = param1; 
+                urlToCopy = `${RUCOY_ENDPOINT}/leaderboard?category=${category}&limit=100`;
+            } 
+            
+            try {
+                await navigator.clipboard.writeText(urlToCopy);
+                alert(`Full URL berhasil dicopy: \n${urlToCopy}`);
+            } catch (err) {
+                console.error('Gagal menyalin teks: ', err);
+                alert('Gagal menyalin URL. Harap salin secara manual.');
+            }
+        }
 
-        // --- COPY URL FUNCTION (UPDATED) ---
-        async function copyEndpointUrl(endpointKey, param1 = '') {
-            let urlToCopy = '';
+        // --- CORE API EXECUTION FUNCTIONS (UNCHANGED) ---
+        async function fetchData(url, summary, itemId) {
+            const statusBar = document.getElementById(`statusBar_${itemId}`);
+            const responseTextarea = document.getElementById(`responseTextarea_${itemId}`);
+            
+            statusBar.className = 'status-bar status-info';
+            statusBar.textContent = `${summary}...`; 
+            responseTextarea.value = 'Loading...';
 
-            // STALKER LOGIC
-            if (endpointKey === 'tiktok') {
-                const username = param1 || 'puan_maharaniri';
-                urlToCopy = `${STALK_ENDPOINT}/tiktok?username=${encodeURIComponent(username)}`;
-            } else if (endpointKey === 'roblox') { // <-- ROBlox Stalk
-                const username = param1 || 'builderman';
-                urlToCopy = `${STALK_ENDPOINT}/roblox?username=${encodeURIComponent(username)}`;
-            } else if (endpointKey === 'rucoy_stalk') { 
-                const charName = param1 || 'xzydanzz';
-                urlToCopy = `${RUCOY_ENDPOINT}/stalk?name=${encodeURIComponent(charName)}`;
-            } 
-            // RUCOY LEADERBOARD
-            else if (endpointKey === 'leaderboard') {
-                const category = param1; 
-                urlToCopy = `${RUCOY_ENDPOINT}/leaderboard?category=${category}&limit=100`;
-            } 
-            
-            try {
-                await navigator.clipboard.writeText(urlToCopy);
-                alert(`Full URL berhasil dicopy: \n${urlToCopy}`);
-            } catch (err) {
-                console.error('Gagal menyalin teks: ', err);
-                alert('Gagal menyalin URL. Harap salin secara manual.');
-            }
-        }
+            try {
+                const response = await fetch(url);
+                const data = await response.json();
+                
+                const formattedJson = JSON.stringify(data, null, 4); 
+                responseTextarea.value = formattedJson;
 
-        // --- CORE API EXECUTION FUNCTIONS (UNCHANGED) ---
-        async function fetchData(url, summary, itemId) {
-            const statusBar = document.getElementById(`statusBar_${itemId}`);
-            const responseTextarea = document.getElementById(`responseTextarea_${itemId}`);
-            
-            statusBar.className = 'status-bar status-info';
-            statusBar.textContent = `${summary}...`; 
-            responseTextarea.value = 'Loading...';
+                if (response.ok) {
+                    statusBar.className = 'status-bar status-ok';
+                    statusBar.textContent = `${summary} Sukses (200)`; 
+                } else {
+                    statusBar.className = 'status-bar status-error';
+                    statusBar.textContent = `${summary} Error (${response.status}): ${data.error || 'Unknown Server Error'}`;
+                }
 
-            try {
-                const response = await fetch(url);
-                const data = await response.json();
-                
-                const formattedJson = JSON.stringify(data, null, 4); 
-                responseTextarea.value = formattedJson;
+            } catch (error) {
+                console.error('Fetch Error:', error);
+                statusBar.className = 'status-bar status-error';
+                statusBar.textContent = `Error Jaringan: Koneksi Gagal.`; 
+                responseTextarea.value = `ERROR: Gagal menghubungi atau memproses response API. Detail: ${error.message}`;
+            }
+        }
 
-                if (response.ok) {
-                    statusBar.className = 'status-bar status-ok';
-                    statusBar.textContent = `${summary} Sukses (200)`; 
-                } else {
-                    statusBar.className = 'status-bar status-error';
-                    statusBar.textContent = `${summary} Error (${response.status}): ${data.error || 'Unknown Server Error'}`;
-                }
+        // --- EXECUTE API LOGIC (UPDATED) ---
+        function executeApi(endpointType) {
+            let url = '';
+            let summary = '';
+            let itemId = '';
 
-            } catch (error) {
-                console.error('Fetch Error:', error);
-                statusBar.className = 'status-bar status-error';
-                statusBar.textContent = `Error Jaringan: Koneksi Gagal.`; 
-                responseTextarea.value = `ERROR: Gagal menghubungi atau memproses response API. Detail: ${error.message}`;
-            }
-        }
+            // STALKER LOGIC
+            if (endpointType === 'stalk_tiktok') {
+                itemId = 'tiktok';
+                const usernameInput = document.getElementById('username_tiktok');
+                let username = usernameInput ? usernameInput.value.trim() : '';
+                
+                if (!username) {
+                    alert('Harap masukkan Username TikTok!');
+                    return;
+                }
 
-        // --- EXECUTE API LOGIC (UPDATED) ---
-        function executeApi(endpointType) {
-            let url = '';
-            let summary = '';
-            let itemId = '';
+                url = `${STALK_ENDPOINT}/tiktok?username=${encodeURIComponent(username)}`; 
+                summary = `Mencari Data TikTok @${username}`;
 
-            // STALKER LOGIC
-            if (endpointType === 'stalk_tiktok') {
-                itemId = 'tiktok';
-                const usernameInput = document.getElementById('username_tiktok');
-                let username = usernameInput ? usernameInput.value.trim() : '';
-                
-                if (!username) {
-                    alert('Harap masukkan Username TikTok!');
-                    return;
-                }
+            } else if (endpointType === 'stalk_roblox') { // <-- ROBlox Stalk
+                itemId = 'roblox';
+                const usernameInput = document.getElementById('username_roblox');
+                let username = usernameInput ? usernameInput.value.trim() : '';
 
-                url = `${STALK_ENDPOINT}/tiktok?username=${encodeURIComponent(username)}`; 
-                summary = `Mencari Data TikTok @${username}`;
+                if (!username) {
+                    alert('Harap masukkan Username Roblox!');
+                    return;
+                }
 
-            } else if (endpointType === 'stalk_roblox') { // <-- ROBlox Stalk
-                itemId = 'roblox';
-                const usernameInput = document.getElementById('username_roblox');
-                let username = usernameInput ? usernameInput.value.trim() : '';
+                url = `${STALK_ENDPOINT}/roblox?username=${encodeURIComponent(username)}`; 
+                summary = `Mencari Data Roblox ${username}`;
+            } else if (endpointType === 'stalk_ff') { // 🔑 TAMBAHAN FF STALK
+                itemId = 'ff_stalk';
+                const ffIdInput = document.getElementById('id_ff_stalk');
+                let ff_id = ffIdInput ? ffIdInput.value.trim() : '';
 
-                if (!username) {
-                    alert('Harap masukkan Username Roblox!');
-                    return;
-                }
+                if (!ff_id) {
+                    alert('Harap masukkan Free Fire User ID!');
+                    return;
+                }
 
-                url = `${STALK_ENDPOINT}/roblox?username=${encodeURIComponent(username)}`; 
-                summary = `Mencari Data Roblox ${username}`;
-            }
-            // RUCOY STALK 
-            else if (endpointType === 'stalk_rucoy') {
-                itemId = 'rucoy_stalk';
-                const charNameInput = document.getElementById('charName_rucoy_stalk');
-                let charName = charNameInput ? charNameInput.value.trim() : '';
+                url = `${STALK_ENDPOINT}/ff?id=${encodeURIComponent(ff_id)}`; 
+                summary = `Mencari Data Free Fire ID ${ff_id}`;
+            }
+            // RUCOY STALK 
+            else if (endpointType === 'stalk_rucoy') {
+                itemId = 'rucoy_stalk';
+                const charNameInput = document.getElementById('charName_rucoy_stalk');
+                let charName = charNameInput ? charNameInput.value.trim() : '';
 
-                if (!charName) {
-                    alert('Harap masukkan Nama Karakter!');
-                    return;
-                }
+                if (!charName) {
+                    alert('Harap masukkan Nama Karakter!');
+                    return;
+                }
 
-                url = `${RUCOY_ENDPOINT}/stalk?name=${encodeURIComponent(charName)}`; 
-                summary = `Mencari Data Karakter ${charName}`;
-                
-            } 
-            // RUCOY LEADERBOARD LOGIC
-            else if (endpointType.startsWith('leaderboard_')) {
-                const category = endpointType.split('_')[1]; 
-                itemId = category;
-                url = `${RUCOY_ENDPOINT}/leaderboard?category=${category}&limit=100`; 
-                summary = `Fetching ${category.toUpperCase()} Leaderboard`;
-            } else {
-                alert(`Endpoint ${endpointType} tidak dikenali.`);
-                return;
-            }
+                url = `${RUCOY_ENDPOINT}/stalk?name=${encodeURIComponent(charName)}`; 
+                summary = `Mencari Data Karakter ${charName}`;
+                
+            } 
+            // RUCOY LEADERBOARD LOGIC
+            else if (endpointType.startsWith('leaderboard_')) {
+                const category = endpointType.split('_')[1]; 
+                itemId = category;
+                url = `${RUCOY_ENDPOINT}/leaderboard?category=${category}&limit=100`; 
+                summary = `Fetching ${category.toUpperCase()} Leaderboard`;
+            } else {
+                alert(`Endpoint ${endpointType} tidak dikenali.`);
+                return;
+            }
 
-            if (url && summary && itemId) {
-                fetchData(url, summary, itemId);
-            }
-        }
-    </script>
+            if (url && summary && itemId) {
+                fetchData(url, summary, itemId);
+            }
+        }
+    </script>
 </body>
 </html>
