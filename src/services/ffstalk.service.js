@@ -1,19 +1,16 @@
 // FILE: src/services/ffstalk.service.js
 
 import axios from 'axios';
-import { v4 as uuidv4 } from 'uuid'; // Memerlukan: npm install uuid
+import { v4 as uuidv4 } from 'uuid';
 
 const FF_API_BASE = 'https://api.duniagames.co.id/api';
 
-/**
- * Helper: Mengambil token efemeral (sementara) dari API DG.
- */
 async function _getToken() {
     try {
         const url = `${FF_API_BASE}/item-catalog/v1/get-token`;
         const headers = {
             "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36",
-            "X-Device": uuidv4(), // Menggunakan UUID unik
+            "X-Device": uuidv4(),
             "Content-Type": "application/json",
         };
         const payload = {"msisdn": "0812665588"};
@@ -30,15 +27,12 @@ async function _getToken() {
     }
 }
 
-/**
- * Helper: Mengambil data lengkap pemain FF menggunakan Player ID dan token.
- */
 async function _getPlayerFullData(playerId, token) {
     try {
         const url = `${FF_API_BASE}/transaction/v1/top-up/inquiry/store`;
         const headers = {
             "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36",
-            "X-Device": uuidv4(), // Menggunakan UUID unik
+            "X-Device": uuidv4(),
             "Content-Type": "application/json",
         };
         const payload = {
@@ -65,29 +59,38 @@ async function _getPlayerFullData(playerId, token) {
     }
 }
 
-/**
- * Helper: Memformat data hasil akhir.
- */
 function _parseCompleteData(playerId, fullData) {
     const gameDetail = fullData.gameDetail || {};
-    const now = new Date();
     
-    // Format YYYY-MM-DD HH:MM:SS
-    const formattedDate = now.toISOString().replace('T', ' ').substring(0, 19);
+    // Perbaikan Waktu: Menggunakan Intl.DateTimeFormat untuk format ke WIB (Asia/Jakarta)
+    const now = new Date();
+    const formatter = new Intl.DateTimeFormat('id-ID', {
+        year: 'numeric',
+        month: '2-digit',
+        day: '2-digit',
+        hour: '2-digit',
+        minute: '2-digit',
+        second: '2-digit',
+        hour12: false,
+        timeZone: 'Asia/Jakarta' // Ini adalah kunci untuk mendapatkan waktu WIB
+    });
+
+    const parts = formatter.formatToParts(now);
+    // Memformat ulang dari DD/MM/YYYY, HH:MM:SS menjadi YYYY-MM-DD HH:MM:SS
+    const datePart = `${parts[4].value}-${parts[2].value}-${parts[0].value}`;
+    const timePart = `${parts[6].value}:${parts[8].value}:${parts[10].value}`;
+    const formattedDate = `${datePart} ${timePart}`;
     
     return {
         player_id: playerId,
         nickname: gameDetail.userName || "Unknown",
         server: gameDetail.serverName || "Unknown",
         game: "Free Fire",
-        scan_time: formattedDate,
+        scan_time: formattedDate, // Sekarang sudah WIB
         status: "Active"
     };
 }
 
-/**
- * Fungsi utama untuk mencari data profil Free Fire berdasarkan Player ID.
- */
 export async function stalkFreeFirePlayer(playerId) {
     if (!playerId) return { error: "Player ID wajib diisi." };
 
