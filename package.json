@@ -14,7 +14,6 @@
     "react-dom": "^18.2.0",
     "sonner": "^1.4.0",
     "lucide-react": "^0.323.0"
-    // Dependensi lain yang Anda gunakan di proyek harus ditambahkan di sini.
   },
   "devDependencies": {
     "@types/react": "^18.2.55",
