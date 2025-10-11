@@ -18,7 +18,7 @@
                     <img src="https://eberardos.my.id/eberardos.jpg" alt="Logo" class="w-8 h-8 rounded-full"> 
                     <span class="text-2xl font-bold text-white">Eberardos API</span> 
                 </div>
-                <span class="version-badge">V1.0.6 BETA</span>
+                <span class="version-badge">V1.0.7 BETA</span>
             </div>
         </div>
     </header>
@@ -45,9 +45,9 @@
                     </div>
 
                     <input type="text" id="username_tiktok" 
-                            placeholder="TikTok Username (Required). E.g: puan_maharaniri" 
-                            value="puan_maharaniri">
-                            
+                           placeholder="TikTok Username (Required). E.g: puan_maharaniri" 
+                           value="puan_maharaniri">
+                           
                     <button onclick="executeApi('stalk_tiktok')" class="execute-button">Execute</button>
                     
                     <div class="response-container">
@@ -73,9 +73,9 @@
                     </div>
 
                     <input type="text" id="username_roblox" 
-                            placeholder="Roblox Username (Required). E.g: builderman" 
-                            value="builderman">
-                            
+                           placeholder="Roblox Username (Required). E.g: builderman" 
+                           value="builderman">
+                           
                     <button onclick="executeApi('stalk_roblox')" class="execute-button">Execute</button>
                     
                     <div class="response-container">
@@ -87,7 +87,7 @@
 
             <div class="accordion-item" data-id="ff_stalk">
                 <div class="accordion-summary" onclick="toggleAccordion(this)">
-                    <span class="summary-title">Free Fire (FF) Stalk</span>
+                    <span class="summary-title">Free Fire Stalk</span>
                     <i class="fas fa-chevron-right summary-icon"></i>
                 </div>
                 <div class="accordion-content">
@@ -101,8 +101,8 @@
                     </div>
 
                     <input type="text" id="id_ff_stalk" 
-                           placeholder="Free Fire User ID (Required). E.g: 22756858" 
-                           value="22756858">
+                           placeholder="Free Fire User ID (Required). E.g: 903474122" 
+                           value="903474122">
                             
                     <button onclick="executeApi('stalk_ff')" class="execute-button">Execute</button>
                     
@@ -112,10 +112,9 @@
                     </div>
                 </div>
             </div>
-
         </div>
         
-        <h2 class="text-xl font-bold text-white mb-3 mt-8 border-b border-gray-600 pb-2">RUCOY ONLINE API</h2>
+        <h2 class="text-xl font-bold text-white mb-3 mt-8 border-b border-gray-600 pb-2">RUCOY ONLINE</h2>
 
         <div id="accordion-wrapper-rucoy">
             
@@ -135,9 +134,9 @@
                     </div>
 
                     <input type="text" id="charName_rucoy_stalk" 
-                            placeholder="Rucoy Character Name (Required). E.g: xzydanzz" 
-                            value="xzydanzz"> 
-                            
+                           placeholder="Rucoy Character Name (Required). E.g: xzydanzz" 
+                           value="xzydanzz"> 
+                           
                     <button onclick="executeApi('stalk_rucoy')" class="execute-button">Execute</button>
                     
                     <div class="response-container">
@@ -146,6 +145,7 @@
                     </div>
                 </div>
             </div>
+            
             <div class="accordion-item" data-id="experience">
                 <div class="accordion-summary" onclick="toggleAccordion(this)">
                     <span class="summary-title">Leaderboard Experience (Top 100)</span>
@@ -169,6 +169,7 @@
                     </div>
                 </div>
             </div>
+            
             <div class="accordion-item" data-id="melee">
                 <div class="accordion-summary" onclick="toggleAccordion(this)">
                     <span class="summary-title">Leaderboard Melee (Top 100)</span>
@@ -192,6 +193,7 @@
                     </div>
                 </div>
             </div>
+            
             <div class="accordion-item" data-id="distance">
                 <div class="accordion-summary" onclick="toggleAccordion(this)">
                     <span class="summary-title">Leaderboard Distance (Top 100)</span>
@@ -215,6 +217,7 @@
                     </div>
                 </div>
             </div>
+            
             <div class="accordion-item" data-id="magic">
                 <div class="accordion-summary" onclick="toggleAccordion(this)">
                     <span class="summary-title">Leaderboard Magic (Top 100)</span>
@@ -238,6 +241,7 @@
                     </div>
                 </div>
             </div>
+            
             <div class="accordion-item" data-id="defense">
                 <div class="accordion-summary" onclick="toggleAccordion(this)">
                     <span class="summary-title">Leaderboard Defense (Top 100)</span>
@@ -303,17 +307,16 @@
             if (endpointKey === 'tiktok') {
                 const username = param1 || 'puan_maharaniri';
                 urlToCopy = `${STALK_ENDPOINT}/tiktok?username=${encodeURIComponent(username)}`;
-            } else if (endpointKey === 'roblox') { 
+            } else if (endpointKey === 'roblox') {
                 const username = param1 || 'builderman';
                 urlToCopy = `${STALK_ENDPOINT}/roblox?username=${encodeURIComponent(username)}`;
-            } else if (endpointKey === 'ff_stalk') { 
-                const ff_id = param1 || '22756858';
+            } else if (endpointKey === 'ff_stalk') {
+                const ff_id = param1 || '903474122';
                 urlToCopy = `${STALK_ENDPOINT}/ff?id=${encodeURIComponent(ff_id)}`;
             } else if (endpointKey === 'rucoy_stalk') { 
                 const charName = param1 || 'xzydanzz';
                 urlToCopy = `${RUCOY_ENDPOINT}/stalk?name=${encodeURIComponent(charName)}`;
-            } 
-            else if (endpointKey === 'leaderboard') {
+            } else if (endpointKey === 'leaderboard') {
                 const category = param1; 
                 urlToCopy = `${RUCOY_ENDPOINT}/leaderboard?category=${category}&limit=100`;
             } 
@@ -376,7 +379,7 @@
                 url = `${STALK_ENDPOINT}/tiktok?username=${encodeURIComponent(username)}`; 
                 summary = `Mencari Data TikTok @${username}`;
 
-            } else if (endpointType === 'stalk_roblox') { 
+            } else if (endpointType === 'stalk_roblox') {
                 itemId = 'roblox';
                 const usernameInput = document.getElementById('username_roblox');
                 let username = usernameInput ? usernameInput.value.trim() : '';
@@ -388,8 +391,7 @@
 
                 url = `${STALK_ENDPOINT}/roblox?username=${encodeURIComponent(username)}`; 
                 summary = `Mencari Data Roblox ${username}`;
-            }
-            else if (endpointType === 'stalk_ff') { 
+            } else if (endpointType === 'stalk_ff') {
                 itemId = 'ff_stalk';
                 const ffIdInput = document.getElementById('id_ff_stalk');
                 let ff_id = ffIdInput ? ffIdInput.value.trim() : '';
@@ -401,8 +403,7 @@
 
                 url = `${STALK_ENDPOINT}/ff?id=${encodeURIComponent(ff_id)}`; 
                 summary = `Mencari Data Free Fire ID ${ff_id}`;
-            }
-            else if (endpointType === 'stalk_rucoy') {
+            } else if (endpointType === 'stalk_rucoy') {
                 itemId = 'rucoy_stalk';
                 const charNameInput = document.getElementById('charName_rucoy_stalk');
                 let charName = charNameInput ? charNameInput.value.trim() : '';
@@ -415,8 +416,7 @@
                 url = `${RUCOY_ENDPOINT}/stalk?name=${encodeURIComponent(charName)}`; 
                 summary = `Mencari Data Karakter ${charName}`;
                 
-            } 
-            else if (endpointType.startsWith('leaderboard_')) {
+            } else if (endpointType.startsWith('leaderboard_')) {
                 const category = endpointType.split('_')[1]; 
                 itemId = category;
                 url = `${RUCOY_ENDPOINT}/leaderboard?category=${category}&limit=100`; 
