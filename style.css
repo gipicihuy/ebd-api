@@ -1,0 +1,225 @@
+      /* THEME & UTILITIES (Minimalist Deep Dark - Custom DARK RED) */
+        :root {
+            --text-color: #E5E7EB;
+            --bg-color: #110A0A;
+            --card-bg: #291111;
+            --border-color: #441A1A;
+            --accent-color: #EF4444;
+            --accent-hover: #DC2626;
+            --input-bg: #371C1C;
+            --code-text: #FCA5A5;
+            --status-ok-bg: #10B981;
+            --status-error-bg: #EF4444;
+            --status-info-bg: #6366F1;
+        }
+
+        /* GENERAL STYLES */
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            font-family: 'Inter', sans-serif;
+            min-height: 100vh;
+            margin: 0;
+            padding: 0;
+        }
+        
+        header { 
+            background-color: var(--card-bg); 
+            border-bottom: 1px solid var(--border-color); 
+        }
+        
+        .version-badge {
+            background-color: var(--accent-color);
+            color: var(--bg-color);
+            padding: 4px 10px;
+            border-radius: 9999px; 
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            opacity: 0.9;
+        }
+
+        #container {
+            max-width: 900px; 
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .accordion-item {
+            margin-top: 10px; 
+        }
+
+        .accordion-summary {
+            background-color: var(--card-bg);
+            padding: 18px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border: 1px solid var(--card-bg); 
+            transition: background-color 0.2s, border 0.3s;
+        }
+
+        .accordion-summary:hover {
+            background-color: #371C1C;
+        }
+        
+        .accordion-summary.active {
+            border-bottom-left-radius: 0;
+            border-bottom-right-radius: 0;
+            border: 1px solid var(--accent-color); 
+            border-bottom: 0;
+            background-color: var(--bg-color); 
+        }
+        
+        .summary-title {
+            font-weight: 600;
+            font-size: 16px;
+        }
+
+        .summary-icon {
+            transition: transform 0.3s;
+        }
+
+        .accordion-summary.active .summary-icon {
+            transform: rotate(90deg);
+        }
+
+        .accordion-content {
+            background-color: var(--bg-color);
+            border: 1px solid var(--accent-color); 
+            border-top: 0;
+            padding: 0 20px; 
+            border-bottom-left-radius: 8px;
+            border-bottom-right-radius: 8px;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease-out, padding 0.4s ease-out;
+        }
+        
+        .api-endpoint-wrapper {
+            background: #1F1010;
+            border-radius: 6px;
+            border: 1px solid #371C1C;
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .api-endpoint {
+            font-family: monospace;
+            padding: 10px;
+            font-size: 13px;
+            color: var(--code-text); 
+            flex-grow: 1;
+            word-break: break-all;
+            overflow-x: hidden; 
+        }
+
+        .copy-button {
+            background-color: #371C1C;
+            color: var(--accent-color); 
+            padding: 10px 15px;
+            border-top-right-radius: 6px;
+            border-bottom-right-radius: 6px;
+            cursor: pointer;
+            line-height: 1;
+            height: 100%;
+            border: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        input[type="text"] { 
+            width: 100%; 
+            padding: 12px 15px;
+            border: 1px solid #634343; 
+            border-radius: 6px; 
+            background-color: var(--input-bg); 
+            color: var(--text-color);
+            font-size: 14px;
+            margin-bottom: 15px; 
+            box-sizing: border-box;
+        }
+        
+        .execute-button { 
+            background-color: var(--accent-color); 
+            color: var(--bg-color); 
+            padding: 12px 15px; 
+            border-radius: 6px; 
+            font-size: 14px; 
+            transition: background-color 0.2s;
+            width: 100%;
+            margin-top: 5px; 
+            border: none;
+            cursor: pointer;
+            font-weight: 600;
+        }
+        
+        .execute-button:hover { 
+            background-color: var(--accent-hover); 
+        }
+
+        .response-container { 
+            margin-top: 20px; 
+            padding-top: 15px; 
+            border-top: 1px solid var(--border-color); 
+        }
+        
+        .status-bar { 
+            padding: 10px; 
+            border-radius: 6px; 
+            font-weight: 600; 
+            color: white;
+            text-align: center;
+            font-size: 13px;
+            margin-bottom: 10px;
+        }
+
+        .response-textarea { 
+            width: 100%; 
+            height: 200px; 
+            padding: 15px; 
+            border: 1px solid var(--border-color); 
+            border-radius: 8px; 
+            font-family: Consolas, monospace; 
+            font-size: 12px;
+            background-color: #080303; 
+            color: var(--code-text); 
+            resize: vertical; 
+            white-space: pre; 
+            overflow-x: auto;
+            word-break: normal;
+            box-sizing: border-box;
+        }
+        
+        .status-info {
+            background-color: var(--status-info-bg);
+        }
+        
+        .status-ok {
+            background-color: var(--status-ok-bg);
+        }
+        
+        .status-error {
+            background-color: var(--status-error-bg);
+        }
+
+        /* Text color utilities */
+        .text-gray-400 {
+            color: #9CA3AF;
+        }
+        
+        .text-red-300 {
+            color: #FCA5A5;
+        }
+        
+        .text-white {
+            color: white;
+        }
+        
+        .border-gray-600 {
+            border-color: #4B5563;
+        }
