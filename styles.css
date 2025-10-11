@@ -1,9 +1,10 @@
 :root {
+    /* Color Variables (Sesuai tema Dark Red Anda) */
     --text-color: #E5E7EB;
     --bg-color: #110A0A;
     --card-bg: #291111;
     --border-color: #441A1A;
-    --accent-color: #EF4444;
+    --accent-color: #EF4444; /* Merah Akses Utama */
     --accent-hover: #DC2626;
     --input-bg: #371C1C;
     --code-text: #FCA5A5;
@@ -12,51 +13,62 @@
     --status-info-bg: #6366F1;
 }
 
-/* GENERAL STYLES */
-body {
+/* GLOBAL RESET & BODY STYLES */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+.body-reset {
     background-color: var(--bg-color);
     color: var(--text-color);
-    font-family: sans-serif;
+    font-family: 'Inter', sans-serif, Arial;
     min-height: 100vh;
+}
+button, input[type="text"] {
+    border: none;
+    outline: none;
+}
+
+/* CONTAINER UTAMA */
+#container {
+    max-width: 900px; 
+    margin: 0 auto;
+    padding: 20px;
 }
 
 /* HEADER STYLES */
 .header-container {
     background-color: var(--card-bg); 
     border-bottom: 1px solid var(--border-color); 
-    padding: 1rem 1.5rem; /* py-4 px-6 */
+    padding: 1rem 1.5rem; 
     position: sticky; 
     top: 0; 
     z-index: 50; 
 }
-
 .header-content {
-    max-width: 1280px; /* max-w-7xl */
+    max-width: 1280px;
     margin-left: auto; 
     margin-right: auto; 
     display: flex;
     align-items: center; 
     justify-content: space-between; 
 }
-
 .header-group {
     display: flex;
     align-items: center;
-    gap: 0.75rem; /* space-x-3 */
+    gap: 0.75rem; 
 }
-
 .header-logo {
     width: 2rem; 
     height: 2rem; 
     border-radius: 9999px; 
 }
-
 .header-title {
     font-size: 1.5rem; 
     font-weight: 700; 
     color: white; 
 }
-
 .version-badge {
     background-color: var(--accent-color);
     color: var(--bg-color);
@@ -68,32 +80,32 @@ body {
     opacity: 0.9;
 }
 
-#container {
-    max-width: 900px; 
-    margin: 0 auto;
-    padding: 20px;
-}
-
-/* SECTION TITLE (Menggantikan kelas gabungan Tailwind) */
+/* SECTION TITLES */
 .section-title {
-    font-size: 1.25rem; /* text-xl */
-    font-weight: 700; /* font-bold */
-    color: white; /* text-white */
-    margin-bottom: 0.75rem; /* mb-3 */
-    border-bottom: 1px solid #4B5563; /* border-gray-600 */
-    padding-bottom: 0.5rem; /* pb-2 */
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: white; 
+    margin-bottom: 0.75rem; 
+    border-bottom: 1px solid #4B5563; 
+    padding-bottom: 0.5rem; 
 }
 .margin-top-4 {
-    margin-top: 1rem; /* mt-4 */
+    margin-top: 1rem;
 }
 .margin-top-8 {
-    margin-top: 2rem; /* mt-8 */
+    margin-top: 2rem;
+}
+.content-text {
+    font-size: 0.75rem; 
+    color: #9CA3AF; 
+    margin-bottom: 0.75rem;
 }
 
+
+/* ACCORDION STYLES */
 .accordion-item {
     margin-top: 10px; 
 }
-
 .accordion-summary {
     background-color: var(--card-bg);
     padding: 18px 20px;
@@ -105,11 +117,9 @@ body {
     border: 1px solid var(--card-bg); 
     transition: background-color 0.2s, border 0.3s;
 }
-
 .accordion-summary:hover {
     background-color: #371C1C;
 }
-
 .accordion-summary.active {
     border-bottom-left-radius: 0;
     border-bottom-right-radius: 0;
@@ -117,20 +127,16 @@ body {
     border-bottom: 0;
     background-color: var(--bg-color); 
 }
-
 .summary-title {
     font-weight: 600;
     font-size: 16px;
 }
-
 .summary-icon {
     transition: transform 0.3s;
 }
-
 .accordion-summary.active .summary-icon {
     transform: rotate(90deg);
 }
-
 .accordion-content {
     background-color: var(--bg-color);
     border: 1px solid var(--accent-color); 
@@ -143,13 +149,7 @@ body {
     transition: max-height 0.4s ease-out, padding 0.4s ease-out;
 }
 
-/* CONTENT TEXT (Menggantikan text-xs text-gray-400 mb-3) */
-.content-text {
-    font-size: 0.75rem; 
-    color: #9CA3AF; 
-    margin-bottom: 0.75rem;
-}
-
+/* API ENDPOINT & INPUT STYLES */
 .api-endpoint-wrapper {
     background: #1F1010;
     border-radius: 6px;
@@ -158,7 +158,6 @@ body {
     align-items: center;
     margin-bottom: 15px;
 }
-
 .api-endpoint {
     font-family: monospace;
     padding: 10px;
@@ -168,11 +167,9 @@ body {
     word-break: break-all;
     overflow-x: hidden; 
 }
-
 .code-highlight {
     color: #FCA5A5;
 }
-
 .copy-button {
     background-color: #371C1C;
     color: var(--accent-color); 
@@ -184,7 +181,6 @@ body {
     height: 100%;
     border-left: 1px solid #634343;
 }
-
 input[type="text"] { 
     width: 100%; 
     padding: 12px 15px;
@@ -195,7 +191,6 @@ input[type="text"] {
     font-size: 14px;
     margin-bottom: 15px; 
 }
-
 .execute-button { 
     background-color: var(--accent-color); 
     color: var(--bg-color); 
@@ -205,18 +200,18 @@ input[type="text"] {
     transition: background-color 0.2s;
     width: 100%;
     margin-top: 5px; 
+    cursor: pointer;
 }
-
 .execute-button:hover { 
     background-color: var(--accent-hover); 
 }
 
+/* RESPONSE AREA STYLES */
 .response-container { 
     margin-top: 20px; 
     padding-top: 15px; 
     border-top: 1px solid var(--border-color); 
 }
-
 .status-bar { 
     padding: 10px; 
     border-radius: 6px; 
@@ -226,7 +221,6 @@ input[type="text"] {
     font-size: 13px;
     margin-bottom: 10px;
 }
-
 .response-textarea { 
     width: 100%; 
     height: 200px; 
@@ -243,14 +237,13 @@ input[type="text"] {
     word-break: normal;
 }
 
+/* STATUS COLORS */
 .status-info {
     background-color: var(--status-info-bg);
 }
-
 .status-ok {
     background-color: var(--status-ok-bg);
 }
-
 .status-error {
     background-color: var(--status-error-bg);
 }
