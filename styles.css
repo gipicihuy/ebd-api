@@ -16,48 +16,46 @@
 body {
     background-color: var(--bg-color);
     color: var(--text-color);
-    font-family: sans-serif; /* Mengganti font-sans */
+    font-family: sans-serif;
     min-height: 100vh;
 }
 
-/* HEADER STYLES (Menggantikan kelas Tailwind) */
+/* HEADER STYLES */
 .header-container {
     background-color: var(--card-bg); 
     border-bottom: 1px solid var(--border-color); 
     padding: 1rem 1.5rem; /* py-4 px-6 */
-    position: sticky; /* sticky */
-    top: 0; /* top-0 */
-    z-index: 50; /* z-50 */
+    position: sticky; 
+    top: 0; 
+    z-index: 50; 
 }
 
 .header-content {
     max-width: 1280px; /* max-w-7xl */
-    margin-left: auto; /* mx-auto */
-    margin-right: auto; /* mx-auto */
+    margin-left: auto; 
+    margin-right: auto; 
     display: flex;
-    align-items: center; /* items-center */
-    justify-content: space-between; /* justify-between */
+    align-items: center; 
+    justify-content: space-between; 
 }
 
-.flex-items {
+.header-group {
     display: flex;
     align-items: center;
     gap: 0.75rem; /* space-x-3 */
 }
 
 .header-logo {
-    width: 2rem; /* w-8 */
-    height: 2rem; /* h-8 */
-    border-radius: 9999px; /* rounded-full */
+    width: 2rem; 
+    height: 2rem; 
+    border-radius: 9999px; 
 }
 
 .header-title {
-    font-size: 1.5rem; /* text-2xl */
-    font-weight: 700; /* font-bold */
-    color: white; /* text-white */
+    font-size: 1.5rem; 
+    font-weight: 700; 
+    color: white; 
 }
-
-/* END HEADER STYLES */
 
 .version-badge {
     background-color: var(--accent-color);
@@ -76,14 +74,20 @@ body {
     padding: 20px;
 }
 
+/* SECTION TITLE (Menggantikan kelas gabungan Tailwind) */
 .section-title {
     font-size: 1.25rem; /* text-xl */
     font-weight: 700; /* font-bold */
     color: white; /* text-white */
     margin-bottom: 0.75rem; /* mb-3 */
-    margin-top: 2rem; /* mt-8 */
     border-bottom: 1px solid #4B5563; /* border-gray-600 */
     padding-bottom: 0.5rem; /* pb-2 */
+}
+.margin-top-4 {
+    margin-top: 1rem; /* mt-4 */
+}
+.margin-top-8 {
+    margin-top: 2rem; /* mt-8 */
 }
 
 .accordion-item {
@@ -139,10 +143,11 @@ body {
     transition: max-height 0.4s ease-out, padding 0.4s ease-out;
 }
 
+/* CONTENT TEXT (Menggantikan text-xs text-gray-400 mb-3) */
 .content-text {
-    font-size: 0.75rem; /* text-xs */
-    color: #9CA3AF; /* text-gray-400 */
-    margin-bottom: 0.75rem; /* mb-3 */
+    font-size: 0.75rem; 
+    color: #9CA3AF; 
+    margin-bottom: 0.75rem;
 }
 
 .api-endpoint-wrapper {
@@ -165,7 +170,7 @@ body {
 }
 
 .code-highlight {
-    color: #FCA5A5; /* text-red-300 */
+    color: #FCA5A5;
 }
 
 .copy-button {
