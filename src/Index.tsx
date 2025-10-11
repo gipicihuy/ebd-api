@@ -9,7 +9,7 @@ import {
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { ApiEndpoint } from "@/components/ApiEndpoint";
+import { ApiEndpoint } from "./ApiEndpoint";
 import { toast } from "sonner";
 
 const Index = () => {
