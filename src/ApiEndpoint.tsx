@@ -7,14 +7,15 @@ import { Card } from "@/components/ui/card";
 import { toast } from "sonner";
 
 interface ApiEndpointProps {
-  name: string;
+  // 'name: string;' dihapus untuk memperbaiki error TS6133
   method: string;
   path: string;
   description: string;
   params: string[];
 }
 
-export const ApiEndpoint = ({ name, method, path, description, params }: ApiEndpointProps) => {
+// 'name' dihapus dari destructuring props
+export const ApiEndpoint = ({ method, path, description, params }: ApiEndpointProps) => {
   const [copied, setCopied] = useState(false);
   const [paramValues, setParamValues] = useState<Record<string, string>>({});
 
@@ -47,23 +48,7 @@ export const ApiEndpoint = ({ name, method, path, description, params }: ApiEndp
       description: fullUrl,
     });
     
-    // Di sini adalah tempat Anda akan membuat panggilan API yang sebenarnya
-    // Contoh:
-    /*
-    fetch(fullUrl)
-        .then(res => res.json())
-        .then(data => {
-            // Tampilkan hasil
-            toast.info("API Response Received", {
-                description: JSON.stringify(data, null, 2),
-            });
-        })
-        .catch(error => {
-            toast.error("API Request Failed", {
-                description: error.message,
-            });
-        });
-    */
+    // Panggilan API sebenarnya akan ditempatkan di sini
   };
 
   // Fungsi untuk mendapatkan warna Badge berdasarkan metode HTTP
@@ -137,7 +122,7 @@ export const ApiEndpoint = ({ name, method, path, description, params }: ApiEndp
                   <Input
                     placeholder={`Enter ${param}`}
                     value={paramValues[param] || ""}
-                    // PERBAIKAN TS7006: e memiliki tipe yang eksplisit.
+                    // Perbaikan: Tambahkan tipe eksplisit untuk event e
                     onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                       setParamValues({ ...paramValues, [param]: e.target.value })
                     }
