@@ -1,4 +1,4 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import { Play, Copy, Check } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -19,10 +19,16 @@ export const ApiEndpoint = ({ name, method, path, description, params }: ApiEndp
   const [paramValues, setParamValues] = useState<Record<string, string>>({});
 
   const handleCopy = () => {
-    navigator.clipboard.writeText(path);
-    setCopied(true);
-    toast.success("Endpoint copied to clipboard");
-    setTimeout(() => setCopied(false), 2000);
+    // Memastikan navigator.clipboard tersedia
+    if (navigator.clipboard) {
+        navigator.clipboard.writeText(path);
+        setCopied(true);
+        toast.success("Endpoint copied to clipboard");
+        setTimeout(() => setCopied(false), 2000);
+    } else {
+        // Fallback untuk lingkungan tanpa navigator.clipboard
+        toast.error("Clipboard access denied or not available");
+    }
   };
 
   const handleExecute = () => {
@@ -41,47 +47,72 @@ export const ApiEndpoint = ({ name, method, path, description, params }: ApiEndp
       description: fullUrl,
     });
     
-    // Here you would make the actual API call
-    console.log("Executing:", fullUrl, paramValues);
+    // Di sini adalah tempat Anda akan membuat panggilan API yang sebenarnya
+    // Contoh:
+    /*
+    fetch(fullUrl)
+        .then(res => res.json())
+        .then(data => {
+            // Tampilkan hasil
+            toast.info("API Response Received", {
+                description: JSON.stringify(data, null, 2),
+            });
+        })
+        .catch(error => {
+            toast.error("API Request Failed", {
+                description: error.message,
+            });
+        });
+    */
   };
 
+  // Fungsi untuk mendapatkan warna Badge berdasarkan metode HTTP
   const getMethodColor = (method: string) => {
     switch (method.toUpperCase()) {
-      case "GET":
-        return "bg-green-500/20 text-green-400 border-green-500/30";
-      case "POST":
-        return "bg-blue-500/20 text-blue-400 border-blue-500/30";
-      case "PUT":
-        return "bg-yellow-500/20 text-yellow-400 border-yellow-500/30";
-      case "DELETE":
-        return "bg-red-500/20 text-red-400 border-red-500/30";
+      case 'GET':
+        return 'bg-blue-600 hover:bg-blue-700';
+      case 'POST':
+        return 'bg-green-600 hover:bg-green-700';
+      case 'PUT':
+        return 'bg-yellow-600 hover:bg-yellow-700';
+      case 'DELETE':
+        return 'bg-red-600 hover:bg-red-700';
       default:
-        return "bg-gray-500/20 text-gray-400 border-gray-500/30";
+        return 'bg-gray-600 hover:bg-gray-700';
     }
   };
 
   return (
-    <Card className="p-5 bg-secondary/50 border-primary/10 hover:border-primary/30 transition-all">
+    <Card className="glass-effect p-6 space-y-5 border-primary/20 transition-all duration-300 hover:border-primary/50 shadow-card">
+      {/* Header Method & Path */}
+      <div className="flex items-center gap-3">
+        <Badge 
+          className={`px-3 py-1 text-sm font-bold ${getMethodColor(method)}`}
+        >
+          {method.toUpperCase()}
+        </Badge>
+        <h4 className="text-lg font-mono text-foreground font-medium flex-1 overflow-auto whitespace-nowrap">
+          {path}
+        </h4>
+      </div>
+
+      {/* Description */}
+      <p className="text-muted-foreground">{description}</p>
+
       <div className="space-y-4">
-        {/* Header */}
-        <div className="flex items-start justify-between gap-4">
-          <div className="flex-1">
-            <div className="flex items-center gap-3 mb-2">
-              <Badge variant="outline" className={`font-mono ${getMethodColor(method)}`}>
-                {method}
-              </Badge>
-              <h4 className="text-lg font-semibold">{name}</h4>
-            </div>
-            <p className="text-sm text-muted-foreground mb-3">{description}</p>
-            
-            {/* Endpoint Path */}
-            <div className="flex items-center gap-2 bg-muted/50 rounded-lg px-3 py-2 border border-border">
-              <code className="text-sm font-mono flex-1 text-primary">{path}</code>
+        {/* Endpoint URL Section */}
+        <div className="space-y-2">
+          <h5 className="text-sm font-semibold text-muted-foreground">Endpoint URL</h5>
+          <div className="flex items-center rounded-lg bg-background/50 border border-border overflow-hidden">
+            <span className="p-3 text-sm font-mono text-primary/80 truncate flex-1">
+              {path}
+            </span>
+            <div className="border-l border-border">
               <Button
-                size="sm"
-                variant="ghost"
                 onClick={handleCopy}
-                className="h-7 w-7 p-0"
+                variant="ghost"
+                size="icon"
+                className="w-10 h-10 text-foreground/70 hover:text-primary transition-colors"
               >
                 {copied ? (
                   <Check className="w-4 h-4 text-green-500" />
@@ -106,7 +137,8 @@ export const ApiEndpoint = ({ name, method, path, description, params }: ApiEndp
                   <Input
                     placeholder={`Enter ${param}`}
                     value={paramValues[param] || ""}
-                    onChange={(e) =>
+                    // PERBAIKAN TS7006: e memiliki tipe yang eksplisit.
+                    onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                       setParamValues({ ...paramValues, [param]: e.target.value })
                     }
                     className="bg-background/50 border-primary/20 focus:border-primary"
