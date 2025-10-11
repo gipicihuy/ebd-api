@@ -1,0 +1,96 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Dark Red Modern Design System */
+
+@layer base {
+  :root {
+    /* Dark Red Theme - Light Mode Base */
+    --background: 0 0% 8%;
+    --foreground: 0 0% 98%;
+
+    --card: 0 15% 12%;
+    --card-foreground: 0 0% 98%;
+
+    --popover: 0 20% 10%;
+    --popover-foreground: 0 0% 98%;
+
+    --primary: 0 72% 51%;
+    --primary-foreground: 0 0% 100%;
+
+    --secondary: 0 25% 18%;
+    --secondary-foreground: 0 0% 98%;
+
+    --muted: 0 15% 15%;
+    --muted-foreground: 0 0% 65%;
+
+    --accent: 0 85% 45%;
+    --accent-foreground: 0 0% 100%;
+
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 0 20% 20%;
+    --input: 0 20% 18%;
+    --ring: 0 72% 51%;
+
+    --radius: 0.75rem;
+
+    /* Custom theme colors */
+    --crimson: 348 83% 47%;
+    --crimson-light: 348 83% 60%;
+    --dark-bg: 0 0% 8%;
+    --dark-card: 0 15% 12%;
+    --glass-bg: 0 15% 12% / 0.6;
+    
+    /* Gradients */
+    --gradient-primary: linear-gradient(135deg, hsl(0 72% 51%) 0%, hsl(348 83% 47%) 100%);
+    --gradient-subtle: linear-gradient(180deg, hsl(0 15% 12%) 0%, hsl(0 10% 8%) 100%);
+    --gradient-glow: radial-gradient(circle at 50% 0%, hsl(0 72% 51% / 0.15) 0%, transparent 70%);
+    
+    /* Shadows */
+    --shadow-crimson: 0 10px 40px -10px hsl(0 72% 51% / 0.4);
+    --shadow-glow: 0 0 60px hsl(0 72% 51% / 0.3);
+    --shadow-card: 0 4px 20px hsl(0 0% 0% / 0.5);
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground font-sans antialiased;
+    background: linear-gradient(180deg, hsl(0 0% 8%) 0%, hsl(0 5% 6%) 100%);
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-semibold tracking-tight;
+  }
+
+  code {
+    @apply font-mono text-sm;
+  }
+}
+
+@layer utilities {
+  .glass-effect {
+    @apply backdrop-blur-xl bg-card/60 border border-white/10;
+  }
+
+  .gradient-text {
+    @apply bg-gradient-to-r from-primary to-crimson bg-clip-text text-transparent;
+  }
+
+  .glow-effect {
+    box-shadow: 0 0 20px hsl(var(--primary) / 0.3);
+  }
+
+  .font-mono {
+    font-family: 'JetBrains Mono', monospace;
+  }
+}
