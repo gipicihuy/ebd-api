@@ -1,14 +1,15 @@
 import { useState } from "react";
-import { Code2, Shield, Trophy, Info } from "lucide-react";
+// Hanya Shield dan Trophy yang dipertahankan karena digunakan di AccordionTrigger
+import { Shield, Trophy } from "lucide-react"; 
 import {
   Accordion,
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
-import { Card } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
-// Import Button dan toast dihapus karena tidak digunakan di sini.
+// Import Card, Button, dan toast dihapus karena tidak digunakan di level komponen Index
+import { Badge } from "@/components/ui/badge"; 
+// Jalur impor ini hanya berfungsi jika ApiEndpoint.tsx ada di src/components/
 import { ApiEndpoint } from "@/components/ApiEndpoint"; 
 
 const Index = () => {
@@ -16,7 +17,8 @@ const Index = () => {
 
   const stalkerEndpoints = [
     {
-      name: "FF Stalk", // Nama endpoint tetap di sini
+      // name dipertahankan untuk data tetapi dihapus dari destructuring di ApiEndpoint
+      name: "FF Stalk", 
       method: "GET",
       path: "/api/stalker/ff",
       description: "Track and analyze Free Fire player statistics",
@@ -66,6 +68,7 @@ const Index = () => {
         </header>
 
         {/* Main Content (Accordion) */}
+        {/* Catatan: Komponen Card digunakan di ApiEndpoint, bukan di sini. */}
         <Accordion
           type="single"
           collapsible
