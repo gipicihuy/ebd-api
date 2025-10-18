@@ -431,48 +431,12 @@
       "image": "/api/placeholder/800/200",
       "items": [
         {
-          "name": "Npm Stalk",
-          "desc": "Stalk npm package",
-          "path": "/stalk/npm?q=",
-          "status": "ready",
-          "params": {
-            "q": "Nama package NPM"
-          }
-        },
-        {
           "name": "Instagram Stalk",
           "desc": "Stalk Instagram account",
           "path": "/stalk/instagram?user=",
           "status": "ready",
           "params": {
             "user": "Username Instagram"
-          }
-        },
-        {
-          "name": "Github Stalk",
-          "desc": "Stalk github account",
-          "path": "/stalk/github?user=",
-          "status": "ready",
-          "params": {
-            "user": "Username GitHub"
-          }
-        },
-        {
-          "name": "Tiktok Stalk",
-          "desc": "Stalk tiktok account",
-          "path": "/stalk/tiktok?user=",
-          "status": "ready",
-          "params": {
-            "user": "Username TikTok"
-          }
-        },
-        {
-          "name": "Youtube Stalk",
-          "desc": "Stalk youtube account",
-          "path": "/stalk/youtube?user=",
-          "status": "ready",
-          "params": {
-            "user": "Username YouTube"
           }
         },
         {
