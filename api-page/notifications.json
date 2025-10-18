@@ -2,12 +2,19 @@
     {
     "id": "#01",
     "date": "2025-10-18",
-    "title": "Web API created!", 
-    "message": "Ini adalah eberardos api cik barusan baru dibuat😹",
+    "title": "Bug?", 
+    "message": "sorry klo masih ada bug :v",
     "read": false
     },
-  {
+    {
     "id": "#02",
+    "date": "2025-10-18",
+    "title": "Web API created!", 
+    "message": "Ini adalah eberardos api cik barusan baru dibuat😹",
+    "read": true
+    },
+  {
+    "id": "#03",
     "date": "2025-10-17",
     "title": "Sistem Rest API", 
     "message": "Perubahan Design dan perbaikan bug",
