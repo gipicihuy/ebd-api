@@ -105,7 +105,6 @@
         {
           "name": "Ytmp4",
           "desc": "Downloader youtube mp4",
-          "path": "/download/ytmp4?url=",
           "status": "ready",
           "params": {
             "url": "URL video YouTube untuk diunduh sebagai MP4"
@@ -427,67 +426,51 @@
       ]
     },
     {
-  "name": "Stalker",
-  "image": "/api/placeholder/800/200",
-  "items": [
-    {
-      "name": "Instagram Stalker",
-      "desc": "Mengambil informasi profil publik (username, followers, bio, dll) akun Instagram.",
-      "path": "/stalk/ig?username=",
-      "status": "ready",
-      "params": {
-        "username": "Username Instagram yang ingin di-stalk (contoh: user.name)"
-      }
-      }
-     ]
-   },
+      "name": "Stalker",
+      "image": "/api/placeholder/800/200",
+      "items": [
+        {
+          "name": "Instagram Stalker",
+          "desc": "Mengambil informasi profil publik (username, followers, bio, dll) akun Instagram.",
+          "path": "/stalk/ig?username=",
+          "status": "ready",
+          "params": {
+            "username": "Username Instagram yang ingin di-stalk (contoh: user.name)"
+          }
+        }
+      ]
+    },
     {
       "name": "Image Creator",
       "image": "/api/placeholder/800/200",
       "items": [
         {
-          "name": "Remini",
-          "desc": "Remini image",
-          "path": "/imagecreator/remini?url=",
+          "name": "Pustaz",
+          "desc": "Generator Teks Pustaz",
+          "path": "/imagecreator/pustaz?text=",
           "status": "ready",
           "params": {
-            "url": "URL gambar yang akan ditingkatkan kualitasnya"
+            "text": "Teks untuk diubah menjadi gaya Pustaz (Max 150 karakter)"
           }
         },
         {
-          "name": "Removebg",
-          "desc": "Remove background image",
-          "path": "/imagecreator/removebg?url=",
+          "name": "Fake Tiktok",
+          "desc": "Generator Profil Tiktok Palsu",
+          "path": "/imagecreator/faketiktok?name=&username=&pp=",
           "status": "ready",
           "params": {
-            "url": "URL gambar yang akan dihapus backgroundnya"
+            "name": "Nama Tampilan (Contoh: Jane Doe)",
+            "username": "Username TikTok (Contoh: @janedoe)",
+            "pp": "URL foto profil"
           }
         },
         {
-          "name": "Upscale",
-          "desc": "Upscale image",
-          "path": "/imagecreator/upscale?url=",
+          "name": "iPhone Quote Chat",
+          "desc": "Generator Chat Quote Ala iPhone",
+          "path": "/imagecreator/iqc?text=",
           "status": "ready",
           "params": {
-            "url": "URL gambar yang akan ditingkatkan resolusinya"
-          }
-        },
-        {
-          "name": "Colorize",
-          "desc": "Colorize image",
-          "path": "/imagecreator/colorize?url=",
-          "status": "ready",
-          "params": {
-            "url": "URL gambar hitam putih yang akan diwarnai"
-          }
-        },
-        {
-          "name": "Brat",
-          "desc": "Brat text generator",
-          "path": "/imagecreator/brat?text=",
-          "status": "ready",
-          "params": {
-            "text": "Teks yang akan dikonversi menjadi gaya Brat"
+            "text": "Teks kutipan (Max 80 karakter)"
           }
         }
       ]
