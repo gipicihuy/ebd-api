@@ -20,510 +20,471 @@
       extend: {
         fontFamily: {
           'mono': ['Ubuntu Mono', 'monospace'],
-          'sans': ['Inter', 'sans-serif'],
-        },
-        colors: {
-            'primary': '#dc2626', // Warna merah yang kamu gunakan
-            'primary-dark': '#b91c1c', 
+          'sans': ['Inter', 'system-ui', 'sans-serif']
         }
       }
     }
   }
 </script>
-<style>
-    /* Custom Scrollbar */
-    ::-webkit-scrollbar {
-        width: 10px;
-    }
-    ::-webkit-scrollbar-track {
-        background: #1f2937; /* bg-gray-800 */
-    }
-    ::-webkit-scrollbar-thumb {
-        background: #374151; /* bg-gray-600 */
-        border-radius: 5px;
-    }
-    ::-webkit-scrollbar-thumb:hover {
-        background: #4b5563; /* bg-gray-500 */
-    }
-    
-    /* Notification Modal Styles */
-    .notification-modal {
-        display: none;
-        position: fixed;
-        z-index: 100; 
-        left: 0;
-        top: 0;
-        width: 100%;
-        height: 100%;
-        overflow: auto;
-        background-color: rgba(0,0,0,0.5); 
-        padding-top: 60px;
-    }
-    .modal-content {
-        background-color: #1f2937;
-        margin: 5% auto;
-        padding: 20px;
-        border: 1px solid #374151;
-        width: 80%; 
-        max-width: 600px;
-        border-radius: 8px;
-    }
-    .close-btn {
-        color: #aaa;
-        float: right;
-        font-size: 28px;
-        font-weight: bold;
-    }
-    .close-btn:hover,
-    .close-btn:focus {
-        color: white;
-        text-decoration: none;
-        cursor: pointer;
-    }
-    .notification-list {
-        max-height: 400px;
-        overflow-y: auto;
-    }
-    .notification-item {
-        border-bottom: 1px solid #374151;
-        padding: 10px 0;
-        cursor: pointer;
-    }
-    .notification-item:last-child {
-        border-bottom: none;
-    }
-    .notification-item.unread .title {
-        font-weight: bold;
-    }
-</style>
+
+    <style>
+        ::-webkit-scrollbar {
+            display: none !important;
+        }
+        .glass {
+            backdrop-filter: blur(16px) saturate(180%);
+            background: rgba(23, 25, 35, 0.85);
+            border: 1px solid rgba(255, 255, 255, 0.125);
+        }
+        .loader {
+            width: 28px;
+            height: 28px;
+            border: 2px solid #4a5568;
+            border-top: 2px solid #e2e8f0;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        /* Mengganti gradasi ungu menjadi gradasi merah */
+        .gradient-text {
+            background: linear-gradient(135deg, #ef4444 0%, #b91c1c 100%); /* Red gradient */
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        /* Mengganti gradasi ungu menjadi gradasi merah */
+        .btn-gradient {
+            background: linear-gradient(135deg, #ef4444 0%, #b91c1c 100%); /* Red gradient */
+            transition: all 0.3s ease;
+        }
+        /* Mengganti shadow hover ungu menjadi merah */
+        .btn-gradient:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 10px 25px -5px rgba(239, 68, 68, 0.4); /* Red shadow */
+        }
+        /* Toast notification styles */
+        .toast {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: rgba(23, 25, 35, 0.95);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 12px 16px;
+            border-radius: 6px;
+            color: #e2e8f0;
+            font-size: 14px;
+            z-index: 1000;
+            transform: translateX(150%);
+            transition: transform 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+        .toast.show {
+            transform: translateX(0);
+        }
+    </style>
 </head>
-<body class="bg-gray-900 text-gray-100 font-sans min-h-screen">
+<body class="bg-gray-900 text-slate-300 antialiased font-mono min-h-screen">
+    <main class="max-w-2xl mx-auto px-8 py-16">
 
-    <header class="bg-gray-800 shadow-md sticky top-0 z-50">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex justify-between items-center h-16">
-                <div class="flex-shrink-0">
-                    <a href="/" class="text-xl font-bold tracking-tight text-primary">Eberardos API</a>
+        <!-- Toast Notification -->
+        <div id="toast" class="toast">
+            <div class="flex items-center gap-2">
+                <span class="material-icons text-green-400 text-sm">check_circle</span>
+                <span id="toast-message">Endpoint copied to clipboard!</span>
+            </div>
+        </div>
+
+        <div class="text-left mb-8">
+            <div class="flex items-center gap-4 mb-4">
+                <img src="/assets/icon.png" class="w-12 md:w-9">
+                <h1 class="text-3xl md:text-4xl font-bold gradient-text">Eberardos-Api</h1>
+            </div>
+            <p class="text-slate-400 text-xs mx-auto mb-4">
+                Selamat datang di dokumentasi Eberardos-Api. Antarmuka interaktif ini memungkinkan Anda menjelajahi dan menguji koleksi lengkap titik akhir API kami secara real-time.
+            </p>
+            
+            <div class="mb-4 text-xs space-y-1">
+                <div>
+                    <a href="https://t.me/givyo" target="_blank" class="text-slate-300 hover:text-white underline">Contact Givy</a> 
                 </div>
+            </div>
+        </div>
+ 
+        <div class="mb-8">
+            <div class="flex items-center justify-between mb-3">
+                <h2 class="text-lg font-semibold text-slate-300 flex items-center">
+                    <span class="material-icons text-xl mr-2 text-gray-400">notifications</span>
+                    Informasi
+                </h2>
+                <span id="unread-count" class="text-xs bg-red-500/50 text-red-300 px-2 py-1 rounded-full hidden"></span>
+            </div>
+            <div id="notifications-list" class="space-y-2">
+                <div class="loader"></div>
+            </div>
+        </div>
 
-                <div class="flex items-center space-x-4">
-                    <span id="apiStatus" class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-red-800 text-red-100">
-                        <i class="fas fa-circle mr-1 text-red-500"></i> Loading...
-                    </span>
-                    
-                    <div class="relative">
-                        <button id="notificationBtn" class="p-2 rounded-full hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-primary">
-                            <i class="material-icons text-white">notifications</i>
-                            <span id="unreadCount" class="absolute top-0 right-0 inline-flex items-center justify-center px-2 py-1 text-xs font-bold leading-none text-red-100 transform translate-x-1/2 -translate-y-1/2 bg-red-600 rounded-full hidden">0</span>
-                        </button>
-                    </div>
+        <div class="flex items-center justify-between mb-4">
+            <div class="flex-1 relative">
+                <div class="absolute inset-y-0 left-0 pl-5 flex items-center pointer-events-none">
+                    <span class="material-icons text-gray-500 text-lg">search</span>
+                </div>
+                <input 
+                    type="text" 
+                    id="searchInput" 
+                    placeholder="Search API endpoints..." 
+                    class="w-full pl-12 pr-5 py-4 text-sm border border-gray-700 bg-gray-800 text-slate-300 placeholder-slate-500 focus:outline-none focus:border-red-500"
+                >
+            </div>
+        </div>
 
-                    <button id="apikeyBtn" class="bg-primary hover:bg-primary-dark text-white font-semibold py-1.5 px-4 rounded-lg transition duration-150 ease-in-out">
-                        API Key
-                    </button>
+        <div id="content" class="space-y-4">
+            <div id="noResults" class="text-center py-16" style="display: none;">
+                <div class="max-w-md mx-auto">
+                    <h3 class="text-xs text-slate-400 mb-2">No result found.</h3>
                 </div>
             </div>
-        </div>
-    </header>
 
-    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        
-        <div id="bannerContainer" class="mb-8 rounded-lg overflow-hidden shadow-xl" style="height: 200px; background-color: #2d3748;">
-            <img id="bannerImage" src="" alt="API Banner" class="w-full h-full object-cover opacity-50" style="display: none;">
-            <div id="bannerPlaceholder" class="w-full h-full flex items-center justify-center text-gray-500 text-xl" style="display: none;">
-                Loading Banner...
+            <div id="apiList" class="space-y-3">
+                <!-- API content will be loaded here -->
             </div>
         </div>
 
-        <div class="mb-8 relative">
-            <input type="text" id="searchInput" placeholder="Cari endpoint API (misal: /download/tiktok atau nama fitur)"
-                   class="w-full p-3 pl-10 bg-gray-700 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:ring-primary focus:border-primary">
-            <i class="material-icons absolute left-3 top-3.5 text-gray-400">search</i>
-        </div>
-
-        <div id="apiList" class="space-y-8">
-            </div>
-
-        <div id="noResults" class="hidden text-center py-12 text-gray-400">
-            <i class="material-icons text-6xl mb-4">sentiment_dissatisfied</i>
-            <h3 class="text-xl font-semibold">Tidak Ada Hasil Ditemukan</h3>
-            <p>Coba kata kunci lain atau periksa ejaanmu.</p>
-        </div>
+        <footer>
+            <p class="text-slate-400 text-xs mx-auto mb-4">
+                2025 Eberardos    
+            </p>
+            <p class="text-slate-400 text-xs mx-auto mb-4">
+                inspirasi design dari: <a href="https://api.nekolabs.my.id/" target="_blank" class="underline">api.nekolabs.my.id</a>    
+            </p>
+        </footer>
     </main>
 
-    <footer class="bg-gray-800 mt-12 py-6">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-gray-400">
-            <p>&copy; <span id="currentYear"></span> <a href="/" class="text-primary hover:text-primary-dark font-semibold">Eberardos API</a>. All rights reserved.</p>
-            <p class="text-sm mt-1">Creator: <span id="apiCreator" class="text-gray-300">Loading...</span></p>
-        </div>
-    </footer>
-
-    <div id="notificationModal" class="notification-modal">
-        <div class="modal-content">
-            <span class="close-btn" onclick="closeNotificationModal()">&times;</span>
-            <h2 class="text-xl font-bold mb-4 text-white">Notifikasi Terbaru</h2>
-            <div id="notificationList" class="notification-list text-gray-300">
-                </div>
-            <button onclick="markAllAsRead()" class="mt-4 bg-primary hover:bg-primary-dark text-white text-sm py-1.5 px-3 rounded-md">
-                Tandai Semua Sudah Dibaca
-            </button>
-        </div>
-    </div>
-
-    <div id="apikeyModal" class="notification-modal">
-        <div class="modal-content">
-            <span class="close-btn" onclick="closeApikeyModal()">&times;</span>
-            <h2 class="text-xl font-bold mb-4 text-white">API Key</h2>
-            <p class="text-gray-300 mb-4">Gunakan salah satu API key berikut untuk mengakses endpoint yang memerlukan autentikasi:</p>
-            <div id="apikeyList" class="bg-gray-700 p-3 rounded-lg overflow-x-auto font-mono text-sm text-green-300">
-                Loading API Keys...
-            </div>
-            <p class="text-xs text-gray-400 mt-2">API key bersifat rahasia, jangan bagikan kepada siapapun!</p>
-        </div>
-    </div>
-    
     <script>
-    const apiBaseUrl = window.location.origin;
-
-    // Helper to format endpoint path with base URL
-    function formatPath(path) {
-        return apiBaseUrl + path;
-    }
-
-    // Modal Handlers
-    function openNotificationModal() {
-        document.getElementById('notificationModal').style.display = 'block';
-    }
-
-    function closeNotificationModal() {
-        document.getElementById('notificationModal').style.display = 'none';
-        document.getElementById('unreadCount').classList.add('hidden');
-    }
-
-    function openApikeyModal() {
-        document.getElementById('apikeyModal').style.display = 'block';
-    }
-
-    function closeApikeyModal() {
-        document.getElementById('apikeyModal').style.display = 'none';
-    }
-
-    // Close modals when clicking outside
-    window.onclick = function(event) {
-        const notifModal = document.getElementById('notificationModal');
-        const apikeyModal = document.getElementById('apikeyModal');
-        if (event.target == notifModal) {
-            closeNotificationModal();
+        // Fungsi untuk copy endpoint ke clipboard dengan toast notification
+        function copyToClipboard(text) {
+            navigator.clipboard.writeText(text).then(() => {
+                showToast('Endpoint copied to clipboard!');
+            }).catch(err => {
+                console.error('Failed to copy:', err);
+                showToast('Failed to copy endpoint');
+            });
         }
-        if (event.target == apikeyModal) {
-            closeApikeyModal();
+
+        // Fungsi untuk menampilkan toast notification
+        function showToast(message) {
+            const toast = document.getElementById('toast');
+            const toastMessage = document.getElementById('toast-message');
+            
+            toastMessage.textContent = message;
+            toast.classList.add('show');
+            
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 3000);
         }
-    }
 
-    document.getElementById('notificationBtn').addEventListener('click', openNotificationModal);
-    document.getElementById('apikeyBtn').addEventListener('click', openApikeyModal);
-
-    // Initial load for API status, routes, and apikeys
-    async function loadApiStatusAndSettings() {
-        try {
-            const statusRes = await fetch(apiBaseUrl + '/api/status');
-            const statusData = await statusRes.json();
-
-            const settingsRes = await fetch(apiBaseUrl + '/settings.json');
-            const settings = await settingsRes.json();
-
-            // Update Status
-            const statusElement = document.getElementById('apiStatus');
-            statusElement.innerHTML = `<i class="fas fa-circle mr-1 ${statusData.result.status === 'Aktif' ? 'text-green-500' : 'text-red-500'}"></i> ${statusData.result.status}`;
-            statusElement.className = `inline-flex items-center px-3 py-1 rounded-full text-xs font-medium ${statusData.result.status === 'Aktif' ? 'bg-green-800 text-green-100' : 'bg-red-800 text-red-100'}`;
-
-            // Update Footer
-            document.getElementById('apiCreator').textContent = settings.apiSettings.creator || 'N/A';
-            document.getElementById('currentYear').textContent = new Date().getFullYear();
-
-            // Update API Keys
-            const apikeyListElement = document.getElementById('apikeyList');
-            if (settings.apiSettings.apikey && settings.apiSettings.apikey.length > 0) {
-                apikeyListElement.innerHTML = settings.apiSettings.apikey.map(key => `<span class="block">${key}</span>`).join('');
+        // Existing functions from the original file
+        function toggleCategory(index) {
+            const category = document.getElementById(`category-${index}`);
+            const icon = document.getElementById(`category-icon-${index}`);
+            if (category.classList.contains('hidden')) {
+                category.classList.remove('hidden');
+                icon.textContent = 'expand_less';
             } else {
-                apikeyListElement.textContent = 'Tidak ada API Key yang terdaftar.';
+                category.classList.add('hidden');
+                icon.textContent = 'expand_more';
+            }
+        }
+
+        function toggleEndpoint(catIndex, endpointIndex) {
+            const endpoint = document.getElementById(`endpoint-${catIndex}-${endpointIndex}`);
+            const icon = document.getElementById(`endpoint-icon-${catIndex}-${endpointIndex}`);
+            if (endpoint.classList.contains('hidden')) {
+                endpoint.classList.remove('hidden');
+                icon.textContent = 'expand_less';
+            } else {
+                endpoint.classList.add('hidden');
+                icon.textContent = 'expand_more';
+            }
+        }
+
+        async function executeRequest(event, catIndex, endpointIndex, method, path, produces) {
+            event.preventDefault();
+            const form = document.getElementById(`form-${catIndex}-${endpointIndex}`);
+            const responseDiv = document.getElementById(`response-${catIndex}-${endpointIndex}`);
+            const responseContent = document.getElementById(`response-content-${catIndex}-${endpointIndex}`);
+            const clearButton = document.getElementById(`clear-${catIndex}-${endpointIndex}`);
+            
+            const formData = new FormData(form);
+            const params = new URLSearchParams();
+            for (const [key, value] of formData.entries()) {
+                if (value) {
+                    params.append(key, value);
+                }
             }
 
-            // Update Banner
-            const bannerContainer = document.getElementById('bannerContainer');
-            const bannerImage = document.getElementById('bannerImage');
-            const bannerPlaceholder = document.getElementById('bannerPlaceholder');
-            if (settings.bannerImage) {
-                bannerImage.src = settings.bannerImage;
-                bannerImage.style.display = 'block';
-                bannerPlaceholder.style.display = 'none';
-                bannerContainer.style.backgroundColor = 'transparent'; 
-                bannerContainer.style.height = 'auto'; // Auto height if there's an image
-            } else {
-                bannerPlaceholder.textContent = `${settings.name || 'API'} v${settings.version || '1.0'}`;
-                bannerPlaceholder.style.display = 'flex';
-                bannerContainer.style.height = '150px'; 
+            const fullPath = `${path}?${params.toString()}`;
+            responseDiv.classList.remove('hidden');
+            responseContent.innerHTML = '<div class="loader"></div>';
+
+            try {
+                const response = await fetch(fullPath);
+                const contentType = response.headers.get("content-type");
+                if (contentType && contentType.includes("application/json")) {
+                    const data = await response.json();
+                    responseContent.innerHTML = `<pre>${JSON.stringify(data, null, 2)}</pre>`;
+                } else if (contentType && contentType.startsWith("image/")) {
+                    const blob = await response.blob();
+                    const imageUrl = URL.createObjectURL(blob);
+                    responseContent.innerHTML = `<img src="${imageUrl}" class="max-w-full h-auto rounded-md">`;
+                } else {
+                    const text = await response.text();
+                    responseContent.innerHTML = `<pre>${text}</pre>`;
+                }
+            } catch (error) {
+                responseContent.innerHTML = `<pre>${error}</pre>`;
             }
-
-
-        } catch (e) {
-            console.error('Error loading API status or settings:', e);
-            document.getElementById('apiStatus').innerHTML = '<i class="fas fa-circle mr-1 text-red-500"></i> Error';
-            document.getElementById('apiStatus').className = 'inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-red-800 text-red-100';
-            document.getElementById('bannerPlaceholder').textContent = 'Gagal memuat data API.';
-            document.getElementById('bannerPlaceholder').style.display = 'flex';
-            document.getElementById('apikeyList').textContent = 'Gagal memuat API Keys.';
+            clearButton.classList.remove('hidden');
         }
-    }
 
-    // Load API Endpoints
-    async function loadApis() {
-        await loadApiStatusAndSettings();
+        function clearResponse(catIndex, endpointIndex) {
+            const responseDiv = document.getElementById(`response-${catIndex}-${endpointIndex}`);
+            const responseContent = document.getElementById(`response-content-${catIndex}-${endpointIndex}`);
+            const clearButton = document.getElementById(`clear-${catIndex}-${endpointIndex}`);
+            responseContent.innerHTML = '';
+            responseDiv.classList.add('hidden');
+            clearButton.classList.add('hidden');
+        }
 
-        try {
-            const response = await fetch(apiBaseUrl + '/settings.json');
-            const settings = await response.json();
-            const apiListElement = document.getElementById('apiList');
-            apiListElement.innerHTML = ''; // Clear previous content
-
-            settings.categories.forEach(category => {
-                const categoryGroup = document.createElement('div');
-                categoryGroup.className = 'category-group bg-gray-800 p-6 rounded-xl shadow-lg';
+        // Function to load and render APIs
+        async function loadApis() {
+            const apiList = document.getElementById('apiList');
+            try {
+                const response = await fetch('/assets/settings.json');
+                const data = await response.json();
                 
-                const header = document.createElement('h2');
-                header.className = 'text-2xl font-bold mb-4 text-white border-b border-primary pb-2';
-                header.textContent = category.name;
-                categoryGroup.appendChild(header);
-
-                const itemsContainer = document.createElement('div');
-                itemsContainer.className = 'space-y-4';
-
-                category.items.forEach(item => {
-                    const apiItem = document.createElement('div');
-                    apiItem.className = 'api-item p-4 bg-gray-700 rounded-lg border-l-4 transition duration-200 ease-in-out hover:bg-gray-600';
-                    apiItem.setAttribute('data-path', item.path || '');
-                    apiItem.setAttribute('data-alias', item.name || '');
-                    apiItem.setAttribute('data-description', item.desc || '');
-
-                    // Set border color based on status
-                    let borderColor = 'border-green-500';
-                    let statusColor = 'text-green-400';
-                    let statusText = 'Ready';
-                    if (item.status === 'error') {
-                        borderColor = 'border-red-500';
-                        statusColor = 'text-red-400';
-                        statusText = 'Error';
-                    } else if (item.status === 'soon') {
-                        borderColor = 'border-yellow-500';
-                        statusColor = 'text-yellow-400';
-                        statusText = 'Soon';
-                    }
-                    apiItem.classList.add(borderColor);
-
-                    // Title and Status
-                    const titleDiv = document.createElement('div');
-                    titleDiv.className = 'flex justify-between items-start';
-
-                    const title = document.createElement('h3');
-                    title.className = 'text-lg font-semibold text-white';
-                    title.textContent = item.name;
-                    titleDiv.appendChild(title);
-
-                    const statusSpan = document.createElement('span');
-                    statusSpan.className = `text-xs font-medium ${statusColor}`;
-                    statusSpan.textContent = statusText;
-                    titleDiv.appendChild(statusSpan);
-
-                    apiItem.appendChild(titleDiv);
-
-                    // Description
-                    if (item.desc) {
-                        const description = document.createElement('p');
-                        description.className = 'text-sm text-gray-400 mt-1';
-                        description.textContent = item.desc;
-                        apiItem.appendChild(description);
-                    }
-
-                    // Path
-                    if (item.path) {
-                        const pathDiv = document.createElement('div');
-                        pathDiv.className = 'mt-3';
-                        const pathLabel = document.createElement('span');
-                        pathLabel.className = 'text-xs font-mono bg-gray-600 text-gray-200 px-2 py-1 rounded-md';
-                        pathLabel.textContent = item.path;
-                        pathDiv.appendChild(pathLabel);
-                        apiItem.appendChild(pathDiv);
-                    }
+                let html = '';
+                data.categories.forEach((category, catIndex) => {
+                    html += `
+                    <div class="category-group" data-category="${category.name}">
+                        <div class="mb-2">
+                            <div class="bg-gray-800 border border-gray-700">
+                                <button onclick="toggleCategory(${catIndex})" class="w-full px-4 py-3 text-left flex items-center justify-between hover:bg-gray-700 transition-colors duration-150">
+                                    <h2 class="font-bold flex items-center">
+                                        <span class="material-icons text-lg mr-3 text-gray-400">folder</span>
+                                        <span class="truncate max-w-xs text-sm">${category.name}</span>
+                                        <span class="ml-2 text-xs text-gray-500">(${category.items.length})</span>
+                                    </h2>
+                                    <span class="material-icons transition-transform duration-150" id="category-icon-${catIndex}">expand_more</span>
+                                </button>
+                                
+                                <div id="category-${catIndex}" class="hidden">`;
                     
-                    // Parameters
-                    if (item.params) {
-                        const paramsDiv = document.createElement('div');
-                        paramsDiv.className = 'mt-3';
-                        const paramsTitle = document.createElement('p');
-                        paramsTitle.className = 'text-sm font-semibold text-primary';
-                        paramsTitle.textContent = 'Parameters:';
-                        paramsDiv.appendChild(paramsTitle);
+                    category.items.forEach((item, endpointIndex) => {
+                        const method = 'GET'; // Assuming all are GET for now
+                        const pathParts = item.path.split('?');
+                        const path = pathParts[0];
+                        const queryParams = new URLSearchParams(pathParts[1] || '');
 
-                        const paramsList = document.createElement('ul');
-                        paramsList.className = 'text-xs text-gray-400 list-disc list-inside ml-2';
-                        
-                        // Construct full path for easy copy/test
-                        let fullPath = item.path ? formatPath(item.path) : '#';
-                        let firstParam = true;
-
-                        for (const key in item.params) {
-                            const paramItem = document.createElement('li');
-                            paramItem.innerHTML = `<span class="font-mono text-yellow-300">${key}</span>: ${item.params[key]}`;
-                            paramsList.appendChild(paramItem);
-
-                            // Build URL with example params
-                            const separator = fullPath.includes('?') ? '&' : '?';
-                            const exampleValue = key.toLowerCase().includes('text') ? 'Halo%20dunia' :
-                                                 key.toLowerCase().includes('url') ? 'https://example.com/link' :
-                                                 key.toLowerCase().includes('q') ? 'anime%20terbaru' :
-                                                 'example_value';
-                                                 
-                            fullPath += (firstParam ? separator : '&') + `${key}=${exampleValue}`;
-                            firstParam = false;
-                        }
-                        paramsDiv.appendChild(paramsList);
-                        apiItem.appendChild(paramsDiv);
-
-                        // Example URL (can be copied)
-                        const exampleUrlDiv = document.createElement('div');
-                        exampleUrlDiv.className = 'mt-3';
-                        const exampleUrlText = document.createElement('p');
-                        exampleUrlText.className = 'text-xs font-mono bg-gray-800 p-2 rounded-md text-blue-300 break-all cursor-pointer hover:bg-gray-700';
-                        exampleUrlText.textContent = fullPath;
-                        exampleUrlText.title = 'Klik untuk menyalin URL';
-                        
-                        exampleUrlText.onclick = function() {
-                            navigator.clipboard.writeText(this.textContent).then(() => {
-                                alert('URL disalin: ' + this.textContent);
-                            }).catch(err => {
-                                console.error('Gagal menyalin: ', err);
-                            });
+                        const statusClasses = {
+                            'ready': 'bg-green-500/20 text-green-400',
+                            'update': 'bg-yellow-500/20 text-yellow-400', 
+                            'error': 'bg-red-500/20 text-red-400'
                         };
-                        
-                        exampleUrlDiv.appendChild(exampleUrlText);
-                        apiItem.appendChild(exampleUrlDiv);
+                        const statusClass = statusClasses[item.status] || 'bg-gray-600';
+
+                        html += `
+                                    <div class="border-t border-gray-700 api-item" 
+                                        data-method="${method}"
+                                        data-path="${path}"
+                                        data-alias="${item.name}"
+                                        data-description="${item.desc}"
+                                        data-category="${category.name}">
+                                            <button onclick="toggleEndpoint(${catIndex}, ${endpointIndex})" class="w-full px-4 py-3 text-left flex items-center justify-between hover:bg-gray-700 transition-colors duration-150">
+                                                <div class="flex items-center min-w-0 flex-1">
+                                                    <span class="inline-block px-3 py-1 text-xs font-semibold text-white mr-3 flex-shrink-0 bg-gray-600">
+                                                        ${method}
+                                                    </span>
+                                                    <div class="flex flex-col min-w-0 flex-1">
+                                                        <span class="font-semibold truncate max-w-[90%] font-mono text-sm" title="${path}">${path}</span>
+                                                        <div class="flex items-center">
+                                                            <span class="text-xs text-gray-400 truncate max-w-[90%]" title="${item.name}">${item.name}</span>
+                                                            <span class="ml-2 px-2 py-0.5 text-xs rounded-full ${statusClass}">${item.status || 'ready'}</span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <span class="material-icons transition-transform duration-150 flex-shrink-0" id="endpoint-icon-${catIndex}-${endpointIndex}">expand_more</span>
+                                            </button>
+                                            
+                                            <div id="endpoint-${catIndex}-${endpointIndex}" class="hidden bg-gray-800 p-4 border-t border-gray-700">
+                                                <div class="mb-3">
+                                                    <div class="text-gray-400 text-xs">${item.desc}</div>
+                                                </div>
+                                                <div class="flex items-center justify-between mb-3">
+                                                    <div class="text-gray-300 font-bold text-xs flex items-center">
+                                                        <span class="material-icons text-sm mr-1">link</span>
+                                                        ENDPOINT
+                                                    </div>
+                                                    <button 
+                                                        onclick="copyToClipboard('${path}')" 
+                                                        class="flex items-center gap-1 bg-gray-700 hover:bg-gray-600 text-slate-300 px-3 py-1 text-xs rounded transition-colors duration-150"
+                                                        title="Copy endpoint URL"
+                                                    >
+                                                        <span class="material-icons text-sm">content_copy</span>
+                                                        Copy
+                                                    </button>
+                                                </div>
+                                                <div class="bg-gray-900 text-slate-300 text-xs p-3 border border-gray-700 mb-4 font-mono break-all">
+                                                    ${path}
+                                                </div>
+                                                `;
+                        if (item.status === 'ready') {
+                            html += `
+                                                    <div>
+                                                        <div class="text-gray-300 font-bold text-xs mb-2 flex items-center">
+                                                            <span class="material-icons text-sm mr-1">play_arrow</span>
+                                                            TRY IT OUT
+                                                        </div>
+                                                        <div>
+                                                            <form id="form-${catIndex}-${endpointIndex}" onsubmit="executeRequest(event, ${catIndex}, ${endpointIndex}, '${method}', '${path}', 'application/json')">
+                                                                <div class="mb-4 space-y-2">`;
+                            if (item.params) {
+                                Object.keys(item.params).forEach(paramName => {
+                                    const isRequired = !queryParams.has(paramName) || queryParams.get(paramName) === '';
+                                    html += `<div>
+                                                    <label class="block text-xs font-medium text-slate-400 mb-2">${paramName} ${isRequired ? '<span class="text-red-500">*</span>' : ''}</label>
+                                                    <input type="text" name="${paramName}" class="w-full px-3 py-2 border border-gray-600 text-sm focus:outline-none focus:border-red-500 bg-gray-700 placeholder:text-slate-500" placeholder="${item.params[paramName]}" ${isRequired ? 'required' : ''}>
+                                                </div>`;
+                                });
+                            }
+                            html += `
+                                                                </div>
+                                                                <button type="submit" class="bg-red-600 hover:bg-red-500 font-semibold text-white px-6 py-2 text-xs font-medium transition-colors duration-150">
+                                                                    Execute
+                                                                </button>
+                                                                <button type="button" id="clear-${catIndex}-${endpointIndex}" onclick="clearResponse(${catIndex}, ${endpointIndex})" class="hidden bg-gray-700 border border-gray-600 hover:border-gray-500 font-semibold text-slate-300 px-6 py-2 text-xs font-medium transition-colors duration-150 ml-2">
+                                                                    Clear
+                                                                </button>
+                                                            </form>
+                                                        </div>
+                                                    </div>`;
+                        } else {
+                            html += `<div class="text-yellow-400 text-xs p-3 bg-yellow-500/20 border border-yellow-500/30">Endpoint ini tidak dapat diuji coba saat ini.</div>`;
+                        }
+
+                        html += `
+                                                <div id="response-${catIndex}-${endpointIndex}" class="hidden mt-4">
+                                                    <div class="text-gray-300 font-bold text-xs mb-2 flex items-center">
+                                                        <span class="material-icons text-sm mr-1">code</span>
+                                                        RESPONSE
+                                                    </div>
+                                                    <div class="bg-gray-900 text-white text-xs p-4 border border-gray-700">
+                                                        <div class="max-h-80 overflow-auto" id="response-content-${catIndex}-${endpointIndex}"></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                    </div>`;
+                    });
+                    html += `</div></div></div>`;
+                });
+                apiList.innerHTML = html;
+            } catch (error) {
+                apiList.innerHTML = '<p class="text-red-500">Failed to load API data.</p>';
+                console.error('Error loading API data:', error);
+            }
+        }
+        
+        // Function to load and render notifications
+        async function loadNotifications() {
+            const notificationsList = document.getElementById('notifications-list');
+            const unreadCountBadge = document.getElementById('unread-count');
+            try {
+                const response = await fetch('/notifications.json');
+                const notifications = await response.json();
+
+                notificationsList.innerHTML = ''; // Clear loader
+                let unreadCount = 0;
+
+                // Sort notifications by date, newest first
+                notifications.sort((a, b) => new Date(b.date) - new Date(a.date));
+
+                notifications.forEach(notif => {
+                    if (!notif.read) {
+                        unreadCount++;
                     }
-
-
-                    itemsContainer.appendChild(apiItem);
+                    const notifElement = document.createElement('div');
+                    notifElement.className = `bg-gray-800 border border-gray-700 p-4 text-xs ${notif.read ? 'opacity-60' : ''}`;
+                    notifElement.innerHTML = `
+                        <div class="flex justify-between items-start">
+                            <div class="flex-1">
+                                <p class="font-bold text-slate-300 mb-1">${notif.title}</p>
+                                <p class="text-slate-400">${notif.message}</p>
+                            </div>
+                            <div class="flex items-center ml-4 flex-shrink-0">
+                                ${!notif.read ? '<div class="w-2 h-2 bg-green-400 rounded-full mr-2" title="Unread"></div>' : ''}
+                                <span class="text-slate-500">${new Date(notif.date).toLocaleDateString('id-ID', { year: 'numeric', month: 'short', day: 'numeric' })}</span>
+                            </div>
+                        </div>
+                    `;
+                    notificationsList.appendChild(notifElement);
                 });
 
-                categoryGroup.appendChild(itemsContainer);
-                apiListElement.appendChild(categoryGroup);
-            });
+                if (unreadCount > 0) {
+                    unreadCountBadge.textContent = `${unreadCount} Belum dibaca`;
+                    unreadCountBadge.classList.remove('hidden');
+                }
 
-        } catch (error) {
-            console.error('Error loading APIs:', error);
-            document.getElementById('apiList').innerHTML = '<div class="text-center text-red-400 py-12">Gagal memuat daftar API. Periksa console untuk detail.</div>';
+            } catch (error) {
+                notificationsList.innerHTML = '<p class="text-red-500 text-xs">Gagal memuat notifikasi.</p>';
+                console.error('Error loading notifications:', error);
+            }
         }
-    }
-    
-    // Load Notifications
-    async function loadNotifications() {
-        try {
-            const response = await fetch(apiBaseUrl + '/notifications.json');
-            const notifications = await response.json();
-            const notificationList = document.getElementById('notificationList');
-            const unreadCountElement = document.getElementById('unreadCount');
-            notificationList.innerHTML = '';
-            let unreadCount = 0;
 
-            notifications.sort((a, b) => new Date(b.date) - new Date(a.date));
+        // Search functionality
+        document.getElementById('searchInput').addEventListener('input', function() {
+            const searchTerm = this.value.toLowerCase();
+            const apiItems = document.querySelectorAll('.api-item');
+            const categories = document.querySelectorAll('.category-group');
+            const noResults = document.getElementById('noResults');
+            let visibleCount = 0;
 
-            notifications.forEach(notif => {
-                const item = document.createElement('div');
-                item.className = `notification-item ${!notif.read ? 'unread' : ''}`;
-                item.innerHTML = `
-                    <div class="flex justify-between items-center">
-                        <span class="title text-white">${notif.title}</span>
-                        <span class="text-xs text-gray-500">${notif.date}</span>
-                    </div>
-                    <p class="text-sm mt-1">${notif.message}</p>
-                `;
-                notificationList.appendChild(item);
-
-                if (!notif.read) {
-                    unreadCount++;
+            apiItems.forEach(item => {
+                const path = item.dataset.path.toLowerCase();
+                const alias = item.dataset.alias.toLowerCase();
+                const description = item.dataset.description.toLowerCase();
+                
+                if (path.includes(searchTerm) || alias.includes(searchTerm) || description.includes(searchTerm)) {
+                    item.style.display = '';
+                    visibleCount++;
+                } else {
+                    item.style.display = 'none';
                 }
             });
 
-            if (unreadCount > 0) {
-                unreadCountElement.textContent = unreadCount;
-                unreadCountElement.classList.remove('hidden');
+            categories.forEach(category => {
+                const visibleItems = category.querySelectorAll('.api-item[style=""]');
+                if (visibleItems.length > 0) {
+                    category.style.display = '';
+                } else {
+                    category.style.display = 'none';
+                }
+            });
+
+            if (visibleCount === 0) {
+                noResults.style.display = 'block';
             } else {
-                unreadCountElement.classList.add('hidden');
-            }
-            
-            if (notifications.length === 0) {
-                notificationList.innerHTML = '<p class="text-center text-gray-500">Tidak ada notifikasi.</p>';
-            }
-
-        } catch (e) {
-            console.error('Error loading notifications:', e);
-            document.getElementById('notificationList').innerHTML = '<p class="text-center text-red-400">Gagal memuat notifikasi.</p>';
-        }
-    }
-
-    // Mark all notifications as read (simulasi)
-    function markAllAsRead() {
-        alert('Fitur ini hanya simulasi. Untuk implementasi nyata, butuh backend.');
-        document.getElementById('unreadCount').classList.add('hidden');
-        document.querySelectorAll('.notification-item.unread').forEach(item => {
-            item.classList.remove('unread');
-        });
-        closeNotificationModal();
-    }
-
-
-    // Search/Filter logic
-    document.getElementById('searchInput').addEventListener('input', function() {
-        const searchTerm = this.value.toLowerCase();
-        const apiItems = document.querySelectorAll('.api-item');
-        const categories = document.querySelectorAll('.category-group');
-        const noResults = document.getElementById('noResults');
-        let visibleCount = 0;
-
-        apiItems.forEach(item => {
-            const path = item.dataset.path.toLowerCase();
-            const alias = item.dataset.alias.toLowerCase();
-            const description = item.dataset.description.toLowerCase();
-            
-            if (path.includes(searchTerm) || alias.includes(searchTerm) || description.includes(searchTerm)) {
-                item.style.display = '';
-                visibleCount++;
-            } else {
-                item.style.display = 'none';
+                noResults.style.display = 'none';
             }
         });
 
-        categories.forEach(category => {
-            const visibleItems = category.querySelectorAll('.api-item[style=""]');
-            if (visibleItems.length > 0) {
-                category.style.display = '';
-            } else {
-                category.style.display = 'none';
-            }
+        // Initial load
+        document.addEventListener('DOMContentLoaded', () => {
+            loadApis();
+            loadNotifications();
         });
-
-        if (visibleCount === 0) {
-            noResults.style.display = 'block';
-        } else {
-            noResults.style.display = 'none';
-        }
-    });
-
-
-    // Initial load
-    document.addEventListener('DOMContentLoaded', () => {
-        loadApis();
-        loadNotifications();
-    });
-</script>
+    </script>
 
 </body>
 </html>
