@@ -16,12 +16,9 @@ const WEBHOOK_URL = 'https://discord.com/api/webhooks/1428758998420684806/FaQk3i
 // Buffer untuk batch log
 let logBuffer = [];
 
-
 // Kirim batch tiap detik
 setInterval(() => {
     if (logBuffer.length === 0) return;
-
-   
 
     const combinedLogs = logBuffer.join('\n');
     logBuffer = [];
@@ -38,15 +35,15 @@ ${combinedLogs}
 // Function log queue
 function queueLog({ method, status, url, duration, error = null }) {
     let colorCode;
-    if (status >= 500) colorCode = '[2;31m';
-    else if (status >= 400) colorCode = '[2;31m';
-    else if (status === 304) colorCode = '[2;34m';
-    else colorCode = '[2;32m';
+    if (status >= 500) colorCode = '[2;31m';
+    else if (status >= 400) colorCode = '[2;31m';
+    else if (status === 304) colorCode = '[2;34m';
+    else colorCode = '[2;32m';
 
-    let line = `${colorCode}[${method}] ${status} ${url} - ${duration}ms[0m`;
+    let line = `${colorCode}[${method}] ${status} ${url} - ${duration}ms[0m`;
 
     if (error) {
-        line += `\n[2;31m[ERROR] ${error.message || error}[0m`;
+        line += `\n[2;31m[ERROR] ${error.message || error}[0m`;
     }
 
     logBuffer.push(line);
@@ -87,7 +84,7 @@ const userTag = '<@1162931657276395600>';
 
 [ ! ] Too many requests, server cooldown for ${cooldownTime / 1000} sec!
 
-[2;31m[${req.method}] 503 ${req.originalUrl} - 0ms[0m
+[2;31m[${req.method}] 503 ${req.originalUrl} - 0ms[0m
 \`\`\`
 `;
 
@@ -111,7 +108,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cors());
 
 // Load Settings
-const settingsPath = path.join(__dirname, './assets/settings.json');
+const settingsPath = path.join(__dirname, './settings.json');
 const settings = JSON.parse(fs.readFileSync(settingsPath, 'utf-8'));
 global.apikey = settings.apiSettings.apikey;
 
@@ -147,6 +144,11 @@ app.use((req, res, next) => {
     });
 
     next();
+});
+
+// Serve settings.json untuk web
+app.get('/assets/settings.json', (req, res) => {
+    res.sendFile(path.join(__dirname, 'settings.json'));
 });
 
 // Static & Src Protect
