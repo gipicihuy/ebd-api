@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Browse through our collection of code snippets, scripts, and tools. Find what you need or discover something new.">
     <meta name="theme-color" content="#dc2626"> 
-    <title>Eberardos API</title>
+    <title>Eberardos-Api.</title>
     <link rel="icon" href="/assets/icon.png" type="image/jpeg">
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -72,16 +72,16 @@
 <div class="text-left mb-8">
     <div class="flex items-center gap-4 mb-4">
         <img src="/assets/icon.png" class="w-12 md:w-9">
-        <h1 class="text-3xl md:text-4xl font-bold gradient-text">Eberardos-Api</h1>
+        <h1 id="api-title" class="text-3xl md:text-4xl font-bold gradient-text">Loading...</h1>
     </div>
-    <p class="text-slate-400 text-xs mx-auto mb-4">
-Selamat datang di dokumentasi Eberardos-Api. Antarmuka interaktif ini memungkinkan Anda menjelajahi dan menguji koleksi lengkap titik akhir API kami secara real-time.
+    <p id="api-description" class="text-slate-400 text-xs mx-auto mb-4">
+Selamat datang di dokumentasi API. Jelajahi dan uji koleksi lengkap titik akhir API kami.
     </p>
     
       <div class="mb-4 text-xs space-y-1">
             
                 <div>
-                    <a href="https://t.me/givyo" target="_blank" class="text-slate-300 hover:text-white underline">Contact Givy</a> 
+                    <a href="https://t.me/FlowFalcon" target="_blank" class="text-slate-300 hover:text-white underline">Contact FlowFalcon.</a> 
                 </div>
             
         </div>
@@ -126,7 +126,7 @@ Selamat datang di dokumentasi Eberardos-Api. Antarmuka interaktif ini memungkink
 </div>
 <footer>
     <p class="text-slate-400 text-xs mx-auto mb-4">
-      2025 Eberardos    
+      2025 FlowFalcon    
     </p>
     <p class="text-slate-400 text-xs mx-auto mb-4">
 inspirasi design dari: <a href="https://api.nekolabs.my.id/" target="_blank">api.nekolabs.my.id</a>    
@@ -135,6 +135,28 @@ inspirasi design dari: <a href="https://api.nekolabs.my.id/" target="_blank">api
 </main>
 
 <script>
+    // FUNGSI BARU: Menyalin URL Endpoint ke clipboard
+    function copyEndpointUrl(path, buttonElement) {
+        // Gabungkan base URL saat ini dengan jalur API (hapus query param di path jika ada)
+        const baseUrl = window.location.origin;
+        // Hanya ambil path sebelum tanda '?' jika ada
+        const cleanPath = path.split('?')[0]; 
+        const fullUrl = `${baseUrl}${cleanPath}`; 
+        
+        navigator.clipboard.writeText(fullUrl).then(() => {
+            const originalText = buttonElement.innerHTML;
+            buttonElement.innerHTML = '<span class="material-icons text-sm mr-1">done</span> Copied!';
+            
+            // Kembalikan teks tombol setelah 2 detik
+            setTimeout(() => {
+                buttonElement.innerHTML = originalText;
+            }, 2000);
+        }).catch(err => {
+            console.error('Failed to copy text: ', err);
+            alert('Gagal menyalin URL. Periksa konsol.');
+        });
+    }
+
     // Existing functions from the original file
     function toggleCategory(index) {
         const category = document.getElementById(`category-${index}`);
@@ -167,15 +189,25 @@ inspirasi design dari: <a href="https://api.nekolabs.my.id/" target="_blank">api
         const responseContent = document.getElementById(`response-content-${catIndex}-${endpointIndex}`);
         const clearButton = document.getElementById(`clear-${catIndex}-${endpointIndex}`);
         
-        const formData = new FormData(form);
-        const params = new URLSearchParams();
-        for (const [key, value] of formData.entries()) {
-            if (value) {
-                params.append(key, value);
+        // Cek jika form null (untuk endpoint tanpa parameter)
+        let fullPath = path;
+        if (form) {
+            const formData = new FormData(form);
+            const params = new URLSearchParams();
+            for (const [key, value] of formData.entries()) {
+                // Hanya tambahkan parameter yang memiliki nilai
+                if (value) {
+                    params.append(key, value);
+                } else if (path.includes(`${key}=`) && value === "") {
+                    // Jika parameter ada di path tapi tidak diisi, jangan tambahkan.
+                }
             }
+            
+            // Gabungkan path asli (tanpa query default) dengan parameter baru
+            const cleanPath = path.split('?')[0];
+            fullPath = `${cleanPath}${params.toString() ? '?' + params.toString() : ''}`;
         }
-
-        const fullPath = `${path}?${params.toString()}`;
+        
         responseDiv.classList.remove('hidden');
         responseContent.innerHTML = '<div class="loader"></div>';
 
@@ -211,9 +243,22 @@ inspirasi design dari: <a href="https://api.nekolabs.my.id/" target="_blank">api
     // Function to load and render APIs
     async function loadApis() {
         const apiList = document.getElementById('apiList');
+        const apiTitle = document.getElementById('api-title');
+        const apiDescription = document.getElementById('api-description');
+
         try {
-            const response = await fetch('/assets/settings.json');
+            const response = await fetch('/assets/settings.json'); 
             const data = await response.json();
+            
+            // Update Header/Title
+            apiTitle.textContent = data.name;
+            apiDescription.innerHTML = `
+                ${data.description}.
+                <br>
+                Status: <span class="text-green-400">${data.header.status}</span>
+                | Version: <span class="text-gray-400">${data.version}</span>
+                | Creator: <span class="text-gray-400">${data.apiSettings.creator}</span>
+            `;
             
             let html = '';
             data.categories.forEach((category, catIndex) => {
@@ -233,18 +278,17 @@ inspirasi design dari: <a href="https://api.nekolabs.my.id/" target="_blank">api
                             <div id="category-${catIndex}" class="hidden">`;
                 
                 category.items.forEach((item, endpointIndex) => {
-                    const method = 'GET'; // Assuming all are GET for now
-                    const pathParts = item.path.split('?');
-                    const path = pathParts[0];
-                    const queryParams = new URLSearchParams(pathParts[1] || '');
+                    const method = 'GET'; 
+                    const path = item.path; // Gunakan path lengkap, termasuk query default jika ada
+                    const hasParams = item.params && Object.keys(item.params).length > 0;
 
                     const statusClasses = {
                         'ready': 'bg-green-500/20 text-green-400',
-                        // Ganti warna update/error di sini jika perlu, tapi biarkan hijau/kuning/merah untuk status
                         'update': 'bg-yellow-500/20 text-yellow-400', 
                         'error': 'bg-red-500/20 text-red-400'
                     };
                     const statusClass = statusClasses[item.status] || 'bg-gray-600';
+                    const displayPath = path.split('?')[0]; // Tampilkan hanya path tanpa query default di header endpoint
 
                     html += `
                                 <div class="border-t border-gray-700 api-item" 
@@ -259,7 +303,17 @@ inspirasi design dari: <a href="https://api.nekolabs.my.id/" target="_blank">api
                                                     ${method}
                                                 </span>
                                                 <div class="flex flex-col min-w-0 flex-1">
-                                                    <span class="font-semibold truncate max-w-[90%] font-mono text-sm" title="${path}">${path}</span>
+                                                    <div class="flex items-center">
+                                                        <span class="font-semibold truncate max-w-[90%] font-mono text-sm" title="${path}" id="path-display-${catIndex}-${endpointIndex}">${displayPath}</span>
+                                                        
+                                                        <button 
+                                                            type="button" 
+                                                            onclick="event.stopPropagation(); copyEndpointUrl('${path}', this);" 
+                                                            class="ml-3 text-xs text-slate-500 hover:text-red-400 transition-colors duration-150 flex items-center px-2 py-0.5 border border-gray-700 bg-gray-900 rounded-full"
+                                                            title="Copy URL">
+                                                            <span class="material-icons text-sm mr-1">content_copy</span> Copy URL
+                                                        </button>
+                                                        </div>
                                                     <div class="flex items-center">
                                                         <span class="text-xs text-gray-400 truncate max-w-[90%]" title="${item.name}">${item.name}</span>
                                                         <span class="ml-2 px-2 py-0.5 text-xs rounded-full ${statusClass}">${item.status || 'ready'}</span>
@@ -284,15 +338,22 @@ inspirasi design dari: <a href="https://api.nekolabs.my.id/" target="_blank">api
                                                     <div>
                                                         <form id="form-${catIndex}-${endpointIndex}" onsubmit="executeRequest(event, ${catIndex}, ${endpointIndex}, '${method}', '${path}', 'application/json')">
                                                             <div class="mb-4 space-y-2">`;
-                        if (item.params) {
+                        
+                        // Menampilkan form input hanya jika ada parameter
+                        if (hasParams) {
                             Object.keys(item.params).forEach(paramName => {
-                                const isRequired = !queryParams.has(paramName) || queryParams.get(paramName) === '';
+                                // Tentukan apakah parameter wajib (misalnya, jika path diakhiri dengan 'param=')
+                                const isRequired = path.includes(`${paramName}=`) && path.split('?')[1].includes(`${paramName}=`); 
                                  html += `<div>
                                                 <label class="block text-xs font-medium text-slate-400 mb-2">${paramName} ${isRequired ? '<span class="text-red-500">*</span>' : ''}</label>
                                                 <input type="text" name="${paramName}" class="w-full px-3 py-2 border border-gray-600 text-sm focus:outline-none focus:border-red-500 bg-gray-700 placeholder:text-slate-500" placeholder="${item.params[paramName]}" ${isRequired ? 'required' : ''}>
                                             </div>`;
                             });
+                        } else {
+                            // Untuk endpoint tanpa parameter (seperti /api/status), sembunyikan div ini
+                            html += `<div style="display:none;"></div>`; 
                         }
+                        
                         html += `
                                                             </div>
                                                             <button type="submit" class="bg-red-600 hover:bg-red-500 font-semibold text-white px-6 py-2 text-xs font-medium transition-colors duration-150">
@@ -305,7 +366,7 @@ inspirasi design dari: <a href="https://api.nekolabs.my.id/" target="_blank">api
                                                     </div>
                                                 </div>`;
                     } else {
-                        html += `<div class="text-yellow-400 text-xs p-3 bg-yellow-500/20 border border-yellow-500/30">Endpoint ini tidak dapat diuji coba saat ini.</div>`;
+                        html += `<div class="text-yellow-400 text-xs p-3 bg-yellow-500/20 border border-yellow-500/30">Endpoint ini tidak dapat diuji coba saat ini (${item.status}).</div>`;
                     }
 
                     html += `
@@ -325,12 +386,12 @@ inspirasi design dari: <a href="https://api.nekolabs.my.id/" target="_blank">api
             });
             apiList.innerHTML = html;
         } catch (error) {
-            apiList.innerHTML = '<p class="text-red-500">Failed to load API data.</p>';
+            apiList.innerHTML = '<p class="text-red-500">Failed to load API data. Make sure /assets/settings.json exists.</p>';
             console.error('Error loading API data:', error);
         }
     }
     
-    // Function to load and render notifications
+    // Function to load and render notifications (tetap sama)
     async function loadNotifications() {
         const notificationsList = document.getElementById('notifications-list');
         const unreadCountBadge = document.getElementById('unread-count');
@@ -371,12 +432,13 @@ inspirasi design dari: <a href="https://api.nekolabs.my.id/" target="_blank">api
             }
 
         } catch (error) {
-            notificationsList.innerHTML = '<p class="text-red-500 text-xs">Gagal memuat notifikasi.</p>';
-            console.error('Error loading notifications:', error);
+            // Jika file notifications.json tidak ada, tampilkan pesan default
+            notificationsList.innerHTML = '<p class="text-slate-500 text-xs">Tidak ada informasi terbaru saat ini.</p>';
+            console.warn('Warning: notifications.json not found or failed to load.');
         }
     }
 
-    // Search functionality
+    // Search functionality (tetap sama)
     document.getElementById('searchInput').addEventListener('input', function() {
         const searchTerm = this.value.toLowerCase();
         const apiItems = document.querySelectorAll('.api-item');
