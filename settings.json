@@ -1,5 +1,5 @@
 {
-"name": "eberardos-api",
+  "name": "eberardos-api",
   "version": "v1.2",
   "description": "Simple and easy to use API.",
   "bannerImage": "/src/banner.jpg",
@@ -7,7 +7,7 @@
     "status": "Online!"
   },
   "apiSettings": {
-  "name": "Falcon-Api",
+    "name": "Falcon-Api",
     "apikey": ["falcon-api"]
   },
   "categories": [
@@ -23,7 +23,7 @@
           "params": {
             "text": "Teks atau perintah untuk chat AI"
           }
-        }, 
+        },
         {
           "name": "Deepseek",
           "desc": "Deepseek ai",
@@ -32,7 +32,7 @@
           "params": {
             "text": "Teks atau perintah untuk chat AI Deepseek"
           }
-        }        
+        }
       ]
     },
     {
@@ -47,7 +47,7 @@
           "params": {
             "url": "URL media yang akan diunduh"
           }
-        },       
+        },
         {
           "name": "Tiktok",
           "desc": "Downloader tiktok",
@@ -56,7 +56,7 @@
           "params": {
             "url": "URL video TikTok"
           }
-        }, 
+        },
         {
           "name": "Tiktok V2",
           "desc": "Downloader tiktok v2",
@@ -65,7 +65,7 @@
           "params": {
             "url": "URL video TikTok"
           }
-        },       
+        },
         {
           "name": "Twitter",
           "desc": "Downloader twitter",
@@ -74,7 +74,7 @@
           "params": {
             "url": "URL tweet atau video Twitter"
           }
-        },         
+        },
         {
           "name": "Facebook",
           "desc": "Downloader facebook",
@@ -83,7 +83,7 @@
           "params": {
             "url": "URL video atau post Facebook"
           }
-        }, 
+        },
         {
           "name": "Ytdl",
           "desc": "Downloader youtube",
@@ -92,7 +92,7 @@
           "params": {
             "url": "URL video YouTube"
           }
-        }, 
+        },
         {
           "name": "Ytmp3",
           "desc": "Downloader youtube mp3",
@@ -101,7 +101,7 @@
           "params": {
             "url": "URL video YouTube untuk dikonversi ke MP3"
           }
-        },        
+        },
         {
           "name": "Ytmp4",
           "desc": "Downloader youtube mp4",
@@ -110,7 +110,7 @@
           "params": {
             "url": "URL video YouTube untuk diunduh sebagai MP4"
           }
-        },        
+        },
         {
           "name": "Ytdl V2",
           "desc": "Downloader youtube v2",
@@ -128,7 +128,7 @@
           "params": {
             "url": "URL post atau story Instagram"
           }
-        }, 
+        },
         {
           "name": "Pinterest",
           "desc": "Downloader pinterest",
@@ -137,7 +137,7 @@
           "params": {
             "url": "URL pin Pinterest"
           }
-        }, 
+        },
         {
           "name": "Snackvideo",
           "desc": "Downloader snackvideo",
@@ -146,7 +146,7 @@
           "params": {
             "url": "URL video Snackvideo"
           }
-        }, 
+        },
         {
           "name": "Soundcloud",
           "desc": "Downloader soundcloud",
@@ -155,7 +155,7 @@
           "params": {
             "url": "URL track Soundcloud"
           }
-        }, 
+        },
         {
           "name": "Terabox",
           "desc": "Downloader terabox",
@@ -164,7 +164,7 @@
           "params": {
             "url": "URL file Terabox"
           }
-        }, 
+        },
         {
           "name": "XNXX",
           "desc": "Downloader xnxx",
@@ -173,7 +173,7 @@
           "params": {
             "url": "URL video XNXX"
           }
-        }, 
+        },
         {
           "name": "9xbuddy",
           "desc": "All in downloader",
@@ -182,7 +182,7 @@
           "params": {
             "url": "URL media yang akan diunduh"
           }
-        }, 
+        },
         {
           "name": "Spotify",
           "desc": "Downloader spotify",
@@ -191,7 +191,7 @@
           "params": {
             "url": "URL lagu Spotify"
           }
-        }, 
+        },
         {
           "name": "Capcut",
           "desc": "Downloader capcut",
@@ -200,7 +200,7 @@
           "params": {
             "url": "URL template Capcut"
           }
-        },         
+        },
         {
           "name": "Play Spotify",
           "desc": "Play spotify music",
@@ -209,7 +209,7 @@
           "params": {
             "q": "Kata kunci atau judul lagu Spotify"
           }
-        }, 
+        },
         {
           "name": "Gdrive",
           "desc": "Downloader google drive",
@@ -218,7 +218,7 @@
           "params": {
             "url": "URL file Google Drive"
           }
-        }, 
+        },
         {
           "name": "Videy",
           "desc": "Downloader videy",
@@ -227,7 +227,7 @@
           "params": {
             "url": "URL video Videy"
           }
-        }, 
+        },
         {
           "name": "Doodstream",
           "desc": "Downloader doodstream",
@@ -236,7 +236,7 @@
           "params": {
             "url": "URL video Doodstream"
           }
-        }        
+        }
       ]
     },
     {
@@ -248,25 +248,25 @@
           "desc": "Random foto blue archive",
           "path": "/random/ba",
           "status": "ready"
-        }, 
+        },
         {
           "name": "Random Waifu",
           "desc": "Random foto waifu",
           "path": "/random/waifu",
           "status": "ready"
-        }, 
+        },
         {
           "name": "Random Nsfw",
           "desc": "Random foto nsfw",
           "path": "/random/nsfw",
           "status": "error"
-        }, 
+        },
         {
           "name": "Pap Ayang",
           "desc": "Random pap ayang",
           "path": "/random/papayang",
           "status": "ready"
-        }                       
+        }
       ]
     },
     {
@@ -281,7 +281,7 @@
           "params": {
             "text": "Teks yang akan dikonversi menjadi suara"
           }
-        }, 
+        },
         {
           "name": "OCR",
           "desc": "Read text from image",
@@ -290,7 +290,7 @@
           "params": {
             "url": "URL gambar yang berisi teks"
           }
-        },        
+        },
         {
           "name": "Screenshot Web",
           "desc": "Screenshot web url",
@@ -299,7 +299,7 @@
           "params": {
             "url": "URL website yang akan diambil screenshot"
           }
-        }, 
+        },
         {
           "name": "Emoji To Gif",
           "desc": "Convert emoji to gif",
@@ -308,7 +308,7 @@
           "params": {
             "emoji": "Emoji yang akan dikonversi menjadi GIF"
           }
-        }, 
+        },
         {
           "name": "Emoji Mix",
           "desc": "Emoji mix converter",
@@ -318,9 +318,9 @@
             "emoji1": "Emoji pertama untuk digabungkan",
             "emoji2": "Emoji kedua untuk digabungkan"
           }
-        }                      
+        }
       ]
-    },    
+    },
     {
       "name": "Search",
       "image": "/api/placeholder/800/200",
@@ -333,7 +333,7 @@
           "params": {
             "q": "Kata kunci pencarian YouTube"
           }
-        }, 
+        },
         {
           "name": "Pinterest",
           "desc": "Search foto pinterest",
@@ -342,7 +342,7 @@
           "params": {
             "q": "Kata kunci pencarian Pinterest"
           }
-        }, 
+        },
         {
           "name": "Google Image",
           "desc": "Search foto google",
@@ -351,7 +351,7 @@
           "params": {
             "q": "Kata kunci pencarian gambar Google"
           }
-        }, 
+        },
         {
           "name": "Playstore",
           "desc": "Search apk playstore",
@@ -360,7 +360,7 @@
           "params": {
             "q": "Kata kunci pencarian aplikasi di Playstore"
           }
-        }, 
+        },
         {
           "name": "Npm Search",
           "desc": "Search npm nodejs",
@@ -369,7 +369,7 @@
           "params": {
             "q": "Kata kunci pencarian package NPM"
           }
-        },        
+        },
         {
           "name": "Fdroid",
           "desc": "Search apk fdroid",
@@ -378,7 +378,7 @@
           "params": {
             "q": "Kata kunci pencarian aplikasi di F-Droid"
           }
-        },    
+        },
         {
           "name": "Happymod",
           "desc": "Search apk happymod",
@@ -387,7 +387,7 @@
           "params": {
             "q": "Kata kunci pencarian aplikasi di Happymod"
           }
-        },           
+        },
         {
           "name": "Tiktok",
           "desc": "Search tiktok video",
@@ -396,7 +396,7 @@
           "params": {
             "q": "Kata kunci pencarian video TikTok"
           }
-        }, 
+        },
         {
           "name": "XNXX Search",
           "desc": "Search xnxx video",
@@ -405,7 +405,7 @@
           "params": {
             "q": "Kata kunci pencarian video XNXX"
           }
-        }, 
+        },
         {
           "name": "Lyrics Search",
           "desc": "Search lyrics music",
@@ -414,7 +414,7 @@
           "params": {
             "q": "Judul lagu atau kata kunci untuk mencari lirik"
           }
-        }, 
+        },
         {
           "name": "Sfile Search",
           "desc": "Search url sfile mobi",
@@ -423,9 +423,9 @@
           "params": {
             "q": "Kata kunci pencarian file di Sfile"
           }
-        }                                   
+        }
       ]
-    }, 
+    },
     {
       "name": "Stalker",
       "image": "/api/placeholder/800/200",
@@ -438,7 +438,7 @@
           "params": {
             "q": "Nama package NPM"
           }
-        },          
+        },
         {
           "name": "Instagram Stalk",
           "desc": "Stalk Instagram account",
@@ -447,7 +447,7 @@
           "params": {
             "user": "Username Instagram"
           }
-        }, 
+        },
         {
           "name": "Github Stalk",
           "desc": "Stalk github account",
@@ -456,7 +456,7 @@
           "params": {
             "user": "Username GitHub"
           }
-        },        
+        },
         {
           "name": "Tiktok Stalk",
           "desc": "Stalk tiktok account",
@@ -465,7 +465,7 @@
           "params": {
             "user": "Username TikTok"
           }
-        }, 
+        },
         {
           "name": "Youtube Stalk",
           "desc": "Stalk youtube account",
@@ -474,7 +474,16 @@
           "params": {
             "user": "Username YouTube"
           }
-        }            
+        },
+        {
+          "name": "Instagram Stalker",
+          "desc": "Mengambil informasi profil publik (username, followers, bio, dll) akun Instagram.",
+          "path": "/stalker/ig?username=",
+          "status": "ready",
+          "params": {
+            "username": "Username Instagram yang ingin di-stalk (contoh: user.name)"
+          }
+        }
       ]
     },
     {
@@ -489,7 +498,7 @@
           "params": {
             "url": "URL gambar yang akan ditingkatkan kualitasnya"
           }
-        }, 
+        },
         {
           "name": "Removebg",
           "desc": "Remove background image",
@@ -498,7 +507,7 @@
           "params": {
             "url": "URL gambar yang akan dihapus backgroundnya"
           }
-        }, 
+        },
         {
           "name": "Upscale",
           "desc": "Upscale image",
@@ -507,7 +516,7 @@
           "params": {
             "url": "URL gambar yang akan ditingkatkan resolusinya"
           }
-        }, 
+        },
         {
           "name": "Colorize",
           "desc": "Colorize image",
@@ -516,7 +525,7 @@
           "params": {
             "url": "URL gambar hitam putih yang akan diwarnai"
           }
-        }, 
+        },
         {
           "name": "Brat",
           "desc": "Brat text generator",
@@ -525,9 +534,9 @@
           "params": {
             "text": "Teks yang akan dikonversi menjadi gaya Brat"
           }
-        }                                 
+        }
       ]
-    }, 
+    },
     {
       "name": "API",
       "image": "/api/placeholder/800/200",
@@ -537,8 +546,8 @@
           "desc": "Check API service status",
           "path": "/api/status",
           "status": "ready"
-        }                        
+        }
       ]
-    }               
+    }
   ]
 }
