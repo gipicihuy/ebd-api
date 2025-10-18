@@ -11,7 +11,7 @@ const app = express();
 const PORT = process.env.PORT || 8080;
 
 // Ganti webhook Discord lu disini:
-const WEBHOOK_URL = 'https://discord.com/api/webhooks/1396122030163628112/-vEj4HjREjbaOVXDu5932YjeHpTkjNSKyUKugBFF9yVCBeQSrdgK8qM3HNxVYTOD5BYP';
+const WEBHOOK_URL = 'https://discord.com/api/webhooks/1428758998420684806/FaQk3iAXjQf5lgn7m_yB-QVqskpj_y_F9FWGTYCJNQU1DZPP8gIId1qOO3S0f4xJD1mQ';
 
 // Buffer untuk batch log
 let logBuffer = [];
