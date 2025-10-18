@@ -1,4 +1,4 @@
-/* File: src/api/stalker/ig.js */
+/* File: src/api/stalk/ig.js */
 const axios = require('axios');
 
 // Fungsi untuk membuat IP palsu secara acak (membantu menghindari ban sederhana)
@@ -35,7 +35,7 @@ async function fetchInstagramProfile(username) {
         'X-Requested-With': 'XMLHttpRequest',
         'Cookie': generateFakeCookies()
     };
-
+    
     try {
         const url = `https://www.instagram.com/api/v1/users/web_profile_info/?username=${username}`;
         // Timeout 15 detik untuk menghindari request menggantung
@@ -57,19 +57,19 @@ async function fetchInstagramProfile(username) {
 // === MODUL EXPRESS ENDPOINT ===
 // ===================================
 module.exports = function (app) {
-    app.get('/stalker/ig', async (req, res) => {
+    app.get('/stalk/ig', async (req, res) => {
         const { username } = req.query; // Ambil parameter 'username' dari query URL
-
+        
         if (!username) {
             return res.status(400).json({
                 status: false,
-                message: "Parameter 'username' wajib diisi. Contoh: /stalker/ig?username=userig"
+                message: "Parameter 'username' wajib diisi. Contoh: /stalk/ig?username=userig"
             });
         }
-
+        
         try {
             const profile = await fetchInstagramProfile(username);
-
+            
             if (profile.error) {
                 // Jika fungsi scraping mengembalikan error
                 return res.status(500).json({
@@ -78,14 +78,13 @@ module.exports = function (app) {
                     message: profile.error
                 });
             }
-
+            
             // Sukses - kembalikan objek user yang berisi semua detail profil
             res.json({
                 status: true,
                 creator: 'SeBerryLW',
                 result: profile.data.user
             });
-
         } catch (error) {
             // Tangani error yang tidak terduga
             res.status(500).json({
