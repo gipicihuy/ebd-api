@@ -157,7 +157,6 @@ inspirasi design dari: <a href="https://api.nekolabs.my.id/" target="_blank">api
         });
     }
 
-    // Existing functions from the original file
     function toggleCategory(index) {
         const category = document.getElementById(`category-${index}`);
         const icon = document.getElementById(`category-icon-${index}`);
@@ -275,11 +274,11 @@ inspirasi design dari: <a href="https://api.nekolabs.my.id/" target="_blank">api
                                 <span class="material-icons transition-transform duration-150" id="category-icon-${catIndex}">expand_more</span>
                             </button>
                             
-                            <div id="category-${catIndex}" class="hidden">`;
+                            <div id="category-${catIndex}" class="hidden">`; // <--- DIV CONTAINER UNTUK ENDPOINT (AWAL)
                 
                 category.items.forEach((item, endpointIndex) => {
                     const method = 'GET'; 
-                    const path = item.path; // Gunakan path lengkap, termasuk query default jika ada
+                    const path = item.path; 
                     const hasParams = item.params && Object.keys(item.params).length > 0;
 
                     const statusClasses = {
@@ -288,8 +287,9 @@ inspirasi design dari: <a href="https://api.nekolabs.my.id/" target="_blank">api
                         'error': 'bg-red-500/20 text-red-400'
                     };
                     const statusClass = statusClasses[item.status] || 'bg-gray-600';
-                    const displayPath = path.split('?')[0]; // Tampilkan hanya path tanpa query default di header endpoint
-
+                    const displayPath = path.split('?')[0]; 
+                    
+                    // --- PERBAIKAN PENTING DI SINI: border-t memisahkan setiap item ---
                     html += `
                                 <div class="border-t border-gray-700 api-item" 
                                     data-method="${method}"
@@ -313,7 +313,7 @@ inspirasi design dari: <a href="https://api.nekolabs.my.id/" target="_blank">api
                                                             title="Copy URL">
                                                             <span class="material-icons text-sm mr-1">content_copy</span> Copy URL
                                                         </button>
-                                                        </div>
+                                                    </div>
                                                     <div class="flex items-center">
                                                         <span class="text-xs text-gray-400 truncate max-w-[90%]" title="${item.name}">${item.name}</span>
                                                         <span class="ml-2 px-2 py-0.5 text-xs rounded-full ${statusClass}">${item.status || 'ready'}</span>
@@ -339,10 +339,8 @@ inspirasi design dari: <a href="https://api.nekolabs.my.id/" target="_blank">api
                                                         <form id="form-${catIndex}-${endpointIndex}" onsubmit="executeRequest(event, ${catIndex}, ${endpointIndex}, '${method}', '${path}', 'application/json')">
                                                             <div class="mb-4 space-y-2">`;
                         
-                        // Menampilkan form input hanya jika ada parameter
                         if (hasParams) {
                             Object.keys(item.params).forEach(paramName => {
-                                // Tentukan apakah parameter wajib (misalnya, jika path diakhiri dengan 'param=')
                                 const isRequired = path.includes(`${paramName}=`) && path.split('?')[1].includes(`${paramName}=`); 
                                  html += `<div>
                                                 <label class="block text-xs font-medium text-slate-400 mb-2">${paramName} ${isRequired ? '<span class="text-red-500">*</span>' : ''}</label>
@@ -350,7 +348,6 @@ inspirasi design dari: <a href="https://api.nekolabs.my.id/" target="_blank">api
                                             </div>`;
                             });
                         } else {
-                            // Untuk endpoint tanpa parameter (seperti /api/status), sembunyikan div ini
                             html += `<div style="display:none;"></div>`; 
                         }
                         
@@ -380,9 +377,10 @@ inspirasi design dari: <a href="https://api.nekolabs.my.id/" target="_blank">api
                                                 </div>
                                             </div>
                                         </div>
-                                </div>`;
+                                </div>`; // <--- DIV API ITEM DITUTUP
                 });
-                html += `</div></div></div>`;
+                // --- PENUTUP UTAMA KATEGORI ---
+                html += `</div></div></div>`; // <--- DIV CONTAINER ENDPOINT + DIV GROUP + DIV GROUP DITUTUP
             });
             apiList.innerHTML = html;
         } catch (error) {
