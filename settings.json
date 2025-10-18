@@ -427,29 +427,20 @@
       ]
     },
     {
-      "name": "Stalker",
-      "image": "/api/placeholder/800/200",
-      "items": [
-        {
-          "name": "Instagram Stalk",
-          "desc": "Stalk Instagram account",
-          "path": "/stalk/instagram?user=",
-          "status": "ready",
-          "params": {
-            "user": "Username Instagram"
-          }
-        },
-        {
-          "name": "Instagram Stalker",
-          "desc": "Mengambil informasi profil publik (username, followers, bio, dll) akun Instagram.",
-          "path": "/stalker/ig?username=",
-          "status": "ready",
-          "params": {
-            "username": "Username Instagram yang ingin di-stalk (contoh: user.name)"
-          }
-        }
-      ]
-    },
+  "name": "Stalker",
+  "image": "/api/placeholder/800/200",
+  "items": [
+    {
+      "name": "Instagram Stalker",
+      "desc": "Mengambil informasi profil publik (username, followers, bio, dll) akun Instagram.",
+      "path": "/stalk/ig?username=",
+      "status": "ready",
+      "params": {
+        "username": "Username Instagram yang ingin di-stalk (contoh: user.name)"
+      }
+      }
+     ]
+   },
     {
       "name": "Image Creator",
       "image": "/api/placeholder/800/200",
