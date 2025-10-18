@@ -8,7 +8,9 @@
   },
   "apiSettings": {
     "name": "Falcon-Api",
-    "apikey": ["falcon-api"]
+    "apikey": [
+      "falcon-api"
+    ]
   },
   "categories": [
     {
@@ -19,7 +21,7 @@
           "name": "OpenAI",
           "desc": "Openai chat",
           "path": "/ai/openai?text=",
-          "status": "ready",
+          "status": "error",
           "params": {
             "text": "Teks atau perintah untuk chat AI"
           }
@@ -471,6 +473,51 @@
           "status": "ready",
           "params": {
             "text": "Teks kutipan (Max 80 karakter)"
+          }
+        },
+        {
+          "name": "Remini",
+          "desc": "Remini image",
+          "path": "/imagecreator/remini?url=",
+          "status": "update",
+          "params": {
+            "url": "URL gambar yang akan ditingkatkan kualitasnya"
+          }
+        },
+        {
+          "name": "Removebg",
+          "desc": "Remove background image",
+          "path": "/imagecreator/removebg?url=",
+          "status": "update",
+          "params": {
+            "url": "URL gambar yang akan dihapus backgroundnya"
+          }
+        },
+        {
+          "name": "Upscale",
+          "desc": "Upscale image",
+          "path": "/imagecreator/upscale?url=",
+          "status": "update",
+          "params": {
+            "url": "URL gambar yang akan ditingkatkan resolusinya"
+          }
+        },
+        {
+          "name": "Colorize",
+          "desc": "Colorize image",
+          "path": "/imagecreator/colorize?url=",
+          "status": "update",
+          "params": {
+            "url": "URL gambar hitam putih yang akan diwarnai"
+          }
+        },
+        {
+          "name": "Brat",
+          "desc": "Brat text generator",
+          "path": "/imagecreator/brat?text=",
+          "status": "update",
+          "params": {
+            "text": "Teks yang akan dikonversi menjadi gaya Brat"
           }
         }
       ]
