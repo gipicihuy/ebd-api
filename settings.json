@@ -19,7 +19,7 @@
           "name": "OpenAI",
           "desc": "Openai chat",
           "path": "/ai/openai?text=",
-          "status": "error",
+          "status": "ready",
           "params": {
             "text": "Teks atau perintah untuk chat AI"
           }
