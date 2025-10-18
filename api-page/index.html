@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Browse through our collection of code snippets, scripts, and tools. Find what you need or discover something new.">
     <meta name="theme-color" content="#1a202c">
-    <title>Falcon-API.</title>
+    <title>Eberardos-API.</title>
     <link rel="icon" href="/assets/icon.png" type="image/jpeg">
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -20,360 +20,287 @@
       extend: {
         fontFamily: {
           'mono': ['Ubuntu Mono', 'monospace'],
-          'sans': ['Inter', 'system-ui', 'sans-serif']
-        }
-      }
-    }
+          'sans': ['Inter', 'sans-serif'],
+        },
+        colors: ({ colors }) => ({
+            'primary': colors.red[500],
+            'secondary': colors.red[400]
+        })
+      },
+    },
   }
 </script>
-
     <style>
-        ::-webkit-scrollbar {
-            display: none !important;
+        .custom-scroll::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
         }
-        .glass {
-            backdrop-filter: blur(16px) saturate(180%);
-            background: rgba(23, 25, 35, 0.85);
-            border: 1px solid rgba(255, 255, 255, 0.125);
+
+        .custom-scroll::-webkit-scrollbar-thumb {
+            background-color: #4a5568;
+            border-radius: 4px;
         }
-        .loader {
-            width: 28px;
-            height: 28px;
-            border: 2px solid #4a5568;
-            border-top: 2px solid #e2e8f0;
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-        }
-        @keyframes spin {
-            to { transform: rotate(360deg); }
-        }
-        .gradient-text {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-        .btn-gradient {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            transition: all 0.3s ease;
-        }
-        .btn-gradient:hover {
-            transform: translateY(-1px);
-            box-shadow: 0 10px 25px -5px rgba(102, 126, 234, 0.4);
+
+        .custom-scroll::-webkit-scrollbar-track {
+            background-color: #2d3748;
         }
     </style>
 </head>
-<body class="bg-gray-900 text-slate-300 antialiased font-mono min-h-screen">
-    <main class="max-w-2xl mx-auto px-8 py-16">
+<body class="bg-gray-900 text-white font-sans antialiased">
 
-<div class="text-left mb-8">
-    <div class="flex items-center gap-4 mb-4">
-        <img src="/assets/icon.png" class="w-12 md:w-9">
-        <h1 class="text-3xl md:text-4xl font-bold gradient-text">Falcon-API</h1>
+<div id="loadingScreen" class="fixed inset-0 bg-gray-900 flex items-center justify-center z-50">
+    <div class="text-center">
+        <div class="animate-spin rounded-full h-16 w-16 border-t-2 border-b-2 border-red-500 mx-auto"></div>
+        <p class="mt-4 text-xl">Loading API Data...</p>
     </div>
-    <p class="text-slate-400 text-xs mx-auto mb-4">
-Selamat datang di dokumentasi Falcon-API. Antarmuka interaktif ini memungkinkan Anda menjelajahi dan menguji koleksi lengkap titik akhir API kami secara real-time.
-    </p>
-    
-     <div class="mb-4 text-xs space-y-1">
-            
-                <div>
-                    <a href="https://t.me/FlowFalcon" target="_blank" class="text-slate-300 hover:text-white underline">Contact FlowFalcon.</a>
+</div>
+
+<div id="mainContent" class="min-h-screen" style="display: none;">
+    <header id="header" class="bg-gray-800 shadow-md sticky top-0 z-10">
+        <div class="max-w-7xl mx-auto py-4 px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row justify-between items-center">
+            <div class="flex items-center space-x-4">
+                <img src="/assets/icon.png" alt="Icon" class="h-10 w-10 rounded-full">
+                <h1 class="text-3xl font-bold tracking-tight sm:text-4xl">Eberardos-API v2</h1>
+            </div>
+            <div class="flex items-center space-x-4 mt-4 sm:mt-0">
+                <div id="apiStatus" class="flex items-center space-x-2 text-sm font-medium">
+                    <span class="h-2 w-2 rounded-full bg-red-500 animate-pulse"></span>
+                    <span id="statusText"></span>
                 </div>
-            
+                <button id="notificationButton" class="relative p-2 rounded-full text-gray-400 hover:text-white hover:bg-gray-700 transition duration-150 ease-in-out">
+                    <i class="fas fa-bell"></i>
+                    <span id="notificationBadge" class="absolute top-0 right-0 h-2 w-2 rounded-full bg-red-500 ring-2 ring-gray-900 hidden"></span>
+                </button>
+            </div>
         </div>
-</div>
- 
-<!-- Notifications Panel -->
-<div class="mb-8">
-    <div class="flex items-center justify-between mb-3">
-        <h2 class="text-lg font-semibold text-slate-300 flex items-center">
-            <span class="material-icons text-xl mr-2 text-gray-400">notifications</span>
-            Informasi
-        </h2>
-        <span id="unread-count" class="text-xs bg-indigo-500/50 text-indigo-300 px-2 py-1 rounded-full hidden"></span>
-    </div>
-    <div id="notifications-list" class="space-y-2">
-        <!-- Notifications will be loaded here -->
-        <div class="loader"></div>
-    </div>
-</div>
+    </header>
 
-<div class="flex items-center justify-between mb-4">
-    <div class="flex-1 relative">
-        <div class="absolute inset-y-0 left-0 pl-5 flex items-center pointer-events-none">
-            <span class="material-icons text-gray-500 text-lg">search</span>
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div id="notificationDropdown" class="hidden absolute right-4 mt-2 w-80 rounded-md shadow-lg bg-gray-800 ring-1 ring-black ring-opacity-5 z-20 custom-scroll max-h-96 overflow-y-auto">
+            <div class="p-4 border-b border-gray-700">
+                <h3 class="text-lg font-medium text-white">Notifications</h3>
+            </div>
+            <div id="notificationsList" class="divide-y divide-gray-700">
+                </div>
+            <div id="noNotifications" class="p-4 text-gray-400 text-center hidden">No new notifications.</div>
         </div>
-        <input 
-            type="text" 
-            id="searchInput" 
-            placeholder="Search API endpoints..." 
-            class="w-full pl-12 pr-5 py-4 text-sm border border-gray-700 bg-gray-800 text-slate-300 placeholder-slate-500 focus:outline-none focus:border-indigo-500"
-        >
-    </div>
-</div>
 
-<div id="content" class="space-y-4">
-    <div id="noResults" class="text-center py-16" style="display: none;">
-        <div class="max-w-md mx-auto">
-            <h3 class="text-xs text-slate-400 mb-2">No result found.</h3>
-        </div>
-    </div>
-
-    <div id="apiList" class="space-y-3">
-        <!-- API list will be loaded here dynamically -->
-    </div>
-</div>
-<footer>
-    <p class="text-slate-400 text-xs mx-auto mb-4">
-      2025 FlowFalcon   
-    </p>
-    <p class="text-slate-400 text-xs mx-auto mb-4">
-inspirasi design dari: <a href="https://api.nekolabs.my.id/" target="_blank">api.nekolabs.my.id</a>   
-    </p>
-</footer>
-</main>
-
-<script>
-    // Existing functions from the original file
-    function toggleCategory(index) {
-        const category = document.getElementById(`category-${index}`);
-        const icon = document.getElementById(`category-icon-${index}`);
-        if (category.classList.contains('hidden')) {
-            category.classList.remove('hidden');
-            icon.textContent = 'expand_less';
-        } else {
-            category.classList.add('hidden');
-            icon.textContent = 'expand_more';
-        }
-    }
-
-    function toggleEndpoint(catIndex, endpointIndex) {
-        const endpoint = document.getElementById(`endpoint-${catIndex}-${endpointIndex}`);
-        const icon = document.getElementById(`endpoint-icon-${catIndex}-${endpointIndex}`);
-        if (endpoint.classList.contains('hidden')) {
-            endpoint.classList.remove('hidden');
-            icon.textContent = 'expand_less';
-        } else {
-            endpoint.classList.add('hidden');
-            icon.textContent = 'expand_more';
-        }
-    }
-
-    async function executeRequest(event, catIndex, endpointIndex, method, path, produces) {
-        event.preventDefault();
-        const form = document.getElementById(`form-${catIndex}-${endpointIndex}`);
-        const responseDiv = document.getElementById(`response-${catIndex}-${endpointIndex}`);
-        const responseContent = document.getElementById(`response-content-${catIndex}-${endpointIndex}`);
-        const clearButton = document.getElementById(`clear-${catIndex}-${endpointIndex}`);
-        
-        const formData = new FormData(form);
-        const params = new URLSearchParams();
-        for (const [key, value] of formData.entries()) {
-            if (value) {
-                params.append(key, value);
-            }
-        }
-
-        const fullPath = `${path}?${params.toString()}`;
-        responseDiv.classList.remove('hidden');
-        responseContent.innerHTML = '<div class="loader"></div>';
-
-        try {
-            const response = await fetch(fullPath);
-            const contentType = response.headers.get("content-type");
-            if (contentType && contentType.includes("application/json")) {
-                const data = await response.json();
-                responseContent.innerHTML = `<pre>${JSON.stringify(data, null, 2)}</pre>`;
-            } else if (contentType && contentType.startsWith("image/")) {
-                const blob = await response.blob();
-                const imageUrl = URL.createObjectURL(blob);
-                responseContent.innerHTML = `<img src="${imageUrl}" class="max-w-full h-auto rounded-md">`;
-            } else {
-                const text = await response.text();
-                responseContent.innerHTML = `<pre>${text}</pre>`;
-            }
-        } catch (error) {
-            responseContent.innerHTML = `<pre>${error}</pre>`;
-        }
-        clearButton.classList.remove('hidden');
-    }
-
-    function clearResponse(catIndex, endpointIndex) {
-        const responseDiv = document.getElementById(`response-${catIndex}-${endpointIndex}`);
-        const responseContent = document.getElementById(`response-content-${catIndex}-${endpointIndex}`);
-        const clearButton = document.getElementById(`clear-${catIndex}-${endpointIndex}`);
-        responseContent.innerHTML = '';
-        responseDiv.classList.add('hidden');
-        clearButton.classList.add('hidden');
-    }
-
-    // Function to load and render APIs
-    async function loadApis() {
-        const apiList = document.getElementById('apiList');
-        try {
-            const response = await fetch('/assets/settings.json');
-            const data = await response.json();
-            
-            let html = '';
-            data.categories.forEach((category, catIndex) => {
-                html += `
-                <div class="category-group" data-category="${category.name}">
-                    <div class="mb-2">
-                        <div class="bg-gray-800 border border-gray-700">
-                            <button onclick="toggleCategory(${catIndex})" class="w-full px-4 py-3 text-left flex items-center justify-between hover:bg-gray-700 transition-colors duration-150">
-                                <h2 class="font-bold flex items-center">
-                                    <span class="material-icons text-lg mr-3 text-gray-400">folder</span>
-                                    <span class="truncate max-w-xs text-sm">${category.name}</span>
-                                    <span class="ml-2 text-xs text-gray-500">(${category.items.length})</span>
-                                </h2>
-                                <span class="material-icons transition-transform duration-150" id="category-icon-${catIndex}">expand_more</span>
-                            </button>
-                            
-                            <div id="category-${catIndex}" class="hidden">`;
-                
-                category.items.forEach((item, endpointIndex) => {
-                    const method = 'GET'; // Assuming all are GET for now
-                    const pathParts = item.path.split('?');
-                    const path = pathParts[0];
-                    const queryParams = new URLSearchParams(pathParts[1] || '');
-
-                    const statusClasses = {
-                        'ready': 'bg-green-500/20 text-green-400',
-                        'update': 'bg-yellow-500/20 text-yellow-400',
-                        'error': 'bg-red-500/20 text-red-400'
-                    };
-                    const statusClass = statusClasses[item.status] || 'bg-gray-600';
-
-                    html += `
-                                <div class="border-t border-gray-700 api-item" 
-                                     data-method="${method}"
-                                     data-path="${path}"
-                                     data-alias="${item.name}"
-                                     data-description="${item.desc}"
-                                     data-category="${category.name}">
-                                    <button onclick="toggleEndpoint(${catIndex}, ${endpointIndex})" class="w-full px-4 py-3 text-left flex items-center justify-between hover:bg-gray-700 transition-colors duration-150">
-                                        <div class="flex items-center min-w-0 flex-1">
-                                            <span class="inline-block px-3 py-1 text-xs font-semibold text-white mr-3 flex-shrink-0 bg-gray-600">
-                                                ${method}
-                                            </span>
-                                            <div class="flex flex-col min-w-0 flex-1">
-                                                <span class="font-semibold truncate max-w-[90%] font-mono text-sm" title="${path}">${path}</span>
-                                                <div class="flex items-center">
-                                                    <span class="text-xs text-gray-400 truncate max-w-[90%]" title="${item.name}">${item.name}</span>
-                                                    <span class="ml-2 px-2 py-0.5 text-xs rounded-full ${statusClass}">${item.status || 'ready'}</span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <span class="material-icons transition-transform duration-150 flex-shrink-0" id="endpoint-icon-${catIndex}-${endpointIndex}">expand_more</span>
-                                    </button>
-                                    
-                                    <div id="endpoint-${catIndex}-${endpointIndex}" class="hidden bg-gray-800 p-4 border-t border-gray-700">
-                                        <div class="mb-3">
-                                            <div class="text-gray-400 text-xs">${item.desc}</div>
-                                        </div>
-                                        `;
-                    if (item.status === 'ready') {
-                        html += `
-                                            <div>
-                                                <div class="text-gray-300 font-bold text-xs mb-2 flex items-center">
-                                                    <span class="material-icons text-sm mr-1">play_arrow</span>
-                                                    TRY IT OUT
-                                                </div>
-                                                <div>
-                                                    <form id="form-${catIndex}-${endpointIndex}" onsubmit="executeRequest(event, ${catIndex}, ${endpointIndex}, '${method}', '${path}', 'application/json')">
-                                                        <div class="mb-4 space-y-2">`;
-                        if (item.params) {
-                            Object.keys(item.params).forEach(paramName => {
-                                const isRequired = !queryParams.has(paramName) || queryParams.get(paramName) === '';
-                                 html += `<div>
-                                            <label class="block text-xs font-medium text-slate-400 mb-2">${paramName} ${isRequired ? '<span class="text-red-500">*</span>' : ''}</label>
-                                            <input type="text" name="${paramName}" class="w-full px-3 py-2 border border-gray-600 text-sm focus:outline-none focus:border-indigo-500 bg-gray-700 placeholder:text-slate-500" placeholder="${item.params[paramName]}" ${isRequired ? 'required' : ''}>
-                                          </div>`;
-                            });
-                        }
-                        html += `
-                                                        </div>
-                                                        <button type="submit" class="bg-indigo-600 hover:bg-indigo-500 font-semibold text-white px-6 py-2 text-xs font-medium transition-colors duration-150">
-                                                            Execute
-                                                        </button>
-                                                        <button type="button" id="clear-${catIndex}-${endpointIndex}" onclick="clearResponse(${catIndex}, ${endpointIndex})" class="hidden bg-gray-700 border border-gray-600 hover:border-gray-500 font-semibold text-slate-300 px-6 py-2 text-xs font-medium transition-colors duration-150 ml-2">
-                                                            Clear
-                                                        </button>
-                                                    </form>
-                                                </div>
-                                            </div>`;
-                    } else {
-                        html += `<div class="text-yellow-400 text-xs p-3 bg-yellow-500/20 border border-yellow-500/30">Endpoint ini tidak dapat diuji coba saat ini.</div>`;
-                    }
-
-                    html += `
-                                        <div id="response-${catIndex}-${endpointIndex}" class="hidden mt-4">
-                                            <div class="text-gray-300 font-bold text-xs mb-2 flex items-center">
-                                                <span class="material-icons text-sm mr-1">code</span>
-                                                RESPONSE
-                                            </div>
-                                            <div class="bg-gray-900 text-white text-xs p-4 border border-gray-700">
-                                                <div class="max-h-80 overflow-auto" id="response-content-${catIndex}-${endpointIndex}"></div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>`;
-                });
-                html += `</div></div></div>`;
-            });
-            apiList.innerHTML = html;
-        } catch (error) {
-            apiList.innerHTML = '<p class="text-red-500">Failed to load API data.</p>';
-            console.error('Error loading API data:', error);
-        }
-    }
-    
-    // Function to load and render notifications
-    async function loadNotifications() {
-        const notificationsList = document.getElementById('notifications-list');
-        const unreadCountBadge = document.getElementById('unread-count');
-        try {
-            const response = await fetch('/notifications.json');
-            const notifications = await response.json();
-
-            notificationsList.innerHTML = ''; // Clear loader
-            let unreadCount = 0;
-
-            // Sort notifications by date, newest first
-            notifications.sort((a, b) => new Date(b.date) - new Date(a.date));
-
-            notifications.forEach(notif => {
-                if (!notif.read) {
-                    unreadCount++;
-                }
-                const notifElement = document.createElement('div');
-                notifElement.className = `bg-gray-800 border border-gray-700 p-4 text-xs ${notif.read ? 'opacity-60' : ''}`;
-                notifElement.innerHTML = `
-                    <div class="flex justify-between items-start">
-                        <div class="flex-1">
-                            <p class="font-bold text-slate-300 mb-1">${notif.title}</p>
-                            <p class="text-slate-400">${notif.message}</p>
-                        </div>
-                        <div class="flex items-center ml-4 flex-shrink-0">
-                            ${!notif.read ? '<div class="w-2 h-2 bg-green-400 rounded-full mr-2" title="Unread"></div>' : ''}
-                            <span class="text-slate-500">${new Date(notif.date).toLocaleDateString('id-ID', { year: 'numeric', month: 'short', day: 'numeric' })}</span>
+        <div class="flex flex-col md:flex-row md:space-x-8">
+            <aside class="md:w-1/4 mb-6 md:mb-0">
+                <div class="sticky top-20">
+                    <div class="mb-6 bg-gray-800 p-4 rounded-lg shadow-lg">
+                        <h2 class="text-xl font-bold mb-4">Search API</h2>
+                        <div class="relative">
+                            <input type="text" id="searchInput" placeholder="Find API endpoints..." class="w-full bg-gray-700 text-white border border-gray-600 rounded-md py-2 px-4 focus:outline-none focus:ring-2 focus:ring-red-500">
+                            <i class="fas fa-search absolute right-3 top-3 text-gray-400"></i>
                         </div>
                     </div>
+
+                    <div class="mb-6 bg-gray-800 p-4 rounded-lg shadow-lg">
+                        <h2 class="text-xl font-bold mb-4">API Key</h2>
+                        <div class="flex space-x-2 items-center">
+                            <input type="text" id="apiKeyInput" value="Enter Your Key" class="w-full bg-gray-700 text-white border border-gray-600 rounded-md py-2 px-4 focus:outline-none focus:ring-2 focus:ring-red-500" readonly>
+                            <button id="copyKeyButton" class="p-2 bg-red-500 hover:bg-red-600 rounded-md text-white transition duration-150 ease-in-out" title="Copy Key">
+                                <i class="fas fa-copy"></i>
+                            </button>
+                        </div>
+                        <p class="text-sm text-gray-400 mt-2">API Key Anda akan ditambahkan secara otomatis ke setiap path API.</p>
+                    </div>
+                </div>
+            </aside>
+
+            <main class="md:w-3/4">
+                <section class="bg-gray-800 p-6 rounded-lg shadow-lg mb-8">
+                    <h2 class="text-2xl font-bold mb-4 border-b border-gray-700 pb-2">Overview</h2>
+                    <p id="apiDescription" class="text-gray-300"></p>
+                    <div class="mt-4 flex flex-wrap gap-4">
+                        <div class="bg-gray-700 p-3 rounded-md flex-1 min-w-[150px]">
+                            <p class="text-sm text-gray-400">Version</p>
+                            <p id="apiVersion" class="text-lg font-semibold"></p>
+                        </div>
+                        <div class="bg-gray-700 p-3 rounded-md flex-1 min-w-[150px]">
+                            <p class="text-sm text-gray-400">Creator</p>
+                            <p id="apiCreator" class="text-lg font-semibold">Eberardos</p>
+                        </div>
+                        <div class="bg-gray-700 p-3 rounded-md flex-1 min-w-[150px]">
+                            <p class="text-sm text-gray-400">Total API</p>
+                            <p id="totalApi" class="text-lg font-semibold">-</p>
+                        </div>
+                    </div>
+                </section>
+
+                <div id="noResults" class="bg-yellow-900 text-yellow-300 p-4 rounded-lg hidden">
+                    <p class="font-bold">No Results Found</p>
+                    <p>Coba kata kunci lain atau periksa ejaan Anda.</p>
+                </div>
+
+                <div id="apiList"></div>
+            </main>
+        </div>
+    </div>
+
+    <footer class="bg-gray-800 py-4 mt-8">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-gray-400 text-sm">
+            &copy; 2024 Eberardos-API v2. Created by <a href="#" class="text-red-500 hover:text-red-400 transition duration-150 ease-in-out">Eberardos</a>.
+        </div>
+    </footer>
+</div>
+
+<script>
+    const settingsUrl = '/settings.json';
+    const notificationsUrl = '/notifications.json';
+
+    // Helper to render API items
+    function renderApiItem(item, categoryName) {
+        const apiKey = document.getElementById('apiKeyInput').value;
+        // The endpoint should include the API key if available and the status is 'ready'
+        const endpoint = item.path.includes('?') 
+            ? `${item.path}&apikey=${apiKey}` 
+            : `${item.path}?apikey=${apiKey}`;
+
+        const paramsHtml = Object.entries(item.params || {}).map(([key, desc]) => {
+            return `<div class="mt-2"><span class="font-mono text-red-400">${key}:</span> <span class="text-gray-400">${desc}</span></div>`;
+        }).join('');
+
+        const statusClass = item.status === 'ready' ? 'bg-green-500' : 
+                            item.status === 'error' ? 'bg-red-500' : 
+                            'bg-yellow-500';
+
+        return `
+            <div class="api-item bg-gray-800 p-4 rounded-lg shadow-xl hover:shadow-red-500/50 transition duration-300 transform hover:scale-[1.01]" 
+                 data-path="${item.path}" 
+                 data-alias="${item.name.toLowerCase()}" 
+                 data-description="${item.desc.toLowerCase()}"
+                 data-category="${categoryName.toLowerCase()}">
+                <div class="flex justify-between items-center mb-3 border-b border-gray-700 pb-2">
+                    <h3 class="text-xl font-bold text-red-400">${item.name}</h3>
+                    <span class="px-3 py-1 text-xs font-semibold rounded-full text-white ${statusClass}">${item.status.toUpperCase()}</span>
+                </div>
+                <p class="text-gray-300 mb-3">${item.desc}</p>
+                
+                <h4 class="font-semibold text-gray-200 mb-1">Endpoint:</h4>
+                <div class="bg-gray-700 p-3 rounded-md overflow-x-auto font-mono text-sm mb-3">
+                    ${window.location.host}${endpoint}
+                </div>
+
+                ${paramsHtml ? `<h4 class="font-semibold text-gray-200 mb-1">Parameters:</h4>${paramsHtml}` : ''}
+            </div>
+        `;
+    }
+
+    // Function to load and render API data
+    async function loadApis() {
+        try {
+            const response = await fetch(settingsUrl);
+            const data = await response.json();
+
+            // Set Header and Overview
+            document.getElementById('statusText').textContent = data.header.status;
+            document.getElementById('apiDescription').textContent = data.description;
+            document.getElementById('apiVersion').textContent = data.version;
+            document.getElementById('apiCreator').textContent = data.apiSettings.creator;
+
+            // Set API Key (use the first one as default if multiple)
+            const apiKey = data.apiSettings.apikey[0] || 'YOUR_API_KEY';
+            document.getElementById('apiKeyInput').value = apiKey;
+            
+            let totalApis = 0;
+            const apiListContainer = document.getElementById('apiList');
+            apiListContainer.innerHTML = '';
+
+            // Render Categories and Items
+            data.categories.forEach(category => {
+                const categoryGroup = document.createElement('div');
+                categoryGroup.className = 'category-group mb-8';
+                
+                let itemsHtml = '';
+                category.items.forEach(item => {
+                    itemsHtml += renderApiItem(item, category.name);
+                    totalApis++;
+                });
+
+                categoryGroup.innerHTML = `
+                    <div class="flex items-center space-x-3 mb-4 mt-6">
+                        <img src="${category.image}" alt="${category.name}" class="h-10 w-10 rounded-full object-cover">
+                        <h2 class="text-3xl font-extrabold text-red-500">${category.name}</h2>
+                    </div>
+                    <div class="grid grid-cols-1 gap-6 lg:grid-cols-2">
+                        ${itemsHtml}
+                    </div>
                 `;
-                notificationsList.appendChild(notifElement);
+                apiListContainer.appendChild(categoryGroup);
+            });
+
+            document.getElementById('totalApi').textContent = totalApis;
+            document.getElementById('loadingScreen').style.display = 'none';
+            document.getElementById('mainContent').style.display = 'block';
+            
+        } catch (error) {
+            console.error('Failed to load API settings:', error);
+            // Handle error, maybe show a message
+            document.getElementById('statusText').textContent = 'Error';
+            document.getElementById('loadingScreen').style.display = 'none';
+            document.getElementById('mainContent').style.display = 'block';
+        }
+    }
+
+    // Function to load and render notifications
+    async function loadNotifications() {
+        try {
+            const response = await fetch(notificationsUrl);
+            const notifications = await response.json();
+            const list = document.getElementById('notificationsList');
+            const badge = document.getElementById('notificationBadge');
+            let unreadCount = 0;
+
+            list.innerHTML = '';
+            notifications.forEach(n => {
+                if (!n.read) unreadCount++;
+
+                const notificationItem = document.createElement('div');
+                notificationItem.className = `p-4 hover:bg-gray-700 transition duration-150 ease-in-out ${n.read ? 'opacity-75' : 'bg-gray-700/50'}`;
+                notificationItem.innerHTML = `
+                    <div class="text-sm font-semibold ${n.read ? 'text-white' : 'text-red-400'}">${n.title}</div>
+                    <div class="text-xs text-gray-400 mt-1">${n.message}</div>
+                    <div class="text-xs text-right text-gray-500 mt-1">${n.date}</div>
+                `;
+                list.appendChild(notificationItem);
             });
 
             if (unreadCount > 0) {
-                unreadCountBadge.textContent = `${unreadCount} Belum dibaca`;
-                unreadCountBadge.classList.remove('hidden');
+                badge.classList.remove('hidden');
+            } else {
+                badge.classList.add('hidden');
+            }
+
+            if (notifications.length === 0) {
+                document.getElementById('noNotifications').classList.remove('hidden');
             }
 
         } catch (error) {
-            notificationsList.innerHTML = '<p class="text-red-500 text-xs">Gagal memuat notifikasi.</p>';
-            console.error('Error loading notifications:', error);
+            console.error('Failed to load notifications:', error);
+            document.getElementById('noNotifications').classList.remove('hidden');
         }
     }
+
+    // Event listeners
+    document.getElementById('notificationButton').addEventListener('click', function() {
+        const dropdown = document.getElementById('notificationDropdown');
+        dropdown.classList.toggle('hidden');
+        // Close if clicking outside
+        document.addEventListener('click', function(event) {
+            if (!document.getElementById('notificationButton').contains(event.target) && !dropdown.contains(event.target)) {
+                dropdown.classList.add('hidden');
+            }
+        }, { once: true });
+    });
+
+    document.getElementById('copyKeyButton').addEventListener('click', function() {
+        const apiKeyInput = document.getElementById('apiKeyInput');
+        apiKeyInput.select();
+        document.execCommand('copy');
+        alert('API Key copied to clipboard!');
+    });
 
     // Search functionality
     document.getElementById('searchInput').addEventListener('input', function() {
@@ -397,7 +324,7 @@ inspirasi design dari: <a href="https://api.nekolabs.my.id/" target="_blank">api
         });
 
         categories.forEach(category => {
-            const visibleItems = category.querySelectorAll('.api-item[style=""]');
+            const visibleItems = category.querySelectorAll('.api-item:not([style*="display: none"])');
             if (visibleItems.length > 0) {
                 category.style.display = '';
             } else {
