@@ -1,5 +1,5 @@
 {
-  "name": "Falcon-Api",
+  "name": "Eberardos-Api",
   "version": "v2.0",
   "description": "simple and powerful tools API and easy to use",
   "bannerImage": "/assets/banner.jpg",
@@ -7,7 +7,7 @@
     "status": "Online!"
   },
   "apiSettings": {
-    "creator": "FlowFalcon",
+    "creator": "Eberardos",
     "apikey": [
       "falcon-api"
     ]
