@@ -8,7 +8,8 @@
   },
   "apiSettings": {
     "name": "Falcon-Api",
-    "apikey": ["falcon-api"]
+    "apikey": ["falcon-api"],
+    "creator": "Eberardos"
   },
   "categories": [
     {
@@ -337,7 +338,7 @@
         {
           "name": "Pinterest",
           "desc": "Search foto pinterest",
-          "path": "/search/youtube?q=",
+          "path": "/search/pinterest?q=",
           "status": "ready",
           "params": {
             "q": "Kata kunci pencarian Pinterest"
@@ -446,6 +447,15 @@
           "status": "ready",
           "params": {
             "playerid": "ID Pemain Free Fire (contoh: 1234567890)"
+          }
+        },
+        {
+          "name": "Roblox Stalker",
+          "desc": "Mengambil informasi profil pemain Roblox (username, status, friends, badges, groups).",
+          "path": "/stalk/roblox?username=",
+          "status": "ready",
+          "params": {
+            "username": "Username Roblox yang ingin di-stalk (contoh: BuilderMan)"
           }
         }
       ]
