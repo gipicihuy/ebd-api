@@ -447,15 +447,6 @@
           "params": {
             "playerid": "ID Pemain Free Fire (contoh: 1234567890)"
           }
-        },
-        {
-          "name": "Roblox Stalker",
-          "desc": "Mengambil informasi profil pemain Roblox (username, display name, join date, dll) dari username.",
-          "path": "/stalk/roblox?username=",
-          "status": "ready",
-          "params": {
-            "username": "Username Roblox yang ingin di-stalk"
-          }
         }
       ]
     },
