@@ -427,30 +427,29 @@
       ]
     },
     {
-  {
-  "name": "Stalker",
-  "image": "/api/placeholder/800/200",
-  "items": [
-    {
-      "name": "Instagram Stalker",
-      "desc": "Mengambil informasi profil publik (username, followers, bio, dll) akun Instagram.",
-      "path": "/stalk/ig?username=",
-      "status": "ready",
-      "params": {
-        "username": "Username Instagram yang ingin di-stalk (contoh: user.name)"
-      }
+      "name": "Stalker",
+      "image": "/api/placeholder/800/200",
+      "items": [
+        {
+          "name": "Instagram Stalker",
+          "desc": "Mengambil informasi profil publik (username, followers, bio, dll) akun Instagram.",
+          "path": "/stalk/ig?username=",
+          "status": "ready",
+          "params": {
+            "username": "Username Instagram yang ingin di-stalk (contoh: user.name)"
+          }
+        },
+        {
+          "name": "Free Fire Stalker",
+          "desc": "Mengambil informasi profil pemain Free Fire (nickname, server) dari Player ID.",
+          "path": "/stalk/ff?playerid=",
+          "status": "ready",
+          "params": {
+            "playerid": "ID Pemain Free Fire (contoh: 1234567890)"
+          }
+        }
+      ]
     },
-    {
-      "name": "Free Fire Stalker", // Baris baru
-      "desc": "Mengambil informasi profil pemain Free Fire (nickname, server) dari Player ID.", // Baris baru
-      "path": "/stalk/ff?playerid=", // Baris baru
-      "status": "ready", // Baris baru
-      "params": { // Baris baru
-        "playerid": "ID Pemain Free Fire (contoh: 1234567890)" // Baris baru
-      } // Baris baru
-    }
-  ]
-},
     {
       "name": "Image Creator",
       "image": "/api/placeholder/800/200",
