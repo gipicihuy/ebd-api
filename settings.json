@@ -1,6 +1,6 @@
 {
   "name": "eberardos-api",
-  "version": "v1.2",
+  "version": "v1.3",
   "description": "Simple and easy to use API.",
   "bannerImage": "/src/banner.jpg",
   "header": {
@@ -318,6 +318,17 @@
           "params": {
             "emoji1": "Emoji pertama untuk digabungkan",
             "emoji2": "Emoji kedua untuk digabungkan"
+          }
+        },
+        {
+          "name": "NGL Spam",
+          "desc": "Spam pesan ke akun NGL",
+          "path": "/tools/ngl?username=&message=&count=",
+          "status": "ready",
+          "params": {
+            "username": "Username NGL target (contoh: jawirdev)",
+            "message": "Pesan yang akan dikirim (URL encode jika berisi karakter spesial)",
+            "count": "Jumlah pesan (maksimal 25)"
           }
         }
       ]
