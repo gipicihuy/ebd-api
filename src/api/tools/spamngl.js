@@ -56,7 +56,7 @@ async function nglSpam(username, message, count) {
     }
 
     if (count > 25) {
-        return { error: 'Jumlah maksimal spam adalah 25 pesan!' };
+        return { error: 'Jumlah maksimal spam adalah 9999 pesan!' };
     }
 
     try {
