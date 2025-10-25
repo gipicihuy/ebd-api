@@ -468,6 +468,24 @@
           "params": {
             "username": "Username Roblox yang ingin di-stalk (contoh: BuilderMan)"
           }
+        },
+        {
+          "name": "NGL Checker",
+          "desc": "Mengecek status username NGL (valid/tidak aktif/tidak ditemukan) dan informasi profil.",
+          "path": "/stalk/ngl?username=",
+          "status": "ready",
+          "params": {
+            "username": "Username NGL yang ingin dicek (contoh: jawir)"
+          }
+        },
+        {
+          "name": "NGL Profile Info",
+          "desc": "Mengambil informasi detail profil NGL (display name, deskripsi, url profil).",
+          "path": "/stalk/ngl/info?username=",
+          "status": "ready",
+          "params": {
+            "username": "Username NGL yang ingin diambil infonya (contoh: jawir)"
+          }
         }
       ]
     },
