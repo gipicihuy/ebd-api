@@ -55,7 +55,7 @@ async function nglSpam(username, message, count) {
         return { error: 'Username, pesan, dan jumlah wajib diisi dengan benar.' };
     }
 
-    if (count > 25) {
+    if (count > 9999) {
         return { error: 'Jumlah maksimal spam adalah 9999 pesan!' };
     }
 
@@ -116,10 +116,10 @@ module.exports = function (app) {
             });
         }
 
-        if (numCount > 25) {
+        if (numCount > 9999) {
             return res.status(400).json({
                 status: false,
-                message: "Jumlah maksimal spam adalah 25 pesan!"
+                message: "Jumlah maksimal spam adalah 9999 pesan!"
             });
         }
 
