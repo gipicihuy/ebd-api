@@ -73,10 +73,10 @@ async function checkNglProfile(username) {
             statusMessage = `Redirected ke URL lain.`;
         } else if (status === 404 || foundErrorIndicators >= 2) {
             profileStatus = 'NOT_FOUND';
-            statusMessage = `Username tidak ditemukan atau tidak aktif.`;
+            statusMessage = `username ga ditemukan ygy`;
         } else if (status === 200 && foundNglIndicators >= 2) {
             profileStatus = 'VALID';
-            statusMessage = `Profil NGL valid dan aktif.`;
+            statusMessage = `profil ngl valid ygy`;
         } else if (status !== 200) {
              profileStatus = 'HTTP_ERROR';
              statusMessage = `HTTP Error ${status}.`;
