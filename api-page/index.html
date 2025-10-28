@@ -583,116 +583,118 @@
             }
         }
 
-        // Search functionality - PRIORITIZED VERSION
+        // Search functionality - FULLY WORKING VERSION
         document.getElementById('searchInput').addEventListener('input', function() {
             const searchTerm = this.value.toLowerCase().trim();
-            const categories = document.querySelectorAll('.category-group');
-            const noResults = document.getElementById('noResults');
             const apiList = document.getElementById('apiList');
+            const noResults = document.getElementById('noResults');
 
-            // Jika search kosong, restore original order
+            // Jika search kosong, restore original
             if (searchTerm === '') {
-                categories.forEach(category => {
-                    category.style.display = '';
-                    const items = category.querySelectorAll('.api-item');
-                    items.forEach(item => {
-                        item.style.display = '';
-                        item.style.order = '';
-                    });
-                });
+                loadApis(); // Reload original state
                 noResults.style.display = 'none';
                 return;
             }
 
-            let totalVisible = 0;
             const matchedItems = [];
 
-            // Collect and score all items
-            categories.forEach(category => {
-                const items = category.querySelectorAll('.api-item');
-                items.forEach(item => {
-                    const path = item.dataset.path.toLowerCase();
-                    const alias = item.dataset.alias.toLowerCase();
-                    const description = item.dataset.description.toLowerCase();
-                    const categoryName = item.dataset.category.toLowerCase();
-                    
-                    let score = 0;
-                    let matched = false;
-
-                    // Exact match di path = prioritas tertinggi
-                    if (path === searchTerm) {
-                        score = 1000;
-                        matched = true;
-                    }
-                    // Exact match di alias
-                    else if (alias === searchTerm) {
-                        score = 900;
-                        matched = true;
-                    }
-                    // Starts with di path
-                    else if (path.startsWith(searchTerm)) {
-                        score = 800;
-                        matched = true;
-                    }
-                    // Starts with di alias
-                    else if (alias.startsWith(searchTerm)) {
-                        score = 700;
-                        matched = true;
-                    }
-                    // Contains di path
-                    else if (path.includes(searchTerm)) {
-                        score = 600;
-                        matched = true;
-                    }
-                    // Contains di alias
-                    else if (alias.includes(searchTerm)) {
-                        score = 500;
-                        matched = true;
-                    }
-                    // Contains di category name
-                    else if (categoryName.includes(searchTerm)) {
-                        score = 400;
-                        matched = true;
-                    }
-                    // Contains di description
-                    else if (description.includes(searchTerm)) {
-                        score = 300;
-                        matched = true;
-                    }
-
-                    if (matched) {
-                        matchedItems.push({ item, score, category });
-                        totalVisible++;
-                    } else {
-                        item.style.display = 'none';
-                    }
-                });
-            });
-
-            // Sort by score (highest first)
-            matchedItems.sort((a, b) => b.score - a.score);
-
-            // Hide all categories first
-            categories.forEach(cat => cat.style.display = 'none');
-
-            // Reorder matched items and show their categories
-            const usedCategories = new Set();
-            matchedItems.forEach((match, index) => {
-                match.item.style.display = '';
-                match.item.style.order = index; // Set order based on score
+            // Collect all items with their data
+            document.querySelectorAll('.api-item').forEach(item => {
+                const path = item.dataset.path.toLowerCase();
+                const alias = item.dataset.alias.toLowerCase();
+                const description = item.dataset.description.toLowerCase();
+                const categoryName = item.dataset.category.toLowerCase();
+                const method = item.dataset.method;
                 
-                if (!usedCategories.has(match.category)) {
-                    match.category.style.display = '';
-                    usedCategories.add(match.category);
+                let score = 0;
+                let matched = false;
+
+                // Scoring system
+                if (path === searchTerm || alias === searchTerm) {
+                    score = 1000;
+                    matched = true;
+                } else if (path.startsWith(searchTerm) || alias.startsWith(searchTerm)) {
+                    score = 800;
+                    matched = true;
+                } else if (categoryName === searchTerm) {
+                    score = 700;
+                    matched = true;
+                } else if (path.includes(searchTerm)) {
+                    score = 600;
+                    matched = true;
+                } else if (alias.includes(searchTerm)) {
+                    score = 500;
+                    matched = true;
+                } else if (categoryName.includes(searchTerm)) {
+                    score = 400;
+                    matched = true;
+                } else if (description.includes(searchTerm)) {
+                    score = 300;
+                    matched = true;
+                }
+
+                if (matched) {
+                    matchedItems.push({
+                        path,
+                        alias,
+                        description,
+                        categoryName,
+                        method,
+                        score,
+                        element: item.cloneNode(true)
+                    });
                 }
             });
 
-            // Show/hide no results message
-            if (totalVisible === 0) {
+            // Sort by score
+            matchedItems.sort((a, b) => b.score - a.score);
+
+            // Clear and rebuild
+            if (matchedItems.length === 0) {
+                apiList.innerHTML = '';
                 noResults.style.display = 'block';
-            } else {
-                noResults.style.display = 'none';
+                return;
             }
+
+            noResults.style.display = 'none';
+
+            // Group by category but keep score order
+            const categoryMap = new Map();
+            matchedItems.forEach(match => {
+                if (!categoryMap.has(match.categoryName)) {
+                    categoryMap.set(match.categoryName, []);
+                }
+                categoryMap.get(match.categoryName).push(match);
+            });
+
+            // Rebuild HTML in priority order
+            let newHtml = '';
+            let currentCatIndex = 0;
+
+            categoryMap.forEach((items, catName) => {
+                const catIndex = currentCatIndex++;
+                newHtml += `
+                <div class="category-group" data-category="${catName}">
+                    <div class="mb-2">
+                        <div class="bg-gray-800 border border-gray-700">
+                            <button onclick="toggleCategory(${catIndex})" class="w-full px-4 py-3 text-left flex items-center justify-between hover:bg-gray-700 transition-colors duration-150">
+                                <h2 class="font-bold flex items-center">
+                                    <span class="material-icons text-lg mr-3 text-gray-400">folder</span>
+                                    <span class="truncate max-w-xs text-sm">${catName}</span>
+                                    <span class="ml-2 text-xs text-gray-500">(${items.length})</span>
+                                </h2>
+                                <span class="material-icons transition-transform duration-150" id="category-icon-${catIndex}">expand_less</span>
+                            </button>
+                            <div id="category-${catIndex}" class="">`;
+
+                items.forEach(match => {
+                    newHtml += match.element.outerHTML;
+                });
+
+                newHtml += `</div></div></div></div>`;
+            });
+
+            apiList.innerHTML = newHtml;
         });
 
         // Initial load
