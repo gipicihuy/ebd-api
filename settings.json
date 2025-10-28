@@ -1,24 +1,22 @@
 {
-  "name": "eberardos-api",
-  "version": "v1.3",
-  "description": "Simple and easy to use API.",
-  "bannerImage": "/src/banner.jpg",
+  "name": "Eberardos-Api",
+  "version": "v2.0",
+  "description": "simple and powerful tools API and easy to use",
+  "bannerImage": "/assets/banner.jpg",
   "header": {
     "status": "Online!"
   },
   "apiSettings": {
-    "name": "Falcon-Api",
-    "apikey": ["falcon-api"],
-    "creator": "Eberardos"
+    "creator": "Eberardos",
+    "apikey": ["falcon-api"]
   },
   "categories": [
     {
       "name": "OpenAI",
-      "image": "/api/placeholder/800/200",
       "items": [
         {
           "name": "OpenAI Chat",
-          "desc": "Chat dengan OpenAI GPT",
+          "desc": "Chat dengan OpenAI GPT menggunakan WriteCream API",
           "path": "/ai/openai?text=",
           "status": "ready",
           "params": {
@@ -27,12 +25,12 @@
         },
         {
           "name": "Hydromind AI",
-          "desc": "Chat AI dengan berbagai model",
+          "desc": "Chat AI dengan berbagai model (GPT, Claude, dll)",
           "path": "/ai/hydromind?text=&model=",
           "status": "ready",
           "params": {
             "text": "Teks pertanyaan",
-            "model": "Model AI (contoh: gpt-4, claude)"
+            "model": "Model AI yang digunakan"
           }
         },
         {
@@ -47,43 +45,250 @@
         },
         {
           "name": "DeepImg AI",
-          "desc": "Generate gambar AI dengan berbagai style",
+          "desc": "Generate gambar AI dengan berbagai style (Ghibli, Cyberpunk, Anime, dll)",
           "path": "/ai/deepimg?prompt=&size=&style=",
           "status": "ready",
           "params": {
             "prompt": "Deskripsi gambar yang ingin dibuat",
-            "size": "1:1 / 3:2 / 2:3 (optional)",
-            "style": "default/ghibli/cyberpunk/anime/portrait/chibi/pixel art/oil painting/3d (optional)"
+            "size": "1:1 / 3:2 / 2:3 (optional, default 3:2)",
+            "style": "default/ghibli/cyberpunk/anime/portrait/chibi/pixel art/oil painting/3d (optional, default 3d)"
           }
         },
         {
           "name": "Kivotos NSFW AI",
-          "desc": "Generate gambar NSFW AI (anime/real/photo)",
-          "path": "/ai/kivotos?prompt=&style=&width=&height=",
+          "desc": "Generate gambar NSFW AI dengan style anime/real/photo",
+          "path": "/ai/kivotos?prompt=&style=&width=&height=&guidance=&steps=",
           "status": "ready",
           "params": {
-            "prompt": "Deskripsi gambar",
-            "style": "anime / real / photo (optional)",
+            "prompt": "Deskripsi gambar yang ingin dibuat",
+            "style": "anime / real / photo (optional, default anime)",
             "width": "Lebar gambar (optional, default 1024)",
-            "height": "Tinggi gambar (optional, default 1024)"
+            "height": "Tinggi gambar (optional, default 1024)",
+            "guidance": "Guidance scale (optional, default 7)",
+            "steps": "Steps generation (optional, default 28)"
           }
         },
         {
           "name": "Remaker AI",
-          "desc": "Generate anime style image",
+          "desc": "Generate anime style image dengan Remaker AI",
           "path": "/ai/remakerai?prompt=&rasio=&style=",
           "status": "ready",
           "params": {
             "prompt": "Deskripsi gambar",
-            "rasio": "1:1 / 2:3 / 9:16 / 3:2 / 16:9 (optional)",
-            "style": "ghibli1 / ghibli2 / ghibli3 / anime (optional)"
+            "rasio": "1:1 / 2:3 / 9:16 / 3:2 / 16:9 (optional, default 1:1)",
+            "style": "ghibli1 / ghibli2 / ghibli3 / anime (optional, default anime)"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Anime",
+      "items": [
+        {
+          "name": "Berita Anime",
+          "desc": "Menarik daftar berita anime terbaru dari MyAnimeList",
+          "path": "/anime/berita",
+          "status": "ready"
+        },
+        {
+          "name": "Detail Berita Anime",
+          "desc": "Mengambil konten lengkap dari sebuah berita anime berdasarkan ID",
+          "path": "/anime/beritaanime?id=",
+          "status": "ready",
+          "params": {
+            "id": "ID berita yang didapat dari endpoint 'Berita Anime'"
+          }
+        },
+        {
+          "name": "Jadwal Rilis Anime",
+          "desc": "Menampilkan jadwal rilis anime mingguan dari LiveChart.me",
+          "path": "/anime/jadwalrilis",
+          "status": "ready"
+        },
+        {
+          "name": "Update Anime Terbaru",
+          "desc": "Menampilkan daftar anime dengan episode yang baru saja di-update di AnimeDao",
+          "path": "/anime/latest",
+          "status": "ready"
+        },
+        {
+          "name": "Anime Populer",
+          "desc": "Menampilkan daftar anime yang sedang populer (hot) di AnimeDao",
+          "path": "/anime/hot",
+          "status": "ready"
+        },
+        {
+          "name": "Cari Anime",
+          "desc": "Melakukan pencarian anime berdasarkan judul di database AnimeDao",
+          "path": "/anime/search?q=",
+          "status": "ready",
+          "params": {
+            "q": "Judul anime yang ingin Anda cari"
+          }
+        },
+        {
+          "name": "Detail Anime",
+          "desc": "Menampilkan informasi mendetail dari sebuah anime berdasarkan URL halamannya di AnimeDao",
+          "path": "/anime/detail?url=",
+          "status": "ready",
+          "params": {
+            "url": "URL anime AnimeDao (contoh: https://animedao.lv/anime/some-anime-title/)"
+          }
+        },
+        {
+          "name": "Revinime Latest",
+          "desc": "Update anime terbaru dari Revinime",
+          "path": "/anime/revinime",
+          "status": "ready"
+        },
+        {
+          "name": "AlqAnime Hangat",
+          "desc": "Daftar anime yang sedang hangat di AlqAnime",
+          "path": "/anime/alqanime/hangat",
+          "status": "ready"
+        },
+        {
+          "name": "AlqAnime Rilisan",
+          "desc": "Rilisan terbaru dari AlqAnime",
+          "path": "/anime/alqanime/rilisan",
+          "status": "ready"
+        },
+        {
+          "name": "AlqAnime Selesai",
+          "desc": "Anime yang telah selesai tayang di AlqAnime",
+          "path": "/anime/alqanime/selesai",
+          "status": "ready"
+        },
+        {
+          "name": "AlqAnime Movie",
+          "desc": "Kumpulan film anime dari AlqAnime",
+          "path": "/anime/alqanime/movie",
+          "status": "ready"
+        },
+        {
+          "name": "AlqAnime Populer",
+          "desc": "Anime terpopuler mingguan di AlqAnime",
+          "path": "/anime/alqanime/populer",
+          "status": "ready"
+        },
+        {
+          "name": "AlqAnime Ongoing",
+          "desc": "Daftar anime ongoing di AlqAnime",
+          "path": "/anime/alqanime/ongoing",
+          "status": "ready"
+        },
+        {
+          "name": "AlqAnime Search",
+          "desc": "Mencari anime di AlqAnime",
+          "path": "/anime/alqanime/search?q=",
+          "status": "ready",
+          "params": {
+            "q": "Judul anime yang dicari"
+          }
+        },
+        {
+          "name": "AlqAnime Detail",
+          "desc": "Detail anime dari AlqAnime",
+          "path": "/anime/alqanime/detail?url=",
+          "status": "ready",
+          "params": {
+            "url": "URL detail anime AlqAnime"
+          }
+        },
+        {
+          "name": "AlqAnime Download",
+          "desc": "Link download anime dari AlqAnime",
+          "path": "/anime/alqanime/download?url=",
+          "status": "ready",
+          "params": {
+            "url": "URL halaman anime AlqAnime"
+          }
+        },
+        {
+          "name": "Doujin Home",
+          "desc": "Homepage doujin/manga dari Maid.my.id",
+          "path": "/anime/doujin/home?page=",
+          "status": "ready",
+          "params": {
+            "page": "Nomor halaman (optional, default 1)"
+          }
+        },
+        {
+          "name": "Doujin Search",
+          "desc": "Mencari doujin/manga di Maid.my.id",
+          "path": "/anime/doujin/search?q=",
+          "status": "ready",
+          "params": {
+            "q": "Kata kunci pencarian doujin"
+          }
+        },
+        {
+          "name": "Doujin Detail",
+          "desc": "Melihat detail doujin/manga",
+          "path": "/anime/doujin/detail?url=",
+          "status": "ready",
+          "params": {
+            "url": "URL detail doujin"
+          }
+        },
+        {
+          "name": "Doujin Chapter",
+          "desc": "Mengambil gambar dari sebuah chapter doujin",
+          "path": "/anime/doujin/chapter?url=",
+          "status": "ready",
+          "params": {
+            "url": "URL chapter doujin"
+          }
+        },
+        {
+          "name": "Doujin Download PDF",
+          "desc": "Download chapter doujin dalam format PDF",
+          "path": "/anime/doujin/download?url=",
+          "status": "ready",
+          "params": {
+            "url": "URL chapter doujin"
+          }
+        },
+        {
+          "name": "AnimeKompi Home",
+          "desc": "Homepage AnimeKompi dengan slide, rilisan terbaru, dan rekomendasi genre",
+          "path": "/anime/kompi/home?page=",
+          "status": "ready",
+          "params": {
+            "page": "Nomor halaman (optional, default 1)"
+          }
+        },
+        {
+          "name": "AnimeKompi Search",
+          "desc": "Cari anime di AnimeKompi",
+          "path": "/anime/kompi/search?q=",
+          "status": "ready",
+          "params": {
+            "q": "Judul anime yang dicari"
+          }
+        },
+        {
+          "name": "AnimeKompi Detail",
+          "desc": "Detail anime AnimeKompi lengkap dengan episode list",
+          "path": "/anime/kompi/detail?url=",
+          "status": "ready",
+          "params": {
+            "url": "URL detail anime AnimeKompi"
+          }
+        },
+        {
+          "name": "AnimeKompi Stream",
+          "desc": "Streaming & download anime dari AnimeKompi",
+          "path": "/anime/kompi/stream?url=",
+          "status": "ready",
+          "params": {
+            "url": "URL episode anime AnimeKompi"
           }
         }
       ]
     },
     {
       "name": "Downloader",
-      "image": "/api/placeholder/800/200",
       "items": [
         {
           "name": "TikTok Downloader",
@@ -105,25 +310,25 @@
         },
         {
           "name": "Videy Downloader",
-          "desc": "Download video dari Videy",
+          "desc": "Download video dari Videy.co",
           "path": "/download/videy?url=",
           "status": "ready",
           "params": {
-            "url": "URL video Videy"
+            "url": "URL video Videy (contoh: https://videy.co/?id=xxxxx)"
           }
         },
         {
           "name": "Instagram Downloader",
-          "desc": "Download foto/video Instagram",
+          "desc": "Download foto/video/reels Instagram",
           "path": "/download/instagram?url=",
           "status": "ready",
           "params": {
-            "url": "URL post Instagram"
+            "url": "URL post/reels Instagram"
           }
         },
         {
           "name": "Spotify Downloader",
-          "desc": "Download lagu dari Spotify",
+          "desc": "Download lagu dari Spotify dengan info lengkap",
           "path": "/download/spotify?url=",
           "status": "ready",
           "params": {
@@ -132,11 +337,11 @@
         },
         {
           "name": "9xBuddy Downloader",
-          "desc": "Universal video downloader",
+          "desc": "Universal video downloader dari berbagai platform",
           "path": "/download/9xbuddy?url=",
           "status": "ready",
           "params": {
-            "url": "URL video dari berbagai platform"
+            "url": "URL video dari platform apapun"
           }
         },
         {
@@ -150,7 +355,7 @@
         },
         {
           "name": "Douyin Downloader",
-          "desc": "Download video dari Douyin",
+          "desc": "Download video dari Douyin (TikTok China)",
           "path": "/download/douyin?url=",
           "status": "ready",
           "params": {
@@ -169,30 +374,29 @@
       ]
     },
     {
-      "name": "Random Image",
-      "image": "/api/placeholder/800/200",
+      "name": "Random",
       "items": [
         {
           "name": "Blue Archive",
-          "desc": "Random foto Blue Archive",
+          "desc": "Random foto karakter Blue Archive",
           "path": "/random/ba",
           "status": "ready"
         },
         {
           "name": "Random Waifu",
-          "desc": "Random foto waifu anime",
+          "desc": "Random foto waifu anime (SFW)",
           "path": "/random/waifu",
           "status": "ready"
         },
         {
           "name": "Random NSFW",
-          "desc": "Random foto NSFW anime",
+          "desc": "Random foto NSFW anime (blowjob, neko, trap, waifu)",
           "path": "/random/nsfw",
           "status": "ready"
         },
         {
           "name": "Pap Ayang",
-          "desc": "Random pap ayang",
+          "desc": "Random pap ayang special",
           "path": "/random/papayang",
           "status": "ready"
         }
@@ -200,11 +404,10 @@
     },
     {
       "name": "Tools",
-      "image": "/api/placeholder/800/200",
       "items": [
         {
           "name": "Text-to-Speech",
-          "desc": "Konversi teks ke suara anime character",
+          "desc": "Konversi teks ke suara anime character (Miku, Nahida, Goku, dll)",
           "path": "/tools/text-to-speech?text=",
           "status": "ready",
           "params": {
@@ -212,45 +415,18 @@
           }
         },
         {
-          "name": "OCR",
-          "desc": "Extract teks dari gambar",
-          "path": "/tools/ocr?url=",
-          "status": "ready",
-          "params": {
-            "url": "URL gambar yang berisi teks"
-          }
-        },
-        {
-          "name": "Screenshot Web",
-          "desc": "Screenshot halaman website",
-          "path": "/tools/ssweb?url=",
-          "status": "ready",
-          "params": {
-            "url": "URL website yang akan diambil screenshot"
-          }
-        },
-        {
-          "name": "Emoji To Gif",
-          "desc": "Konversi emoji ke GIF",
-          "path": "/tools/emojitogif?emoji=",
-          "status": "ready",
-          "params": {
-            "emoji": "Emoji yang akan dikonversi menjadi GIF"
-          }
-        },
-        {
           "name": "Emoji Mix",
-          "desc": "Gabungkan dua emoji menjadi satu",
+          "desc": "Gabungkan dua emoji menjadi satu gambar unik",
           "path": "/tools/emojimix?emoji1=&emoji2=",
           "status": "ready",
           "params": {
-            "emoji1": "Emoji pertama",
-            "emoji2": "Emoji kedua"
+            "emoji1": "Emoji pertama (contoh: 😂)",
+            "emoji2": "Emoji kedua (contoh: 😭)"
           }
         },
         {
           "name": "NGL Spam",
-          "desc": "Spam pesan ke akun NGL",
+          "desc": "Spam pesan ke akun NGL (maksimal 9999 pesan)",
           "path": "/tools/ngl?username=&message=&count=",
           "status": "ready",
           "params": {
@@ -261,7 +437,7 @@
         },
         {
           "name": "Remove Background",
-          "desc": "Hapus background dari gambar",
+          "desc": "Hapus background dari gambar otomatis",
           "path": "/tools/removebg?url=",
           "status": "ready",
           "params": {
@@ -270,7 +446,7 @@
         },
         {
           "name": "Gore Check",
-          "desc": "Deteksi konten gore/NSFW dalam gambar",
+          "desc": "Deteksi konten gore/kekerasan dalam gambar menggunakan AI",
           "path": "/tools/gore-check?url=",
           "status": "ready",
           "params": {
@@ -279,7 +455,7 @@
         },
         {
           "name": "NSFW Check",
-          "desc": "Kategorisasi konten NSFW dalam gambar",
+          "desc": "Kategorisasi konten NSFW dalam gambar dengan detail persentase",
           "path": "/tools/nsfw-check?url=",
           "status": "ready",
           "params": {
@@ -287,55 +463,56 @@
           }
         },
         {
-          "name": "HDR Image",
-          "desc": "Upscale resolusi gambar",
+          "name": "HDR Image Upscale",
+          "desc": "Upscale resolusi gambar hingga 12K dengan enhancement",
           "path": "/tools/hdr?url=&resolution=&enhance=",
           "status": "ready",
           "params": {
             "url": "URL gambar",
-            "resolution": "480p/720p/1080p/2k/4k/8k/12k (optional)",
-            "enhance": "true/false (optional)"
+            "resolution": "480p/720p/1080p/2k/4k/8k/12k (optional, default 1080p)",
+            "enhance": "true/false (optional, default true)"
           }
         },
         {
           "name": "To Ghibli Style",
-          "desc": "Ubah gambar ke gaya Studio Ghibli",
+          "desc": "Ubah gambar ke gaya Studio Ghibli menggunakan AI",
           "path": "/tools/toghibli?url=&prompt=",
           "status": "ready",
           "params": {
             "url": "URL gambar",
-            "prompt": "Prompt style (optional)"
+            "prompt": "Prompt style kustom (optional)"
           }
         },
         {
           "name": "Mail Sender",
-          "desc": "Kirim email secara otomatis",
-          "path": "/tools/mailsend?email=&subject=&message=",
+          "desc": "Kirim email otomatis dengan HTML support",
+          "path": "/tools/mailsend?email=&subject=&message=&base=&is_html=",
           "status": "ready",
           "params": {
             "email": "Email tujuan",
             "subject": "Subject email",
-            "message": "Isi pesan email"
+            "message": "Isi pesan email",
+            "base": "Base sender (1-4, optional)",
+            "is_html": "true/false (optional, default true)"
           }
         },
         {
           "name": "Host Info",
-          "desc": "Cek informasi host/domain/IP",
+          "desc": "Cek informasi lengkap host/domain/IP (ISP, lokasi, timezone, dll)",
           "path": "/tools/hostinfo?host=",
           "status": "ready",
           "params": {
-            "host": "Domain atau IP address"
+            "host": "Domain atau IP address (contoh: google.com atau 8.8.8.8)"
           }
         }
       ]
     },
     {
       "name": "Search",
-      "image": "/api/placeholder/800/200",
       "items": [
         {
           "name": "YouTube Search",
-          "desc": "Cari video di YouTube",
+          "desc": "Cari video di YouTube dengan info lengkap",
           "path": "/search/youtube?q=",
           "status": "ready",
           "params": {
@@ -344,7 +521,7 @@
         },
         {
           "name": "Google Image",
-          "desc": "Cari gambar di Google",
+          "desc": "Cari gambar di Google Images",
           "path": "/search/gimage?q=",
           "status": "ready",
           "params": {
@@ -362,7 +539,7 @@
         },
         {
           "name": "NPM Search",
-          "desc": "Cari package di NPM",
+          "desc": "Cari package di NPM dengan info download dan author",
           "path": "/search/npm?q=",
           "status": "ready",
           "params": {
@@ -371,7 +548,7 @@
         },
         {
           "name": "F-Droid Search",
-          "desc": "Cari aplikasi di F-Droid",
+          "desc": "Cari aplikasi open-source di F-Droid",
           "path": "/search/fdroid?q=",
           "status": "ready",
           "params": {
@@ -380,7 +557,7 @@
         },
         {
           "name": "TikTok Search",
-          "desc": "Cari video di TikTok",
+          "desc": "Cari video di TikTok dengan preview dan link download",
           "path": "/search/tiktok?q=",
           "status": "ready",
           "params": {
@@ -398,20 +575,20 @@
         },
         {
           "name": "Spotify Search",
-          "desc": "Cari lagu di Spotify",
+          "desc": "Cari lagu di Spotify dengan info artis dan popularity",
           "path": "/search/spotify?query=",
           "status": "ready",
           "params": {
-            "query": "Judul lagu atau artis"
+            "query": "Judul lagu atau nama artis"
           }
         },
         {
           "name": "Lyrics Search",
-          "desc": "Cari lirik lagu",
+          "desc": "Cari lirik lagu lengkap dari Google",
           "path": "/search/lyrics?query=",
           "status": "ready",
           "params": {
-            "query": "Judul lagu"
+            "query": "Judul lagu yang dicari liriknya"
           }
         },
         {
@@ -425,7 +602,7 @@
         },
         {
           "name": "Anime News Search",
-          "desc": "Cari berita anime terbaru",
+          "desc": "Cari berita anime dari Kaori Nusantara",
           "path": "/search/anime-news",
           "status": "ready"
         }
@@ -433,68 +610,73 @@
     },
     {
       "name": "Stalker",
-      "image": "/api/placeholder/800/200",
       "items": [
         {
           "name": "Instagram Stalker",
-          "desc": "Lihat info profil Instagram (username, followers, bio, dll)",
+          "desc": "Lihat info profil Instagram (username, followers, following, bio, posts, dll)",
           "path": "/stalk/ig?username=",
           "status": "ready",
           "params": {
-            "username": "Username Instagram (tanpa @)"
+            "username": "Username Instagram (tanpa @, contoh: instagram)"
           }
         },
         {
           "name": "Free Fire Stalker",
-          "desc": "Lihat info pemain Free Fire (nickname, server)",
+          "desc": "Lihat info pemain Free Fire (nickname, server, scan time)",
           "path": "/stalk/ff?playerid=",
           "status": "ready",
           "params": {
-            "playerid": "ID Pemain Free Fire"
+            "playerid": "ID Pemain Free Fire (contoh: 1234567890)"
           }
         },
         {
           "name": "Roblox Stalker",
-          "desc": "Lihat info pemain Roblox (username, status, friends, badges, groups)",
+          "desc": "Lihat info pemain Roblox (username, status, friends, badges, groups, presence)",
           "path": "/stalk/roblox?username=",
           "status": "ready",
           "params": {
-            "username": "Username Roblox"
+            "username": "Username Roblox (contoh: BuilderMan)"
           }
         },
         {
           "name": "NGL Checker",
-          "desc": "Cek status username NGL (valid/tidak)",
+          "desc": "Cek status username NGL (valid/tidak) dengan foto profil",
           "path": "/stalk/ngl?username=",
           "status": "ready",
           "params": {
-            "username": "Username NGL"
+            "username": "Username NGL yang ingin dicek"
           }
         }
       ]
     },
     {
       "name": "Image Creator",
-      "image": "/api/placeholder/800/200",
       "items": [
         {
           "name": "iPhone Chat",
-          "desc": "Generate tampilan chat iPhone",
+          "desc": "Generate tampilan chat iPhone style",
           "path": "/imagecreator/iqc?text=",
           "status": "ready",
           "params": {
-            "text": "Teks chat (max 80 karakter)"
+            "text": "Teks chat (maksimal 80 karakter)"
           }
         },
         {
           "name": "Fake TikTok Profile",
-          "desc": "Generate profil TikTok palsu",
-          "path": "/imagecreator/faketiktok?name=&username=&pp=",
+          "desc": "Generate profil TikTok palsu dengan custom data",
+          "path": "/imagecreator/faketiktok?name=&username=&pp=&verified=&followers=&following=&likes=&bio=&dark=&isFollow=",
           "status": "ready",
           "params": {
             "name": "Nama display",
             "username": "Username TikTok",
-            "pp": "URL foto profil"
+            "pp": "URL foto profil",
+            "verified": "true/false (optional, default true)",
+            "followers": "Jumlah followers (optional, default 12300)",
+            "following": "Jumlah following (optional, default 23)",
+            "likes": "Jumlah likes (optional, default 125000)",
+            "bio": "Bio profil (optional)",
+            "dark": "true/false dark mode (optional, default false)",
+            "isFollow": "true/false status follow (optional, default false)"
           }
         },
         {
@@ -503,225 +685,17 @@
           "path": "/imagecreator/pustaz?text=",
           "status": "ready",
           "params": {
-            "text": "Teks (max 150 karakter)"
-          }
-        }
-      ]
-    },
-    {
-      "name": "Anime",
-      "image": "/api/placeholder/800/200",
-      "items": [
-        {
-          "name": "Alqanime - Hangat",
-          "desc": "Anime yang sedang hangat",
-          "path": "/anime/alqanime/hangat",
-          "status": "ready"
-        },
-        {
-          "name": "Alqanime - Rilisan",
-          "desc": "Rilisan anime terbaru",
-          "path": "/anime/alqanime/rilisan",
-          "status": "ready"
-        },
-        {
-          "name": "Alqanime - Selesai",
-          "desc": "Anime yang sudah tamat",
-          "path": "/anime/alqanime/selesai",
-          "status": "ready"
-        },
-        {
-          "name": "Alqanime - Movie",
-          "desc": "Daftar anime movie",
-          "path": "/anime/alqanime/movie",
-          "status": "ready"
-        },
-        {
-          "name": "Alqanime - Populer",
-          "desc": "Anime populer mingguan",
-          "path": "/anime/alqanime/populer",
-          "status": "ready"
-        },
-        {
-          "name": "Alqanime - Ongoing",
-          "desc": "Anime yang sedang tayang",
-          "path": "/anime/alqanime/ongoing",
-          "status": "ready"
-        },
-        {
-          "name": "Alqanime - Search",
-          "desc": "Cari anime di Alqanime",
-          "path": "/anime/alqanime/search?q=",
-          "status": "ready",
-          "params": {
-            "q": "Judul anime"
-          }
-        },
-        {
-          "name": "Alqanime - Detail",
-          "desc": "Detail info anime",
-          "path": "/anime/alqanime/detail?url=",
-          "status": "ready",
-          "params": {
-            "url": "URL detail anime dari Alqanime"
-          }
-        },
-        {
-          "name": "Alqanime - Download",
-          "desc": "Link download anime",
-          "path": "/anime/alqanime/download?url=",
-          "status": "ready",
-          "params": {
-            "url": "URL anime dari Alqanime"
-          }
-        },
-        {
-          "name": "AnimeDao - Latest",
-          "desc": "Anime terbaru dari AnimeDao",
-          "path": "/anime/latest",
-          "status": "ready"
-        },
-        {
-          "name": "AnimeDao - Hot Series",
-          "desc": "Anime hot/trending",
-          "path": "/anime/hot",
-          "status": "ready"
-        },
-        {
-          "name": "AnimeDao - Search",
-          "desc": "Cari anime di AnimeDao",
-          "path": "/anime/search?q=",
-          "status": "ready",
-          "params": {
-            "q": "Judul anime"
-          }
-        },
-        {
-          "name": "AnimeDao - Detail",
-          "desc": "Detail anime AnimeDao",
-          "path": "/anime/detail?url=",
-          "status": "ready",
-          "params": {
-            "url": "URL detail anime"
-          }
-        },
-        {
-          "name": "Anime News",
-          "desc": "Berita anime terbaru (MyAnimeList)",
-          "path": "/anime/berita",
-          "status": "ready"
-        },
-        {
-          "name": "Anime News Detail",
-          "desc": "Detail berita anime",
-          "path": "/anime/beritaanime?id=",
-          "status": "ready",
-          "params": {
-            "id": "ID berita dari MyAnimeList"
-          }
-        },
-        {
-          "name": "Jadwal Rilis Anime",
-          "desc": "Jadwal rilis anime mingguan",
-          "path": "/anime/jadwalrilis",
-          "status": "ready"
-        },
-        {
-          "name": "Revinime Latest",
-          "desc": "Update anime terbaru Revinime",
-          "path": "/anime/revinime",
-          "status": "ready"
-        },
-        {
-          "name": "Doujin Home",
-          "desc": "Homepage doujin/manga",
-          "path": "/anime/doujin/home?page=",
-          "status": "ready",
-          "params": {
-            "page": "Nomor halaman (optional)"
-          }
-        },
-        {
-          "name": "Doujin Search",
-          "desc": "Cari doujin/manga",
-          "path": "/anime/doujin/search?q=",
-          "status": "ready",
-          "params": {
-            "q": "Judul manga/doujin"
-          }
-        },
-        {
-          "name": "Doujin Detail",
-          "desc": "Detail manga/doujin",
-          "path": "/anime/doujin/detail?url=",
-          "status": "ready",
-          "params": {
-            "url": "URL detail manga"
-          }
-        },
-        {
-          "name": "Doujin Chapter",
-          "desc": "Baca chapter manga",
-          "path": "/anime/doujin/chapter?url=",
-          "status": "ready",
-          "params": {
-            "url": "URL chapter manga"
-          }
-        },
-        {
-          "name": "Doujin Download PDF",
-          "desc": "Download chapter dalam PDF",
-          "path": "/anime/doujin/download?url=",
-          "status": "ready",
-          "params": {
-            "url": "URL chapter manga"
-          }
-        },
-        {
-          "name": "AnimeKompi - Home",
-          "desc": "Homepage AnimeKompi",
-          "path": "/anime/kompi/home?page=",
-          "status": "ready",
-          "params": {
-            "page": "Nomor halaman (optional)"
-          }
-        },
-        {
-          "name": "AnimeKompi - Search",
-          "desc": "Cari anime di AnimeKompi",
-          "path": "/anime/kompi/search?q=",
-          "status": "ready",
-          "params": {
-            "q": "Judul anime"
-          }
-        },
-        {
-          "name": "AnimeKompi - Detail",
-          "desc": "Detail anime AnimeKompi",
-          "path": "/anime/kompi/detail?url=",
-          "status": "ready",
-          "params": {
-            "url": "URL detail anime"
-          }
-        },
-        {
-          "name": "AnimeKompi - Stream",
-          "desc": "Streaming & download anime",
-          "path": "/anime/kompi/stream?url=",
-          "status": "ready",
-          "params": {
-            "url": "URL episode anime"
+            "text": "Teks yang akan dibuat (maksimal 150 karakter)"
           }
         }
       ]
     },
     {
       "name": "API",
-      "image": "/api/placeholder/800/200",
       "items": [
         {
-          "name": "Status Api",
-          "desc": "Cek status API service",
+          "name": "API Status",
+          "desc": "Cek status layanan API (total request, total fitur, runtime, domain)",
           "path": "/api/status",
           "status": "ready"
         }
