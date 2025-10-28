@@ -47,24 +47,20 @@
         @keyframes spin {
             to { transform: rotate(360deg); }
         }
-        /* Mengganti gradasi ungu menjadi gradasi merah */
         .gradient-text {
-            background: linear-gradient(135deg, #ef4444 0%, #b91c1c 100%); /* Red gradient */
+            background: linear-gradient(135deg, #ef4444 0%, #b91c1c 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
         }
-        /* Mengganti gradasi ungu menjadi gradasi merah */
         .btn-gradient {
-            background: linear-gradient(135deg, #ef4444 0%, #b91c1c 100%); /* Red gradient */
+            background: linear-gradient(135deg, #ef4444 0%, #b91c1c 100%);
             transition: all 0.3s ease;
         }
-        /* Mengganti shadow hover ungu menjadi merah */
         .btn-gradient:hover {
             transform: translateY(-1px);
-            box-shadow: 0 10px 25px -5px rgba(239, 68, 68, 0.4); /* Red shadow */
+            box-shadow: 0 10px 25px -5px rgba(239, 68, 68, 0.4);
         }
-        /* Toast notification styles */
         .toast {
             position: fixed;
             top: 20px;
@@ -83,11 +79,52 @@
         .toast.show {
             transform: translateX(0);
         }
+        /* Loading Overlay */
+        .loading-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 9999;
+            justify-content: center;
+            align-items: center;
+        }
+        .loading-overlay.active {
+            display: flex;
+        }
+        .loading-spinner {
+            width: 50px;
+            height: 50px;
+            border: 4px solid #4a5568;
+            border-top: 4px solid #ef4444;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+        .loading-text {
+            color: white;
+            margin-top: 20px;
+            font-size: 16px;
+        }
+        /* Disabled state untuk button */
+        button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
     </style>
 </head>
 <body class="bg-gray-900 text-slate-300 antialiased font-mono min-h-screen">
-    <main class="max-w-2xl mx-auto px-8 py-16">
+    <!-- Loading Overlay -->
+    <div id="loadingOverlay" class="loading-overlay">
+        <div class="text-center">
+            <div class="loading-spinner"></div>
+            <div class="loading-text">Processing request...</div>
+        </div>
+    </div>
 
+    <main class="max-w-2xl mx-auto px-8 py-16">
         <!-- Toast Notification -->
         <div id="toast" class="toast">
             <div class="flex items-center gap-2">
@@ -162,10 +199,23 @@
     </main>
 
     <script>
-        // Base URL untuk API - bisa disesuaikan
         const BASE_URL = 'https://api.eberardos.my.id';
 
-        // Fungsi untuk copy full request URL dengan domain dan parameter ke clipboard
+        // Global state untuk mencegah multiple requests
+        let isRequestInProgress = false;
+
+        // Fungsi untuk show/hide loading overlay
+        function showLoading() {
+            document.getElementById('loadingOverlay').classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function hideLoading() {
+            document.getElementById('loadingOverlay').classList.remove('active');
+            document.body.style.overflow = '';
+        }
+
+        // Fungsi untuk copy full request URL
         function copyRequestUrl(catIndex, endpointIndex) {
             const form = document.getElementById(`form-${catIndex}-${endpointIndex}`);
             const formData = new FormData(form);
@@ -188,7 +238,7 @@
             });
         }
 
-        // Fungsi untuk copy base path saja
+        // Fungsi untuk copy base path
         function copyBasePath(path) {
             navigator.clipboard.writeText(path).then(() => {
                 showToast('Path copied to clipboard!');
@@ -198,7 +248,7 @@
             });
         }
 
-        // Fungsi untuk menampilkan toast notification
+        // Fungsi toast notification
         function showToast(message) {
             const toast = document.getElementById('toast');
             const toastMessage = document.getElementById('toast-message');
@@ -211,7 +261,6 @@
             }, 3000);
         }
 
-        // Existing functions from the original file
         function toggleCategory(index) {
             const category = document.getElementById(`category-${index}`);
             const icon = document.getElementById(`category-icon-${index}`);
@@ -236,12 +285,24 @@
             }
         }
 
+        // FIXED: Execute Request dengan timeout dan error handling yang lebih baik
         async function executeRequest(event, catIndex, endpointIndex, method, path, produces) {
             event.preventDefault();
+            
+            // Cegah multiple request
+            if (isRequestInProgress) {
+                showToast('Please wait for the current request to complete');
+                return;
+            }
+
             const form = document.getElementById(`form-${catIndex}-${endpointIndex}`);
             const responseDiv = document.getElementById(`response-${catIndex}-${endpointIndex}`);
             const responseContent = document.getElementById(`response-content-${catIndex}-${endpointIndex}`);
             const clearButton = document.getElementById(`clear-${catIndex}-${endpointIndex}`);
+            const executeButton = form.querySelector('button[type="submit"]');
+            
+            // Disable button
+            if (executeButton) executeButton.disabled = true;
             
             const formData = new FormData(form);
             const params = new URLSearchParams();
@@ -254,25 +315,63 @@
             const fullPath = `${BASE_URL}${path}?${params.toString()}`;
             responseDiv.classList.remove('hidden');
             responseContent.innerHTML = '<div class="loader"></div>';
+            
+            // Set flag dan show loading
+            isRequestInProgress = true;
+            showLoading();
+
+            // Controller untuk timeout
+            const controller = new AbortController();
+            const timeoutId = setTimeout(() => controller.abort(), 30000); // 30 detik timeout
 
             try {
-                const response = await fetch(fullPath);
+                const response = await fetch(fullPath, {
+                    signal: controller.signal
+                });
+                
+                clearTimeout(timeoutId);
+
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+
                 const contentType = response.headers.get("content-type");
+                
                 if (contentType && contentType.includes("application/json")) {
                     const data = await response.json();
                     responseContent.innerHTML = `<pre>${JSON.stringify(data, null, 2)}</pre>`;
                 } else if (contentType && contentType.startsWith("image/")) {
                     const blob = await response.blob();
                     const imageUrl = URL.createObjectURL(blob);
-                    responseContent.innerHTML = `<img src="${imageUrl}" class="max-w-full h-auto rounded-md">`;
+                    responseContent.innerHTML = `<img src="${imageUrl}" class="max-w-full h-auto rounded-md" alt="Response Image">`;
                 } else {
                     const text = await response.text();
                     responseContent.innerHTML = `<pre>${text}</pre>`;
                 }
+                
+                clearButton.classList.remove('hidden');
+                showToast('Request completed successfully!');
+                
             } catch (error) {
-                responseContent.innerHTML = `<pre>${error}</pre>`;
+                clearTimeout(timeoutId);
+                
+                let errorMessage = '';
+                if (error.name === 'AbortError') {
+                    errorMessage = 'Request timeout (30 seconds). The server took too long to respond.';
+                } else {
+                    errorMessage = error.message || 'An error occurred while processing the request.';
+                }
+                
+                responseContent.innerHTML = `<pre class="text-red-400">Error: ${errorMessage}</pre>`;
+                showToast('Request failed!');
+                console.error('Request error:', error);
+                
+            } finally {
+                // Reset flag dan hide loading
+                isRequestInProgress = false;
+                hideLoading();
+                if (executeButton) executeButton.disabled = false;
             }
-            clearButton.classList.remove('hidden');
         }
 
         function clearResponse(catIndex, endpointIndex) {
@@ -284,7 +383,7 @@
             clearButton.classList.add('hidden');
         }
 
-        // Function to load and render APIs
+        // Load APIs
         async function loadApis() {
             const apiList = document.getElementById('apiList');
             try {
@@ -309,7 +408,7 @@
                                 <div id="category-${catIndex}" class="hidden">`;
                     
                     category.items.forEach((item, endpointIndex) => {
-                        const method = 'GET'; // Assuming all are GET for now
+                        const method = 'GET';
                         const pathParts = item.path.split('?');
                         const path = pathParts[0];
                         const queryParams = new URLSearchParams(pathParts[1] || '');
@@ -366,8 +465,7 @@
                                                 </div>
                                                 <div class="bg-gray-900 text-slate-300 text-xs p-3 border border-gray-700 mb-4 font-mono break-all" data-base-path="${path}">
                                                     ${path}
-                                                </div>
-                                                `;
+                                                </div>`;
                         if (item.status === 'ready') {
                             html += `
                                                     <div>
@@ -396,7 +494,7 @@
                                                                     <button 
                                                                         onclick="copyRequestUrl(${catIndex}, ${endpointIndex})" 
                                                                         class="flex items-center gap-1 bg-green-600 hover:bg-green-500 text-white px-4 py-2 text-xs font-medium rounded transition-colors duration-150"
-                                                                        title="Copy full request URL with domain and parameters"
+                                                                        title="Copy full request URL"
                                                                         type="button"
                                                                     >
                                                                         <span class="material-icons text-sm">content_copy</span>
@@ -435,7 +533,7 @@
             }
         }
         
-        // Function to load and render notifications
+        // Load notifications
         async function loadNotifications() {
             const notificationsList = document.getElementById('notifications-list');
             const unreadCountBadge = document.getElementById('unread-count');
@@ -443,10 +541,9 @@
                 const response = await fetch('/notifications.json');
                 const notifications = await response.json();
 
-                notificationsList.innerHTML = ''; // Clear loader
+                notificationsList.innerHTML = '';
                 let unreadCount = 0;
 
-                // Sort notifications by date, newest first
                 notifications.sort((a, b) => new Date(b.date) - new Date(a.date));
 
                 notifications.forEach(notif => {
