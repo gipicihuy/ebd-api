@@ -200,9 +200,6 @@
             <p class="text-slate-400 text-xs mx-auto mb-4">
                 2025 Eberardos    
             </p>
-            <p class="text-slate-400 text-xs mx-auto mb-4">
-                inspirasi design dari: <a href="https://api.nekolabs.my.id/" target="_blank" class="underline">api.nekolabs.my.id</a>    
-            </p>
         </footer>
     </main>
 
@@ -449,6 +446,209 @@
                                                     </div>
                                                 </div>
                                                 <span class="material-icons transition-transform duration-150 flex-shrink-0" id="endpoint-icon-${catIndex}-${endpointIndex}">expand_more</span>
+                                            </button>
+                                            
+                                            <div id="endpoint-${catIndex}-${endpointIndex}" class="hidden bg-gray-800 p-4 border-t border-gray-700">
+                                                <div class="mb-3">
+                                                    <div class="text-gray-400 text-xs">${item.desc}</div>
+                                                </div>
+                                                <div class="flex items-center justify-between mb-3">
+                                                    <div class="text-gray-300 font-bold text-xs flex items-center">
+                                                        <span class="material-icons text-sm mr-1">link</span>
+                                                        ENDPOINT
+                                                    </div>
+                                                    <div class="flex gap-2">
+                                                        <button 
+                                                            onclick="copyBasePath('${path}')" 
+                                                            class="flex items-center gap-1 bg-gray-700 hover:bg-gray-600 text-slate-300 px-3 py-1 text-xs rounded transition-colors duration-150"
+                                                            title="Copy path only"
+                                                        >
+                                                            <span class="material-icons text-sm">content_copy</span>
+                                                            PATH
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                                <div class="bg-gray-900 text-slate-300 text-xs p-3 border border-gray-700 mb-4 font-mono break-all" data-base-path="${path}">
+                                                    ${path}
+                                                </div>`;
+                        if (item.status === 'ready') {
+                            html += `
+                                                    <div>
+                                                        <div class="text-gray-300 font-bold text-xs mb-2 flex items-center">
+                                                            <span class="material-icons text-sm mr-1">play_arrow</span>
+                                                            TRY IT OUT
+                                                        </div>
+                                                        <div>
+                                                            <form id="form-${catIndex}-${endpointIndex}" onsubmit="executeRequest(event, ${catIndex}, ${endpointIndex}, '${method}', '${path}', 'application/json')">
+                                                                <div class="mb-4 space-y-2">`;
+                            if (item.params) {
+                                Object.keys(item.params).forEach(paramName => {
+                                    const isRequired = !queryParams.has(paramName) || queryParams.get(paramName) === '';
+                                    html += `<div>
+                                                    <label class="block text-xs font-medium text-slate-400 mb-2">${paramName} ${isRequired ? '<span class="text-red-500">*</span>' : ''}</label>
+                                                    <input type="text" name="${paramName}" class="w-full px-3 py-2 border border-gray-600 text-sm focus:outline-none focus:border-red-500 bg-gray-700 placeholder:text-slate-500" placeholder="${item.params[paramName]}" ${isRequired ? 'required' : ''}>
+                                                </div>`;
+                                });
+                            }
+                            html += `
+                                                                </div>
+                                                                <div class="flex gap-2 flex-wrap">
+                                                                    <button type="submit" class="bg-red-600 hover:bg-red-500 font-semibold text-white px-6 py-2 text-xs font-medium transition-colors duration-150">
+                                                                        Execute
+                                                                    </button>
+                                                                    <button 
+                                                                        onclick="copyRequestUrl(${catIndex}, ${endpointIndex})" 
+                                                                        class="flex items-center gap-1 bg-green-600 hover:bg-green-500 text-white px-4 py-2 text-xs font-medium rounded transition-colors duration-150"
+                                                                        title="Copy full request URL"
+                                                                        type="button"
+                                                                    >
+                                                                        <span class="material-icons text-sm">content_copy</span>
+                                                                        REQUEST URL
+                                                                    </button>
+                                                                    <button type="button" id="clear-${catIndex}-${endpointIndex}" onclick="clearResponse(${catIndex}, ${endpointIndex})" class="hidden bg-gray-700 border border-gray-600 hover:border-gray-500 font-semibold text-slate-300 px-6 py-2 text-xs font-medium transition-colors duration-150">
+                                                                        Clear
+                                                                    </button>
+                                                                </div>
+                                                            </form>
+                                                        </div>
+                                                    </div>`;
+                        } else {
+                            html += `<div class="text-yellow-400 text-xs p-3 bg-yellow-500/20 border border-yellow-500/30">Endpoint ini tidak dapat diuji coba saat ini.</div>`;
+                        }
+
+                        html += `
+                                                <div id="response-${catIndex}-${endpointIndex}" class="hidden mt-4">
+                                                    <div class="text-gray-300 font-bold text-xs mb-2 flex items-center">
+                                                        <span class="material-icons text-sm mr-1">code</span>
+                                                        RESPONSE
+                                                    </div>
+                                                    <div class="bg-gray-900 text-white text-xs p-4 border border-gray-700">
+                                                        <div class="max-h-80 overflow-auto" id="response-content-${catIndex}-${endpointIndex}"></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                    </div>`;
+                    });
+                    html += `</div></div></div>`;
+                });
+                apiList.innerHTML = html;
+            } catch (error) {
+                apiList.innerHTML = '<p class="text-red-500">Failed to load API data.</p>';
+                console.error('Error loading API data:', error);
+            }
+        }
+        
+        // Load notifications
+        async function loadNotifications() {
+            const notificationsList = document.getElementById('notifications-list');
+            const unreadCountBadge = document.getElementById('unread-count');
+            try {
+                const response = await fetch('/notifications.json');
+                const notifications = await response.json();
+
+                notificationsList.innerHTML = '';
+                let unreadCount = 0;
+
+                notifications.sort((a, b) => new Date(b.date) - new Date(a.date));
+
+                notifications.forEach(notif => {
+                    if (!notif.read) {
+                        unreadCount++;
+                    }
+                    const notifElement = document.createElement('div');
+                    notifElement.className = `bg-gray-800 border border-gray-700 p-4 text-xs ${notif.read ? 'opacity-60' : ''}`;
+                    notifElement.innerHTML = `
+                        <div class="flex justify-between items-start">
+                            <div class="flex-1">
+                                <p class="font-bold text-slate-300 mb-1">${notif.title}</p>
+                                <p class="text-slate-400">${notif.message}</p>
+                            </div>
+                            <div class="flex items-center ml-4 flex-shrink-0">
+                                ${!notif.read ? '<div class="w-2 h-2 bg-green-400 rounded-full mr-2" title="Unread"></div>' : ''}
+                                <span class="text-slate-500">${new Date(notif.date).toLocaleDateString('id-ID', { year: 'numeric', month: 'short', day: 'numeric' })}</span>
+                            </div>
+                        </div>
+                    `;
+                    notificationsList.appendChild(notifElement);
+                });
+
+                if (unreadCount > 0) {
+                    unreadCountBadge.textContent = `${unreadCount} Belum dibaca`;
+                    unreadCountBadge.classList.remove('hidden');
+                }
+
+            } catch (error) {
+                notificationsList.innerHTML = '<p class="text-red-500 text-xs">Gagal memuat notifikasi.</p>';
+                console.error('Error loading notifications:', error);
+            }
+        }
+
+        // Search functionality - FIXED VERSION
+        document.getElementById('searchInput').addEventListener('input', function() {
+            const searchTerm = this.value.toLowerCase().trim();
+            const apiItems = document.querySelectorAll('.api-item');
+            const categories = document.querySelectorAll('.category-group');
+            const noResults = document.getElementById('noResults');
+            let visibleCount = 0;
+
+            // Jika search kosong, tampilkan semua
+            if (searchTerm === '') {
+                apiItems.forEach(item => {
+                    item.style.display = '';
+                    visibleCount++;
+                });
+                categories.forEach(category => {
+                    category.style.display = '';
+                });
+                noResults.style.display = 'none';
+                return;
+            }
+
+            // Filter items
+            apiItems.forEach(item => {
+                const path = item.dataset.path.toLowerCase();
+                const alias = item.dataset.alias.toLowerCase();
+                const description = item.dataset.description.toLowerCase();
+                const category = item.dataset.category.toLowerCase();
+                
+                if (path.includes(searchTerm) || 
+                    alias.includes(searchTerm) || 
+                    description.includes(searchTerm) ||
+                    category.includes(searchTerm)) {
+                    item.style.display = '';
+                    visibleCount++;
+                } else {
+                    item.style.display = 'none';
+                }
+            });
+
+            // Filter categories - sembunyikan kategori yang tidak punya item visible
+            categories.forEach(category => {
+                const visibleItems = category.querySelectorAll('.api-item[style=""]');
+                if (visibleItems.length > 0) {
+                    category.style.display = '';
+                } else {
+                    category.style.display = 'none';
+                }
+            });
+
+            // Tampilkan pesan jika tidak ada hasil
+            if (visibleCount === 0) {
+                noResults.style.display = 'block';
+            } else {
+                noResults.style.display = 'none';
+            }
+        });
+
+        // Initial load
+        document.addEventListener('DOMContentLoaded', () => {
+            loadApis();
+            loadNotifications();
+        });
+    </script>
+
+</body>
+</html>
                                             </button>
                                             
                                             <div id="endpoint-${catIndex}-${endpointIndex}" class="hidden bg-gray-800 p-4 border-t border-gray-700">
