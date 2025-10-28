@@ -147,7 +147,7 @@ app.use((req, res, next) => {
 });
 
 // Serve settings.json untuk web
-app.get('/assets/settings.json', (req, res) => {
+app.get('/settings.json', (req, res) => {
     res.sendFile(path.join(__dirname, 'settings.json'));
 });
 
