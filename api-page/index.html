@@ -136,7 +136,7 @@
         <!-- Toast Notification -->
         <div id="toast" class="toast">
             <div class="flex items-center gap-2">
-                <span class="material-icons text-green-400 text-sm">check_circle</span>
+                <span id="toast-icon" class="material-icons text-green-400 text-sm">check_circle</span>
                 <span id="toast-message">Endpoint copied to clipboard!</span>
             </div>
         </div>
@@ -236,29 +236,40 @@
             const fullRequestUrl = `${BASE_URL}${path}?${params.toString()}`;
 
             navigator.clipboard.writeText(fullRequestUrl).then(() => {
-                showToast('Request URL copied to clipboard!');
+                showToast('Request URL copied to clipboard!', false);
             }).catch(err => {
                 console.error('Failed to copy:', err);
-                showToast('Failed to copy URL');
+                showToast('Failed to copy URL', true);
             });
         }
 
         // Fungsi untuk copy base path
         function copyBasePath(path) {
             navigator.clipboard.writeText(path).then(() => {
-                showToast('Path copied to clipboard!');
+                showToast('Path copied to clipboard!', false);
             }).catch(err => {
                 console.error('Failed to copy:', err);
-                showToast('Failed to copy path');
+                showToast('Failed to copy path', true);
             });
         }
 
-        // Fungsi toast notification
-        function showToast(message) {
+        // Fungsi toast notification dengan icon dinamis
+        function showToast(message, isError = false) {
             const toast = document.getElementById('toast');
             const toastMessage = document.getElementById('toast-message');
+            const toastIcon = document.getElementById('toast-icon');
             
             toastMessage.textContent = message;
+            
+            // Ubah icon dan warna berdasarkan status
+            if (isError) {
+                toastIcon.textContent = 'error';
+                toastIcon.className = 'material-icons text-red-400 text-sm';
+            } else {
+                toastIcon.textContent = 'check_circle';
+                toastIcon.className = 'material-icons text-green-400 text-sm';
+            }
+            
             toast.classList.add('show');
             
             setTimeout(() => {
@@ -296,7 +307,7 @@
             
             // Cegah multiple request
             if (isRequestInProgress) {
-                showToast('Please wait for the current request to complete');
+                showToast('Please wait for the current request to complete', true);
                 return;
             }
 
@@ -355,7 +366,7 @@
                 }
                 
                 clearButton.classList.remove('hidden');
-                showToast('Request completed successfully!');
+                showToast('Request completed successfully!', false);
                 
             } catch (error) {
                 clearTimeout(timeoutId);
@@ -368,7 +379,7 @@
                 }
                 
                 responseContent.innerHTML = `<pre class="text-red-400">Error: ${errorMessage}</pre>`;
-                showToast('Request failed!');
+                showToast('Request failed!', true);
                 console.error('Request error:', error);
                 
             } finally {
@@ -392,6 +403,7 @@
         async function loadApis() {
             const apiList = document.getElementById('apiList');
             try {
+                // Load dari assets/settings.json (lebih simple)
                 const response = await fetch('/assets/settings.json');
                 const data = await response.json();
                 
